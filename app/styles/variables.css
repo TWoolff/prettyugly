@@ -1,0 +1,8 @@
+:root {
+  --color-black: rgb(0, 0, 0);
+  --color-darkgrey: rgb(40, 40, 40);
+  --color-grey: rgb(187, 187, 187);
+  --color-lightgrey: rgb(209, 208, 208);
+  --color-white: rgb(243, 243, 243);
+  --color-red: rgb(216, 130, 102);
+}
