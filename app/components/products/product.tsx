@@ -1,6 +1,7 @@
 'use client'
-
-import { useAppContext } from "@/app/context"
+import { useAppContext } from '../../context'
+import Button from '../button/button'
+import css from './product.module.css'
 
 type ProductType = {
     data: {
@@ -24,8 +25,8 @@ type ProductType = {
 }
 
 
-const Product = (data: ProductType) => {
-    const { dispatch } = useAppContext();
+const Product: React.FC<ProductType> = (data) => {
+    const { dispatch } = useAppContext()
     const { unit_amount} = data.data
     const { name, description, productInfo, id } = data.data.product
 
@@ -37,15 +38,15 @@ const Product = (data: ProductType) => {
             unit_amount
         }
         
-        dispatch({ type: "ADD_TO_CART", payload: newItem });
+        dispatch({ type: 'ADD_TO_CART', payload: newItem })
     }
 
     return ( 
-        <div>
+        <div className={css.product}>
             <h2>{name}</h2>
             <p>{description} </p>
             <p>{unit_amount/100},00 kr.</p>
-            <button onClick={handleAddToCart}>Add to Cart</button>
+            <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn}/>
         </div>
     )
 }

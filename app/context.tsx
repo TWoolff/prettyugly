@@ -1,7 +1,6 @@
 'use client'
 import { createContext, useContext, ReactNode, useReducer, Dispatch } from 'react'
 
-
 type DataState = {
     
 } | null
@@ -20,10 +19,11 @@ type State = {
     error: ErrorState | null
     data: DataState | null
     cart: CartItem[]
+    isCartVisible: boolean;
 }
 
 type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART'
+    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'REMOVE_FROM_CART' | 'TOGGLE_CART'
     payload?: Partial<State> | CartItem
 }
 
@@ -31,7 +31,8 @@ const initialState: State = {
     loadingState: null,
     error: null,
     data: null,
-    cart: []
+    cart: [],
+    isCartVisible: false
 }
 
 interface AppContextType {
@@ -50,6 +51,11 @@ const reducer = (state: State, action: Action): State => {
         case 'ADD_TO_CART':
             const newItem = action.payload as CartItem;
             return { ...state, cart: [...state.cart, newItem] }
+        case 'REMOVE_FROM_CART':
+            const { id } = action.payload as { id: string };
+            return { ...state, cart: state.cart.filter(item => item.id !== id) }
+        case 'TOGGLE_CART':
+            return { ...state, isCartVisible: !state.isCartVisible }
         default:
             return state
     }

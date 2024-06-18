@@ -1,18 +1,18 @@
-import type { Metadata } from "next"
-import { AppProvider } from "./context"
-import "./styles/index.css"
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
-import Cart from "./components/cart/cart";
+
+import type { Metadata } from 'next'
+import { AppProvider } from './context'
+import './styles/index.css'
+import Header from './components/header/header'
+import Footer from './components/footer/footer'
 
 export const metadata: Metadata = {
-  title: "PrettyUgly",
-  description: "Something Something",
-};
+  title: 'PrettyUgly',
+  description: 'Something Something',
+}
 
-const RootLayout = ({children}: Readonly<{children: React.ReactNode;}>) => {
+const RootLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
         <AppProvider>
           <Header />
@@ -21,7 +21,7 @@ const RootLayout = ({children}: Readonly<{children: React.ReactNode;}>) => {
         </AppProvider>
       </body>
     </html>
-  );
+  )
 }
 
 export default RootLayout

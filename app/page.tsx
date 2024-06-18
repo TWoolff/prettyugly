@@ -1,11 +1,10 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import Cart from './components/cart/cart'
-import Product from './components/product/product'
 import { getProducts } from './utils/getProducts'
+import Products from './components/products/products'
 
-const Home: React.FC =  () => {
+const Home: React.FC = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -21,10 +20,7 @@ const Home: React.FC =  () => {
   return (
     <section>
       <h1>Front Page</h1>
-      {data.map((product: any) => {
-          return (<Product key={product.product.id} data={product} />)
-        })
-      }
+      <Products data={data} />
       <Cart />
     </section>
   )

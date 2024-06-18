@@ -7,6 +7,5 @@ export async function getProducts() {
         expand: ['data.product']
     })
     const prices = res.data
-    console.log('prices',prices)
     return prices
 }
