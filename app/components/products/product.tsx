@@ -6,10 +6,8 @@ import css from './product.module.css'
 
 const Product: React.FC<ProductType> = (data) => {
     const { dispatch } = useAppContext()
-    const { unit_amount} = data.data
-    const { name, description, id, metadata, images } = data.data.product
-
-    console.log(data)
+    const { unit_amount, id } = data.data
+    const { name, description, metadata, images } = data.data.product
 
     const handleAddToCart = () => { 
         const newItem = {
@@ -19,7 +17,6 @@ const Product: React.FC<ProductType> = (data) => {
             unit_amount,
             metadata
         }
-        
         dispatch({ type: 'ADD_TO_CART', payload: newItem })
     }
 

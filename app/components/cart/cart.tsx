@@ -1,35 +1,85 @@
-'user client'
+'use client'
+import { useRouter } from 'next/navigation'
+import { calculateTotalQuantity } from '../../utils/getQuantity'
 import { useAppContext } from '../../context'
 import Button from '../button/button'
 import css from './cart.module.css'
 
 const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
+    const router = useRouter()
     const { cart, isCartVisible } = state
 
-    const handleRemoveFromCart = (id: string, name: string, unit_amount: number, quantity: number) => {
-        dispatch({ type: 'REMOVE_FROM_CART', payload: { id, name, unit_amount, quantity } })
+    const calculateTotalPrice = () => {
+        return cart.reduce(
+            (total, item) => total + item.unit_amount * item.quantity,
+            0
+        )
+    }
+
+    const handleIncrementQuantity = (id: string) => {
+        dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
+    }
+
+    const handleDecrementQuantity = (id: string) => {
+        dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
+    }
+
+    console.log(state)
+
+    async function handleCheckout() {
+        const lineItems = cart.map((e: any) => {
+            return {
+                price: e.id,
+                quantity: e.quantity,
+            }
+        })
+        const res = await fetch('../api/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ lineItems }),
+        })
+        const data = await res.json()
+        router.push(data.session.url)
     }
 
     if (!isCartVisible) {
-        return null;
-    } 
+        return null
+    }
 
-    return ( 
+    const totalPrice = calculateTotalPrice()
+    const totalQuantity = calculateTotalQuantity(cart)
+
+    return (
         <section className={css.cart}>
-            <h2>Cart ({cart.length})</h2>
+            <h2>Cart</h2>
             <ul>
-                {cart.map((item, i) => {
-                    return (
-                        <li key={i}>
-                            <p>{item.name}</p>
-                            <p>{item.unit_amount/100},00 kr.</p>
-                            <p>{item.quantity}</p>
-                            <Button onClick={() => handleRemoveFromCart(item.id, item.name, item.unit_amount, item.quantity)} title='Remove' className={css.btn}/>
-                        </li>
-                    )
-                })}
+                {cart.map((item) => (
+                    <li key={item.id}>
+                        <p>{item.name}</p>
+                        <p>{item.unit_amount / 100},00 kr.</p>
+                        <p>{item.quantity}</p>
+                        <Button
+                            onClick={() => handleDecrementQuantity(item.id)}
+                            title='-'
+                            className={css.btn}
+                        />
+                        <Button
+                            onClick={() => handleIncrementQuantity(item.id)}
+                            title='+'
+                            className={css.btn}
+                        />
+                    </li>
+                ))}
             </ul>
+            {totalQuantity > 0 ? (
+                <h3>Total: {totalPrice / 100},00 kr.</h3>
+            ) : (
+                <p>Your cart is empty</p>
+            )}
+            <button onClick={handleCheckout}>Checkout</button>
         </section>
     )
 }

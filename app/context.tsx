@@ -33,7 +33,7 @@ type State = {
 }
 
 type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'REMOVE_FROM_CART' | 'TOGGLE_CART' | 'SET_FILTER'
+    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'SET_FILTER'
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
 }
 
@@ -59,12 +59,32 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, ...action.payload }
         case 'RESET_STATE':
             return initialState
-        case 'ADD_TO_CART':
+        case 'ADD_TO_CART': {
             const newItem = action.payload as CartItem;
-            return { ...state, cart: [...state.cart, newItem] }
-        case 'REMOVE_FROM_CART':
+            const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id);
+            if (existingItemIndex >= 0) {
+                const updatedCart = state.cart.map((item, index) =>
+                    index === existingItemIndex ? { ...item, quantity: item.quantity + newItem.quantity } : item
+            )
+            return { ...state, cart: updatedCart }
+            } else {
+                return { ...state, cart: [...state.cart, newItem] }
+            }
+        }
+        case 'INCREMENT_QUANTITY': {
+            const { id } = action.payload as { id: string }
+            const updatedCart = state.cart.map(item =>
+                item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            )
+            return { ...state, cart: updatedCart }
+        }
+        case 'DECREMENT_QUANTITY': {
             const { id } = action.payload as { id: string };
-            return { ...state, cart: state.cart.filter(item => item.id !== id) }
+            const updatedCart = state.cart.flatMap(item =>
+                item.id === id ? item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : [] : item
+            )
+            return { ...state, cart: updatedCart }
+        }
         case 'TOGGLE_CART':
             return { ...state, isCartVisible: !state.isCartVisible }
         case 'SET_FILTER':

@@ -18,8 +18,6 @@ const Products: React.FC = () => {
         fetchData()
     }, [])
 
-    console.log(state)
-
     const filteredProducts = state.data?.filter(
         (product: { product: { metadata: { [x: string]: string } } }) => {
             return Object.entries(state.filters).every(

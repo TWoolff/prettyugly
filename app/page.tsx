@@ -1,5 +1,4 @@
 'use client'
-import Cart from './components/cart/cart'
 import Products from './components/products/products'
 
 export type ProductType = {
@@ -24,12 +23,10 @@ export type ProductType = {
 }
 
 const Home: React.FC = () => {
-
   return (
     <section>
       <h1>Front Page</h1>
       <Products />
-      <Cart />
     </section>
   )
 }
