@@ -1,9 +1,19 @@
 'use client'
 import { createContext, useContext, ReactNode, useReducer, Dispatch } from 'react'
 
-type DataState = {
-    
-} | null
+type Product = {
+    id: string;
+    name: string;
+    description: string;
+    metadata: {
+      [key: string]: string;
+    };
+    // other product fields
+  };
+  
+  type DataState = {
+    products: Product[]; 
+  } | null
 
 type CartItem = {
     id: string;
@@ -19,12 +29,13 @@ type State = {
     error: ErrorState | null
     data: DataState | null
     cart: CartItem[]
-    isCartVisible: boolean;
+    isCartVisible: boolean
+    filters: { [key: string]: string }
 }
 
 type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'REMOVE_FROM_CART' | 'TOGGLE_CART'
-    payload?: Partial<State> | CartItem
+    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'REMOVE_FROM_CART' | 'TOGGLE_CART' | 'SET_FILTER'
+    payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
 }
 
 const initialState: State = {
@@ -32,7 +43,8 @@ const initialState: State = {
     error: null,
     data: null,
     cart: [],
-    isCartVisible: false
+    isCartVisible: false,
+    filters: {}
 }
 
 interface AppContextType {
@@ -56,6 +68,9 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, cart: state.cart.filter(item => item.id !== id) }
         case 'TOGGLE_CART':
             return { ...state, isCartVisible: !state.isCartVisible }
+        case 'SET_FILTER':
+            const { key, value } = action.payload as { key: string; value: string }
+            return { ...state, filters: { ...state.filters, [key]: value } }
         default:
             return state
     }
