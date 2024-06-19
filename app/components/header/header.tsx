@@ -19,6 +19,7 @@ const Header: React.FC = () => {
                 <h1><Link href='/'>PrettyUgly</Link></h1>
                 <ul>
                     <li><Link href='/products'>Products</Link></li>
+                    <li><Link href='/about'>About</Link></li>
                     <li><Button onClick={handleToggleCart} title={`Cart (${state.cart.length})`} className={css.btn}/></li>
                 </ul>
             </nav>

@@ -2,24 +2,23 @@
 import { createContext, useContext, ReactNode, useReducer, Dispatch } from 'react'
 
 type Product = {
-    id: string;
-    name: string;
-    description: string;
+    id: string
     metadata: {
-      [key: string]: string;
-    };
-    // other product fields
-  };
-  
-  type DataState = {
-    products: Product[]; 
-  } | null
+        [key: string]: string
+    }
+    name: string
+    description: string
+}
+
+type DataState = {
+    data?: Product[]
+} | null | undefined | any
 
 type CartItem = {
     id: string;
-    name: string;
-    unit_amount: number;
-    quantity: number;
+    name: string
+    unit_amount: number
+    quantity: number
 }
 
 type ErrorState = string | null
