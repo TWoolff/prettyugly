@@ -9,3 +9,8 @@ export async function getProducts() {
     const prices = res.data
     return prices
 }
+
+export const getProductById = async (id: string) => {
+    const products = await getProducts()
+    return products.find((product: any) => product.id === id) || null
+}
