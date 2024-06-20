@@ -65,11 +65,14 @@ const Cart: React.FC = () => {
                 ))}
             </ul>
             {totalQuantity > 0 ? (
-                <h3>Total: {totalPrice / 100},00 kr.</h3>
+                <>
+                    <h3>Total: {totalPrice / 100},00 kr.</h3>
+                    <Button onClick={handleCheckout} title='Checkout' className={css.btn} />
+                </>
             ) : (
                 <p>Your cart is empty</p>
             )}
-            <Button onClick={handleCheckout} title='Checkout' className={css.btn} />
+            
         </section>
     )
 }
