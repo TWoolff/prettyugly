@@ -25,8 +25,6 @@ const Cart: React.FC = () => {
         dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
     }
 
-    console.log(state)
-
     async function handleCheckout() {
         const lineItems = cart.map((e: any) => {
             return {
@@ -61,16 +59,8 @@ const Cart: React.FC = () => {
                         <p>{item.name}</p>
                         <p>{item.unit_amount / 100},00 kr.</p>
                         <p>{item.quantity}</p>
-                        <Button
-                            onClick={() => handleDecrementQuantity(item.id)}
-                            title='-'
-                            className={css.btn}
-                        />
-                        <Button
-                            onClick={() => handleIncrementQuantity(item.id)}
-                            title='+'
-                            className={css.btn}
-                        />
+                        <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
+                        <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
                     </li>
                 ))}
             </ul>
@@ -79,7 +69,7 @@ const Cart: React.FC = () => {
             ) : (
                 <p>Your cart is empty</p>
             )}
-            <button onClick={handleCheckout}>Checkout</button>
+            <Button onClick={handleCheckout} title='Checkout' className={css.btn} />
         </section>
     )
 }

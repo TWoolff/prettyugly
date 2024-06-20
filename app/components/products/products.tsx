@@ -52,7 +52,7 @@ const Products: React.FC = () => {
                                     productInfo: string
                                 }
                             }) => (
-                                <Link key={product.id} href={`/products/${product.id}`}><Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} /></Link>
+                                <Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} />
                             )
                         )}
                     </section>

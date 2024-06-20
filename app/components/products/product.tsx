@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { useAppContext } from '../../context'
 import { ProductType } from '../../page'
 import Button from '../button/button'
@@ -22,7 +23,9 @@ const Product: React.FC<ProductType> = (data) => {
 
     return ( 
         <div className={css.product}>
-            <img src={images[0]} alt={name} className={css.mainImg} />
+            <Link key={id} href={`/products/${id}`}>
+                <img src={images[0]} alt={name} className={css.mainImg} />
+            </Link>
             <h2>{name}</h2>
             <p>{description}</p>
             <p>{unit_amount/100},00 kr.</p>

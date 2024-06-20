@@ -7,14 +7,8 @@
     background-color: #f8f9fa;
 }
 
-.btn {
-    display: inline-block;
+.btnSmall {
     width: 1.5rem;
     height: 1.5rem;
-    margin: 0.5rem;
-    border: 0;
-    color: white;
-    border-radius: 5px;
-    background-color: black;
-    cursor: pointer;
+    padding: 0;
 }
