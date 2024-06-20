@@ -1,10 +1,9 @@
-import { getProducts } from '@/app/utils/getProducts'
+import { useEffect } from 'react'
+import { getProducts } from '../../utils/getProducts'
 import { useAppContext } from '../../context'
 import Filter from '../filter/filter'
 import Product from './product'
 import css from './product.module.css'
-import { useEffect } from 'react'
-import Link from 'next/link'
 
 const Products: React.FC = () => {
     const { state, dispatch } = useAppContext()

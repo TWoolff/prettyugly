@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: 'Something Something',
 }
 
-const RootLayout = ({children}: Readonly<{children: React.ReactNode}>) => {
+const RootLayout: React.FC<{children?: React.ReactNode}> = ({children}) => {
   return (
     <html lang='en'>
       <body>

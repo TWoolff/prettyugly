@@ -25,7 +25,7 @@ const Cart: React.FC = () => {
         dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
     }
 
-    async function handleCheckout() {
+    const handleCheckout = async() => {
         const lineItems = cart.map((e: any) => {
             return {
                 price: e.id,
