@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { calculateTotalQuantity } from '../../utils/getQuantity'
 import { useAppContext } from '../../context'
-import Button from '../button/button'
+import Button from '../formelements/button'
 import css from './cart.module.css'
 
 const Cart: React.FC = () => {

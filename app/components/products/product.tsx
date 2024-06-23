@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useAppContext } from '../../context'
 import { ProductType } from '../../page'
-import Button from '../button/button'
+import Button from '../formelements/button'
 import css from './product.module.css'
 
 const Product: React.FC<ProductType> = (data) => {
