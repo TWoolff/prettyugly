@@ -14,7 +14,7 @@ type DataState = {
     data?: Product[]
 } | null | undefined | any
 
-type CartItem = {
+export type CartItem = {
     id: string;
     name: string
     unit_amount: number
@@ -28,12 +28,13 @@ type State = {
     error: ErrorState | null
     data: DataState | null
     cart: CartItem[]
+    saved: CartItem[]
     isCartVisible: boolean
     filters: { [key: string]: string }
 }
 
 type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'SET_FILTER'
+    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'SET_FILTER' | 'SAVE_PRODUCT'
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
 }
 
@@ -42,6 +43,7 @@ const initialState: State = {
     error: null,
     data: null,
     cart: [],
+    saved: [],
     isCartVisible: false,
     filters: {}
 }
@@ -60,16 +62,28 @@ const reducer = (state: State, action: Action): State => {
         case 'RESET_STATE':
             return initialState
         case 'ADD_TO_CART': {
-            const newItem = action.payload as CartItem;
-            const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id);
+            const newItem = action.payload as CartItem
+            const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id)
             if (existingItemIndex >= 0) {
                 const updatedCart = state.cart.map((item, index) =>
                     index === existingItemIndex ? { ...item, quantity: item.quantity + newItem.quantity } : item
-            )
-            return { ...state, cart: updatedCart }
+                )
+                return { ...state, cart: updatedCart, isCartVisible: true }
             } else {
-                return { ...state, cart: [...state.cart, newItem] }
+                return { ...state, cart: [...state.cart, newItem], isCartVisible: true }
             }
+        }
+        case 'SAVE_PRODUCT': {
+            const newItem = action.payload as CartItem
+            const existingItemIndex = state.saved.findIndex(item => item.id === newItem.id)
+            let updatedSaved;
+            if (existingItemIndex >= 0) {
+                updatedSaved = state.saved.filter(item => item.id !== newItem.id)
+            } else {
+                updatedSaved = [...state.saved, newItem]
+            }
+            localStorage.setItem('savedProducts', JSON.stringify(updatedSaved))
+            return { ...state, saved: updatedSaved }
         }
         case 'INCREMENT_QUANTITY': {
             const { id } = action.payload as { id: string }
@@ -105,7 +119,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     )
 }
 
-export function useAppContext() {
+export const useAppContext = () => {
     const context = useContext(AppContext)
     if (context === undefined) {
         throw new Error('useAppContext must be used within a AppProvider')

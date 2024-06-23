@@ -1,10 +1,17 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { getProductById } from '../../utils/getProducts'
+import { getProductById } from '@/app//utils/getProducts'
+import { useAppContext } from '@/app/context'
+import Button from '@/app/components/formelements/button'
 import css from './productdetail.module.css'
 
 const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
     const [product, setProduct] = useState(null)
+    const { dispatch } = useAppContext()
+
+    const saveProduct = () => {
+        dispatch({ type: 'SAVE_PRODUCT', payload: { id: params.id } })
+    }
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -28,6 +35,7 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
             <img src={images[0]} alt={name} />
             <p>{description}</p>
             <p>{unit_amount / 100},00 kr.</p>
+            <Button onClick={saveProduct} title='Save Product' className={css.btn}/>
         </section>
     )
 }

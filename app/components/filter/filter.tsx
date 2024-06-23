@@ -1,6 +1,6 @@
 'use client'
 import { useMemo } from 'react'
-import { useAppContext } from '../../context'
+import { useAppContext } from '@/app/context'
 import css from './filter.module.css'
 import Input from '../formelements/input'
 

@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { calculateTotalQuantity } from '../../utils/getQuantity'
-import { useAppContext } from '../../context'
+import { calculateTotalQuantity } from '@/app/utils/getQuantity'
+import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
 import css from './cart.module.css'
 

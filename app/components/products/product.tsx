@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
-import { useAppContext } from '../../context'
-import { ProductType } from '../../page'
+import { useAppContext } from '@/app/context'
+import { ProductType } from '@/app/page'
 import Button from '../formelements/button'
 import css from './product.module.css'
 

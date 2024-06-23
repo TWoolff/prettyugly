@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { getProducts } from '../../utils/getProducts'
-import { useAppContext } from '../../context'
+import { getProducts } from '@/app/utils/getProducts'
+import { useAppContext } from '@/app/context'
 import Filter from '../filter/filter'
 import Product from './product'
 import css from './product.module.css'

@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { useAppContext } from '../../context'
+import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
 import css from './header.module.css'
 import Cart from '../cart/cart'
@@ -24,6 +24,7 @@ const Header: React.FC = () => {
                     <ul>
                         <li><Link href='/products'>Products</Link></li>
                         <li><Link href='/about'>About</Link></li>
+                        <li><Link href='/products/saved'>Saved</Link></li>
                         <li><Button onClick={handleToggleCart} title={`Cart (${totalQuantity})`} className={css.btn}/></li>
                     </ul>
                 </nav>
