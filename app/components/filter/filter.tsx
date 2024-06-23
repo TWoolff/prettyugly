@@ -9,7 +9,7 @@ type FilterProps = {
 }
 
 const Filter: React.FC<FilterProps> = ({ data }) => {
-    const { dispatch } = useAppContext()
+    const { state, dispatch } = useAppContext()
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -25,14 +25,15 @@ const Filter: React.FC<FilterProps> = ({ data }) => {
             <h1>Filter</h1>
             <h2>Categories</h2>
             <Input 
-                key="All" 
+                key='All' 
                 onChange={handleFilterChange} 
                 name='category' 
-                label="All" 
-                value="" 
+                label='All' 
+                value='' 
                 type='radio' 
                 className={css.input} 
-                id="All" 
+                id='All' 
+                checked={state.filters.category === ''}
             />
             {uniqueCategories.map((category, i) => (
                 <Input 
@@ -44,6 +45,7 @@ const Filter: React.FC<FilterProps> = ({ data }) => {
                     type='radio' 
                     className={css.input} 
                     id={category} 
+                    checked={state.filters.category === category}
                 />
             ))}
         </section>
