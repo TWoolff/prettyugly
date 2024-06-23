@@ -1,6 +1,8 @@
 'use client'
+import { useMemo } from 'react'
 import { useAppContext } from '../../context'
 import css from './filter.module.css'
+import Input from '../formelements/input'
 
 type FilterProps = {
     data: any[]
@@ -9,29 +11,41 @@ type FilterProps = {
 const Filter: React.FC<FilterProps> = ({ data }) => {
     const { dispatch } = useAppContext()
 
-    const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         dispatch({ type: 'SET_FILTER', payload: { key: name, value } })
     }
 
-    const uniqueCategories = Array.from(
-        new Set(data.map((product) => product.product.metadata.category))
-    )
+    const uniqueCategories = useMemo(() => {
+        return Array.from(new Set(data.map((product) => product.product.metadata.category)))
+    }, [data])
 
     return (
         <section className={css.filter}>
             <h1>Filter</h1>
-            <label>
-                Category:
-                <select name='category' onChange={handleFilterChange}>
-                    <option value=''>All</option>
-                    {uniqueCategories.map((category) => (
-                        <option key={category} value={category}>
-                            {category}
-                        </option>
-                    ))}
-                </select>
-            </label>
+            <h2>Categories</h2>
+            <Input 
+                key="All" 
+                onChange={handleFilterChange} 
+                name='category' 
+                label="All" 
+                value="" 
+                type='radio' 
+                className={css.input} 
+                id="All" 
+            />
+            {uniqueCategories.map((category, i) => (
+                <Input 
+                    key={i} 
+                    onChange={handleFilterChange} 
+                    name='category' 
+                    label={category} 
+                    value={category} 
+                    type='radio' 
+                    className={css.input} 
+                    id={category} 
+                />
+            ))}
         </section>
     )
 }
