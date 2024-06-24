@@ -47,16 +47,20 @@ const Cart: React.FC = () => {
         return null
     }
 
+    console.log(cart)
+
     const totalPrice = calculateTotalPrice()
     const totalQuantity = calculateTotalQuantity(cart)
 
     return (
         <section className={css.cart}>
+            <Button onClick={() => dispatch({ type: 'TOGGLE_CART' })} title='Close' className={css.btnClose} />
             <h2>Cart</h2>
             <ul>
                 {cart.map((item) => (
                     <li key={item.id}>
                         <p>{item.name}</p>
+                        <img src={item.images[0]} alt={item.name} className={css.productImg} />
                         <p>{item.unit_amount / 100},00 kr.</p>
                         <p>{item.quantity}</p>
                         <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />

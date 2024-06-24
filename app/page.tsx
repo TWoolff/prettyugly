@@ -1,4 +1,5 @@
 'use client'
+import Hero from './components/hero/hero'
 import Products from './components/products/products'
 
 export type ProductType = {
@@ -26,6 +27,7 @@ const Home: React.FC = () => {
     return (
         <section>
             <h1>Front Page</h1>
+            <Hero />
             <Products />
         </section>
     )

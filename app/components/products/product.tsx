@@ -16,7 +16,8 @@ const Product: React.FC<ProductType> = (data) => {
             id,
             name,
             unit_amount,
-            metadata
+            metadata,
+            images
         }
         dispatch({ type: 'ADD_TO_CART', payload: newItem })
     }

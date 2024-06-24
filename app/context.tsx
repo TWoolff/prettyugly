@@ -19,6 +19,8 @@ export type CartItem = {
     name: string
     unit_amount: number
     quantity: number
+    metadata: { [key: string]: string }
+    images: string[]
 }
 
 type ErrorState = string | null
