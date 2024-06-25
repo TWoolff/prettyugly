@@ -15,7 +15,7 @@ const Filter: React.FC = () => {
     }
 
     const uniqueCategories = useMemo(() => {
-        return Array.from(new Set(data.map((product: { product: { metadata: { category: any } } }) => product.product.metadata.category)))
+        return Array.from(new Set(data?.map((product: { product: { metadata: { category: any } } }) => product.product.metadata.category)))
     }, [data])
 
     if (!isSearchVisible) {
