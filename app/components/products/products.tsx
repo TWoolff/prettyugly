@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { getProducts } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
-import Filter from '../filter/filter'
 import Product from './product'
 import css from './product.module.css'
 
@@ -31,31 +30,28 @@ const Products: React.FC = () => {
         <>
             {!state.data && <p>Loading...</p>}
             {state.data && (
-                <>
-                    <Filter data={state.data} />
-                    <section className={css.products}>
-                        {filteredProducts?.map(
-                            (product: {
-                                id: any
-                                unit_amount?: number
-                                product?: {
-                                    active: boolean
-                                    created: number
-                                    default_price: string
-                                    images: string[]
-                                    marketing_features: string[]
-                                    metadata: { [key: string]: string }
-                                    id: string
-                                    name: string
-                                    description: string
-                                    productInfo: string
-                                }
-                            }) => (
-                                <Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} />
-                            )
-                        )}
-                    </section>
-                </>
+                <section className={css.products}>
+                    {filteredProducts?.map(
+                        (product: {
+                            id: any
+                            unit_amount?: number
+                            product?: {
+                                active: boolean
+                                created: number
+                                default_price: string
+                                images: string[]
+                                marketing_features: string[]
+                                metadata: { [key: string]: string }
+                                id: string
+                                name: string
+                                description: string
+                                productInfo: string
+                            }
+                        }) => (
+                            <Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} />
+                        )
+                    )}
+                </section>
             )}
         </>
     )

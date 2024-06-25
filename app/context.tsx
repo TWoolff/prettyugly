@@ -1,17 +1,29 @@
 'use client'
 import { createContext, useContext, ReactNode, useReducer, Dispatch } from 'react'
 
-type Product = {
-    id: string
-    metadata: {
-        [key: string]: string
+export type ProductType = {
+    data: {
+        id: string
+        unit_amount: number
+        product: {
+            active: boolean
+            created: number
+            default_price: string
+            images: string[]
+            marketing_features: string[]
+            metadata: {
+                [key: string]: string
+            }
+            id: string
+            name: string
+            description: string
+            productInfo: string
+        }
     }
-    name: string
-    description: string
 }
 
-type DataState = {
-    data?: Product[]
+export type DataState = {
+    data?: ProductType[]
 } | null | undefined | any
 
 export type CartItem = {
@@ -32,11 +44,12 @@ type State = {
     cart: CartItem[]
     saved: CartItem[]
     isCartVisible: boolean
+    isSearchVisible: boolean
     filters: { [key: string]: string }
 }
 
 type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'SET_FILTER' | 'SAVE_PRODUCT'
+    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
 }
 
@@ -47,6 +60,7 @@ const initialState: State = {
     cart: [],
     saved: [],
     isCartVisible: false,
+    isSearchVisible: false,
     filters: {}
 }
 
@@ -103,6 +117,8 @@ const reducer = (state: State, action: Action): State => {
         }
         case 'TOGGLE_CART':
             return { ...state, isCartVisible: !state.isCartVisible }
+        case 'TOGGLE_SEARCH':
+            return { ...state, isSearchVisible: !state.isSearchVisible }
         case 'SET_FILTER':
             const { key, value } = action.payload as { key: string; value: string }
             return { ...state, filters: { ...state.filters, [key]: value } }

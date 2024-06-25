@@ -1,15 +1,13 @@
 'use client'
 import { useMemo } from 'react'
 import { useAppContext } from '@/app/context'
-import css from './filter.module.css'
 import Input from '../formelements/input'
+import css from './filter.module.css'
 
-type FilterProps = {
-    data: any[]
-}
 
-const Filter: React.FC<FilterProps> = ({ data }) => {
+const Filter: React.FC = () => {
     const { state, dispatch } = useAppContext()
+    const { isSearchVisible, data } = state
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -17,8 +15,12 @@ const Filter: React.FC<FilterProps> = ({ data }) => {
     }
 
     const uniqueCategories = useMemo(() => {
-        return Array.from(new Set(data.map((product) => product.product.metadata.category)))
+        return Array.from(new Set(data.map((product: { product: { metadata: { category: any } } }) => product.product.metadata.category)))
     }, [data])
+
+    if (!isSearchVisible) {
+        return null
+    }
 
     return (
         <section className={css.filter}>
@@ -40,11 +42,11 @@ const Filter: React.FC<FilterProps> = ({ data }) => {
                     key={i} 
                     onChange={handleFilterChange} 
                     name='category' 
-                    label={category} 
-                    value={category} 
+                    label={category as string} 
+                    value={category as string} 
                     type='radio' 
                     className={css.input} 
-                    id={category} 
+                    id={category as string} 
                     checked={state.filters.category === category}
                 />
             ))}

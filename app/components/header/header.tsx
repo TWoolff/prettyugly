@@ -1,19 +1,25 @@
 'use client'
 import Link from 'next/link'
 import { useAppContext } from '@/app/context'
-import Button from '../formelements/button'
-import css from './header.module.css'
-import Cart from '../cart/cart'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
+import Button from '../formelements/button'
+import Cart from '../cart/cart'
+import Filter from '../filter/filter'
+import css from './header.module.css'
 
 const Header: React.FC = () => {
     const { state, dispatch } = useAppContext()
+    const { cart } = state
 
     const handleToggleCart = () => { 
         dispatch({ type: 'TOGGLE_CART' })
     }
 
-    const totalQuantity = calculateTotalQuantity(state.cart)
+    const handleToggleSearch = () => {
+        dispatch({ type: 'TOGGLE_SEARCH' })
+    }
+
+    const totalQuantity = calculateTotalQuantity(cart)
 
 
     return (
@@ -34,6 +40,7 @@ const Header: React.FC = () => {
                     </Link></h1>
                     <ul>
                         <li><Link href='/products'>Products</Link></li>
+                        <li><Button onClick={handleToggleSearch} title='Search' className={css.btn} /></li>
                         <li><Link href='/about'>About</Link></li>
                         <li><Link href='/products/saved'>Saved</Link></li>
                         <li><Button onClick={handleToggleCart} title={`Cart (${totalQuantity})`} className={css.btn}/></li>
@@ -41,6 +48,7 @@ const Header: React.FC = () => {
                 </nav>
             </header>
             <Cart />
+            <Filter />
         </>
 
     )

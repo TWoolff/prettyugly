@@ -47,8 +47,6 @@ const Cart: React.FC = () => {
         return null
     }
 
-    console.log(cart)
-
     const totalPrice = calculateTotalPrice()
     const totalQuantity = calculateTotalQuantity(cart)
 

@@ -1,9 +1,9 @@
 
 import type { Metadata } from 'next'
 import { AppProvider } from './context'
-import './styles/index.css'
 import Header from './components/header/header'
 import Footer from './components/footer/footer'
+import './styles/index.css'
 
 export const metadata: Metadata = {
   title: 'PrettyUgly',

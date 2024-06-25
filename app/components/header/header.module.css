@@ -15,19 +15,12 @@
         }
     }
 
-    & nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
     & ul {
         display: flex;
+        justify-content: flex-end;
         list-style: none;
+        gap: 1.5rem;
 
-        & li {
-            margin-right: 2rem;
-        }
     }
 
     & a {
