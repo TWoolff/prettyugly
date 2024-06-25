@@ -12,6 +12,12 @@
     z-index: 1;
 }
 
+.cartContainer {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .btnSmall {
     width: 1.5rem;
     height: 1.5rem;

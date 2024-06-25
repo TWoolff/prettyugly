@@ -1,6 +1,9 @@
 'use client'
+import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
+import { calculateTotalPrice } from '@/app/utils/getTotal'
 import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
 import css from './cart.module.css'
@@ -9,29 +12,21 @@ const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const router = useRouter()
     const { cart, isCartVisible } = state
+    const cartRef = useRef<HTMLDivElement>(null)
 
-    const calculateTotalPrice = () => {
-        return cart.reduce(
-            (total, item) => total + item.unit_amount * item.quantity,
-            0
-        )
-    }
-
-    const handleIncrementQuantity = (id: string) => {
+    const handleIncrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
-    }
+    }, [dispatch])
 
-    const handleDecrementQuantity = (id: string) => {
+    const handleDecrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
-    }
+    }, [dispatch])
 
-    const handleCheckout = async() => {
-        const lineItems = cart.map((e: any) => {
-            return {
-                price: e.id,
-                quantity: e.quantity,
-            }
-        })
+    const handleCheckout = useCallback(async () => {
+        const lineItems = cart.map((e: any) => ({
+            price: e.id,
+            quantity: e.quantity,
+        }))
         const res = await fetch('../api/checkout', {
             method: 'POST',
             headers: {
@@ -41,41 +36,69 @@ const Cart: React.FC = () => {
         })
         const data = await res.json()
         router.push(data.session.url)
-    }
+    }, [cart, router])
 
-    if (!isCartVisible) {
-        return null
-    }
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+            dispatch({ type: 'TOGGLE_CART' })
+        }
+    }, [dispatch])
 
-    const totalPrice = calculateTotalPrice()
-    const totalQuantity = calculateTotalQuantity(cart)
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [handleClickOutside])
+
+    const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
+    const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
+
+    const variants = {
+        hidden: { opacity: 0, x: '100%' },
+        visible: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: '100%' },
+    }
 
     return (
-        <section className={css.cart}>
-            <Button onClick={() => dispatch({ type: 'TOGGLE_CART' })} title='Close' className={css.btnClose} />
-            <h2>Cart</h2>
-            <ul>
-                {cart.map((item) => (
-                    <li key={item.id}>
-                        <p>{item.name}</p>
-                        <img src={item.images[0]} alt={item.name} className={css.productImg} />
-                        <p>{item.unit_amount / 100},00 kr.</p>
-                        <p>{item.quantity}</p>
-                        <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
-                        <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
-                    </li>
-                ))}
-            </ul>
-            {totalQuantity > 0 ? (
-                <>
-                    <h3>Total: {totalPrice / 100},00 kr.</h3>
-                    <Button onClick={handleCheckout} title='Checkout' className={css.btn} />
-                </>
-            ) : (
-                <p>Your cart is empty</p>
+        <AnimatePresence>
+            {isCartVisible && (
+                <div className={css.cartContainer}>
+                    <motion.section
+                        ref={cartRef}
+                        className={css.cart}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        variants={variants}
+                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    >
+                        <Button onClick={() => dispatch({ type: 'TOGGLE_CART' })} title='Close' className={css.btnClose} />
+                        <h2>Cart</h2>
+                        <ul>
+                            {cart.map((item) => (
+                                <li key={item.id}>
+                                    <p>{item.name}</p>
+                                    <img src={item.images[0]} alt={item.name} className={css.productImg} />
+                                    <p>{item.unit_amount / 100},00 kr.</p>
+                                    <p>{item.quantity}</p>
+                                    <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
+                                    <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
+                                </li>
+                            ))}
+                        </ul>
+                        {totalQuantity > 0 ? (
+                            <>
+                                <h3>Total: {totalPrice / 100},00 kr.</h3>
+                                <Button onClick={handleCheckout} title='Checkout' className={css.btn} />
+                            </>
+                        ) : (
+                            <p>Your cart is empty</p>
+                        )}
+                    </motion.section>
+                </div>
             )}
-            
-        </section>
+        </AnimatePresence>
     )
 }
 
