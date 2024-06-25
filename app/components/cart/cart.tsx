@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
 import { calculateTotalPrice } from '@/app/utils/getTotal'
@@ -79,7 +80,13 @@ const Cart: React.FC = () => {
                             {cart.map((item) => (
                                 <li key={item.id}>
                                     <p>{item.name}</p>
-                                    <img src={item.images[0]} alt={item.name} className={css.productImg} />
+                                    <Image 
+                                        src={item.images[0]} 
+                                        alt={item.name}
+                                        width={160} 
+                                        height={160} 
+                                        quality={90} 
+                                    />
                                     <p>{item.unit_amount / 100},00 kr.</p>
                                     <p>{item.quantity}</p>
                                     <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />

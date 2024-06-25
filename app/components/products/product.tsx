@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useAppContext } from '@/app/context'
 import { ProductType } from '@/app/context'
 import Button from '../formelements/button'
@@ -25,11 +26,18 @@ const Product: React.FC<ProductType> = (data) => {
     return ( 
         <div className={css.product}>
             <Link key={id} href={`/products/${id}`}>
-                <img src={images[0]} alt={name} className={css.mainImg} />
+                <Image 
+                    src={images[0]} 
+                    alt={name} 
+                    className={css.mainImg}
+                    width={500} 
+                    height={500} 
+                    quality={90} 
+                />
             </Link>
             <h2>{name}</h2>
             <p>{description}</p>
-            <p>{unit_amount/100},00 kr.</p>
+            <p>{unit_amount / 100},00 kr.</p>
             <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn}/>
         </div>
     )

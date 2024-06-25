@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { getProductById } from '@/app//utils/getProducts'
 import { useAppContext } from '@/app/context'
 import Button from '@/app/components/formelements/button'
@@ -32,7 +33,14 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
     return (
         <section className={css.productDetail}>
             <h1>{name}</h1>
-            <img src={images[0]} alt={name} />
+            <Image 
+                    src={images[0]} 
+                    alt={name}
+                    width={700} 
+                    height={700} 
+                    quality={90} 
+                    className={css.mainImg}
+                />
             <p>{description}</p>
             <p>{unit_amount / 100},00 kr.</p>
             <Button onClick={saveProduct} title='Save Product' className={css.btn}/>
