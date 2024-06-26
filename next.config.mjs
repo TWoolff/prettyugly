@@ -2,6 +2,13 @@
 const nextConfig = {
     images: {
         domains: ['files.stripe.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'images.ctfassets.net',
+                port: '',
+            },
+        ],
     },
 };
 

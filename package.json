@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^15.22.1",
+    "@contentful/rich-text-types": "^16.6.1",
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^4.0.0",
+    "contentful": "^10.12.4",
     "dotenv": "16.4.5",
     "framer-motion": "11.2.10",
     "next": "14.2.4",
