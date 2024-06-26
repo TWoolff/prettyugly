@@ -6,7 +6,6 @@ import Products from './components/products/products'
 const Home: React.FC = () => {
     return (
         <section>
-            <h1>Front Page</h1>
             <Hero />
             <Featured />
             <Products />

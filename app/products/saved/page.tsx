@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useAppContext } from '@/app/context'
 import Button from '@/app/components/formelements/button'
 import css from './savedProducts.module.css'
@@ -50,7 +51,13 @@ const SavedProducts: React.FC = () => {
                 {savedProducts.map(product => (
                     <li key={product.id} className={css.product}>
                         <h2>{product.product.name}</h2>
-                        <img src={product.product.images[0]} alt={product.product.name} />
+                        <Image 
+                            src={product.product.images[0]} 
+                            alt={product.product.name} 
+                            width={500} 
+                            height={500} 
+                            quality={90}
+                        />
                         <p>Price: {product.unit_amount / 100},00 kr.</p>
                         <p>Description: {product.product.description}</p>
                         <Button title='Remove' onClick={() => handleRemove(product.id)} className={css.btn} />

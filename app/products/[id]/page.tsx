@@ -34,13 +34,13 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
         <section className={css.productDetail}>
             <h1>{name}</h1>
             <Image 
-                    src={images[0]} 
-                    alt={name}
-                    width={700} 
-                    height={700} 
-                    quality={90} 
-                    className={css.mainImg}
-                />
+                src={images[0]} 
+                alt={name}
+                width={700} 
+                height={700} 
+                quality={90} 
+                className={css.mainImg}
+            />
             <p>{description}</p>
             <p>{unit_amount / 100},00 kr.</p>
             <Button onClick={saveProduct} title='Save Product' className={css.btn}/>

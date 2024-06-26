@@ -1,1 +1,4 @@
-.hero {}
+.hero {
+    background: url('/hero.webp') no-repeat top center/cover;
+    height: 43rem;
+}
