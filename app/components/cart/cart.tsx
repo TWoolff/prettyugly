@@ -2,12 +2,21 @@
 import { useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 import { motion, AnimatePresence } from 'framer-motion'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
 import { calculateTotalPrice } from '@/app/utils/getTotal'
 import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
+import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
+
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+    throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
+}
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
@@ -102,6 +111,9 @@ const Cart: React.FC = () => {
                         ) : (
                             <p>Your cart is empty</p>
                         )}
+                        <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
+                            <Checkout amount={totalPrice} />
+                        </Elements>
                     </motion.section>
                 </div>
             )}

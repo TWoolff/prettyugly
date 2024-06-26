@@ -1,10 +1,14 @@
-import Link from 'next/link'
+type SuccessPageProps = {
+  searchParams: {
+    amount: string
+  }
+}
 
-const SuccessPage: React.FC = () => {
+const SuccessPage: React.FC<SuccessPageProps> = ({searchParams: {amount}}) => {
   return ( 
     <section>
       <h1>Success</h1>
-      <Link href={'/'}>Back home</Link>
+      <p>Thank you for your purchase of {Number(amount)/100} kr.</p>
     </section>
   )
 }
