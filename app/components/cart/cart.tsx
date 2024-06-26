@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useRef, useCallback, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
@@ -20,7 +19,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
-    const router = useRouter()
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
 
@@ -31,22 +29,6 @@ const Cart: React.FC = () => {
     const handleDecrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
     }, [dispatch])
-
-    const handleCheckout = useCallback(async () => {
-        const lineItems = cart.map((e: any) => ({
-            price: e.id,
-            quantity: e.quantity,
-        }))
-        const res = await fetch('../api/checkout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ lineItems }),
-        })
-        const data = await res.json()
-        router.push(data.session.url)
-    }, [cart, router])
 
     const handleClickOutside = useCallback((event: MouseEvent) => {
         if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
@@ -106,14 +88,15 @@ const Cart: React.FC = () => {
                         {totalQuantity > 0 ? (
                             <>
                                 <h3>Total: {totalPrice / 100},00 kr.</h3>
-                                <Button onClick={handleCheckout} title='Checkout' className={css.btn} />
                             </>
                         ) : (
                             <p>Your cart is empty</p>
                         )}
-                        <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
-                            <Checkout amount={totalPrice} />
-                        </Elements>
+                        {totalQuantity > 0 &&
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
+                                <Checkout amount={totalPrice} />
+                            </Elements>
+                        }
                     </motion.section>
                 </div>
             )}
