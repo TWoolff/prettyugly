@@ -43,7 +43,7 @@ const Header: React.FC = () => {
                         <li><Button onClick={handleToggleSearch} title='Search' className={css.btn} /></li>
                         <li><Link href='/about'>About</Link></li>
                         <li><Link href='/products/saved'>Saved</Link></li>
-                        <li><Button onClick={handleToggleCart} title={`Cart (${totalQuantity})`} className={css.btn}/></li>
+                        <li><Button onClick={handleToggleCart} title={`Cart [ ${totalQuantity} ]`} className={css.btn}/></li>
                     </ul>
                 </nav>
             </header>

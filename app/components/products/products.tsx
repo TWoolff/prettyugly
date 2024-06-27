@@ -6,6 +6,7 @@ import css from './product.module.css'
 
 const Products: React.FC = () => {
     const { state, dispatch } = useAppContext()
+    const { filters: {category} } = state
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,27 +31,30 @@ const Products: React.FC = () => {
         <>
             {!state.data && <p>Loading...</p>}
             {state.data && (
-                <section className={css.products}>
-                    {filteredProducts?.map(
-                        (product: {
-                            id: any
-                            unit_amount?: number
-                            product?: {
-                                active: boolean
-                                created: number
-                                default_price: string
-                                images: string[]
-                                marketing_features: string[]
-                                metadata: { [key: string]: string }
-                                id: string
-                                name: string
-                                description: string
-                                productInfo: string
-                            }
-                        }) => (
-                            <Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} />
-                        )
-                    )}
+                <section>
+                    <h1>Products: {category ? <>{category} [ {filteredProducts.length} ]</> : <>All [ {filteredProducts.length} ]</>}</h1>
+                    <div className={css.products}>
+                        {filteredProducts?.map(
+                            (product: {
+                                id: any
+                                unit_amount?: number
+                                product?: {
+                                    active: boolean
+                                    created: number
+                                    default_price: string
+                                    images: string[]
+                                    marketing_features: string[]
+                                    metadata: { [key: string]: string }
+                                    id: string
+                                    name: string
+                                    description: string
+                                    productInfo: string
+                                }
+                            }) => (
+                                <Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} />
+                            )
+                        )}
+                    </div>
                 </section>
             )}
         </>

@@ -6,7 +6,6 @@ import Featured from './components/featured/featured'
 import Products from './components/products/products'
 import Ticker from './components/ticker/ticker'
 
-
 const Home: React.FC =  () => {
     const [homeData, setHomeData] = useState<any>(null)
     
@@ -26,14 +25,12 @@ const Home: React.FC =  () => {
     if (!homeData) {
         return <div>Loading...</div>
     }
-    
-    const { title } = homeData
-console.log(homeData)
+
     return (
         <section>
-            <Ticker data={homeData.newsTicker} />
+            {homeData.newsTicker && <Ticker data={homeData.newsTicker} />}
             <Hero />
-            <Featured data={homeData.features[0].fields} />
+            {homeData.features[0].fields && <Featured data={homeData.features[0].fields} />}
             <Products />
         </section>
     )
