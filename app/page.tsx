@@ -4,6 +4,7 @@ import { getPage } from './utils/contentful'
 import Hero from './components/hero/hero'
 import Featured from './components/featured/featured'
 import Products from './components/products/products'
+import Ticker from './components/ticker/ticker'
 
 
 const Home: React.FC =  () => {
@@ -27,9 +28,10 @@ const Home: React.FC =  () => {
     }
     
     const { title } = homeData
-
+console.log(homeData)
     return (
         <section>
+            <Ticker data={homeData.newsTicker} />
             <Hero />
             <Featured data={homeData.features[0].fields} />
             <Products />

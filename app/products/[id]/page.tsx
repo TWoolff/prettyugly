@@ -10,10 +10,6 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
     const [product, setProduct] = useState(null)
     const { dispatch } = useAppContext()
 
-    const saveProduct = () => {
-        dispatch({ type: 'SAVE_PRODUCT', payload: { id: params.id } })
-    }
-
     useEffect(() => {
         const fetchProduct = async () => {
             const result = await getProductById(params.id)
@@ -28,7 +24,23 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
         return <p>Loading...</p>
     }
 
-    const {unit_amount, product: {name, images, description}} = product || {}
+    const {unit_amount, product: {id, name, images, description, metadata}} = product || {}
+
+    const handleAddToCart = () => { 
+        const newItem = {
+            quantity: 1,
+            id,
+            name,
+            unit_amount,
+            metadata,
+            images
+        }
+        dispatch({ type: 'ADD_TO_CART', payload: newItem })
+    }
+
+    const saveProduct = () => {
+        dispatch({ type: 'SAVE_PRODUCT', payload: { id: params.id } })
+    }
 
     return (
         <section className={css.productDetail}>
@@ -44,6 +56,7 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
             <p>{description}</p>
             <p>{unit_amount / 100},00 kr.</p>
             <Button onClick={saveProduct} title='Save Product' className={css.btn}/>
+            <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn}/>
         </section>
     )
 }

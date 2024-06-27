@@ -1,20 +1,25 @@
 'use client'
 import { useMemo } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useAppContext } from '@/app/context'
+import Product from '../products/product'
 import css from './featured.module.css'
 
 type Product = {
     id: string
+    unit_amount: number
     product: {
+        active: boolean
+        created: number
+        default_price: string
+        images: string[]
+        marketing_features: string[]
+        metadata: { [key: string]: string }
         id: string
         name: string
         description: string
-        images: string[]
+        productInfo: string
     }
-    unit_amount: number
 }
 
 type FeaturedProps = {
@@ -57,14 +62,7 @@ const Featured: React.FC<FeaturedProps> = ({ data }) => {
             <div className={css.featuredProducts}>
                 {featuredProducts.length > 0 ? (
                     featuredProducts.map((product: Product) => (
-                        <Link href={`/products/${product.product.id}`} key={product.product.id}>
-                            <div className={css.productCard}>
-                                <h3>{product.product.name}</h3>
-                                <Image src={product.product.images[0]} alt={product.product.name} width={200} height={200} quality={90} />
-                                <p>{product.product.description}</p>
-                                <p>{product.unit_amount / 100},00 kr.</p>
-                            </div>
-                        </Link>
+                        <Product key={product.product.id} data={product} />
                     ))
                 ) : (
                     <p>No featured products available.</p>

@@ -1,0 +1,36 @@
+.ticker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+.tickerInner {
+    display: flex;
+    align-items: center;
+    animation: tickerAnimation 15s linear infinite;
+    white-space: nowrap;
+}
+
+.tickerInner p {
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+@keyframes tickerAnimation {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
