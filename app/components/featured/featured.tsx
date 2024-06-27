@@ -36,7 +36,7 @@ const Featured: React.FC<FeaturedProps> = ({data}) => {
 
     return ( 
         <section className={css.featured}>
-            <Image src={`https://${file.url}`} alt={description} width={800} height={800} quality={90} className={css.featuredImg} />
+            <img src={file.url} alt={description} className={css.featuredImg} />
             <div className={css.content}>
                 <h2>{title}</h2>
                 {documentToReactComponents(paragraph)}
