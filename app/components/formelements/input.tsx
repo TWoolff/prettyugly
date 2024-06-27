@@ -1,16 +1,17 @@
+import css from './formelements.module.css'
+
 type InputProps = {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
     label?: string
     type: 'text' | 'email' | 'password' | 'number' | 'search' | 'range' | 'checkbox' | 'radio'
-    className: string
     id: string
     name: string
     value?: string
     checked?: boolean
 }
 
-const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, className, id, name, value = '', checked = false}) => (
-    <div className={className}>
+const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, id, name, value = '', checked = false}) => (
+    <div className={css[type]}>
         <input 
             type={type}
             name={name}

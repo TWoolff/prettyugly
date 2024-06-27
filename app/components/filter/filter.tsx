@@ -32,8 +32,7 @@ const Filter: React.FC = () => {
                 name='category' 
                 label='All' 
                 value='' 
-                type='radio' 
-                className={css.input} 
+                type='radio'
                 id='All' 
                 checked={state.filters.category === ''}
             />
@@ -44,8 +43,7 @@ const Filter: React.FC = () => {
                     name='category' 
                     label={category as string} 
                     value={category as string} 
-                    type='radio' 
-                    className={css.input} 
+                    type='radio'
                     id={category as string} 
                     checked={state.filters.category === category}
                 />

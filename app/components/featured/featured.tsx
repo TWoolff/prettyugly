@@ -5,7 +5,6 @@ import { useAppContext } from '@/app/context'
 import css from './featured.module.css'
 import Link from 'next/link'
 
-
 type FeaturedProps = {
     data: {
         title: string
@@ -28,7 +27,7 @@ type FeaturedProps = {
 }
 
 const Featured: React.FC<FeaturedProps> = ({data}) => {
-    const { state, dispatch } = useAppContext()
+    const { state } = useAppContext()
     const { title, paragraph, image, products  } = data
     const { description, file } = image.fields
     const productsIds = products.map(product => product.fields.productId)

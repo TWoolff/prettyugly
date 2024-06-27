@@ -1,5 +1,10 @@
 .filter {
-  margin-bottom: 20px;
+  padding: 2rem;
   background-color: black;
   color: white;
+}
+
+.inputRadio {
+  padding: 0.5rem;
+  background-color: pink;
 }

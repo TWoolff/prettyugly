@@ -1,0 +1,8 @@
+.radio {
+    margin-bottom: 0.5rem;
+
+    & label {
+        padding-left: 1rem;
+        text-transform: capitalize;
+    }
+}
