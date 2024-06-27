@@ -9,7 +9,7 @@ const client = contentful.createClient({
 export const getPage = async (slug: string) => {
     const page = await client.getEntries({
         content_type: 'page',
-        limit: 1,
+        include: 3,
         'fields.slug': slug
     })
     return page

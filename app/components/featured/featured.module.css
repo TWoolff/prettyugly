@@ -1,1 +1,27 @@
-.featured {}
+.featured {
+    position: relative;
+    display: flex;
+    gap: 2rem;
+    height: fit-content;
+    padding: 2rem;
+}
+
+.featuredImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.content {
+    color: white;
+    max-width: 50%;
+}
+
+.featuredProducts {
+    display: flex;
+    gap: 1rem;
+}

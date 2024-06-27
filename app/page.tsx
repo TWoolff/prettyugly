@@ -25,13 +25,13 @@ const Home: React.FC =  () => {
     if (!homeData) {
         return <div>Loading...</div>
     }
-
-    console.log(homeData)
+    
+    const { title } = homeData
 
     return (
         <section>
             <Hero />
-            <Featured />
+            <Featured data={homeData.features[0].fields} />
             <Products />
         </section>
     )
