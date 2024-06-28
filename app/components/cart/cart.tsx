@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useCallback, useMemo } from 'react'
 import Image from 'next/image'
-import { Elements } from '@stripe/react-stripe-js'
+import { Elements, AddressElement } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { motion, AnimatePresence } from 'framer-motion'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
@@ -86,14 +86,13 @@ const Cart: React.FC = () => {
                             ))}
                         </ul>
                         {totalQuantity > 0 ? (
-                            <>
-                                <h3>Total: {totalPrice / 100},00 kr.</h3>
-                            </>
+                            <h3>Total: {totalPrice / 100},00 kr.</h3>
                         ) : (
                             <p>Your cart is empty</p>
                         )}
                         {totalQuantity > 0 &&
                             <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
+                                <AddressElement options={{mode: 'shipping', }} />
                                 <Checkout amount={totalPrice} />
                             </Elements>
                         }
