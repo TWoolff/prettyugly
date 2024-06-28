@@ -20,3 +20,23 @@ button {
     background-color: black;
     cursor: pointer;
 }
+
+.transitionLayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: pink;
+  z-index: 9999;
+  pointer-events: none; /* Ensures the layer doesn't block interactions */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageContent {
+  position: relative;
+  z-index: 1; /* Ensures content is above the transition layer */
+  width: 100%;
+}
