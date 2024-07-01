@@ -1,35 +1,37 @@
+// app/products/[slug]/page.tsx
 'use client'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { getProductById } from '@/app//utils/getProducts'
+import { getProductBySlug } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
 import Button from '@/app/components/formelements/button'
 import css from './productdetail.module.css'
 
-const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
+const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     const [product, setProduct] = useState(null)
     const { dispatch } = useAppContext()
 
     useEffect(() => {
         const fetchProduct = async () => {
-            const result = await getProductById(params.id)
-            //@ts-ignore
+            const result = await getProductBySlug(params.slug)
+            // @ts-ignore
             setProduct(result)
         }
         
         fetchProduct()
-    }, [])
+    }, [params.slug])
     
     if (!product) {
         return <p>Loading...</p>
     }
 
-    const {unit_amount, product: {id, name, images, description, metadata}} = product || {}
+    const {unit_amount, product: {id, slug, name, images, description, metadata}} = product || {}
 
     const handleAddToCart = () => { 
         const newItem = {
             quantity: 1,
             id,
+            slug,
             name,
             unit_amount,
             metadata,
@@ -39,7 +41,7 @@ const ProductDetail: React.FC<{ params: { id: string } }> = ({ params }) => {
     }
 
     const saveProduct = () => {
-        dispatch({ type: 'SAVE_PRODUCT', payload: { id: params.id } })
+        dispatch({ type: 'SAVE_PRODUCT', payload: { id } })
     }
 
     return (

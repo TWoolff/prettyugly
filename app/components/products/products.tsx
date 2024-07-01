@@ -36,7 +36,8 @@ const Products: React.FC = () => {
                     <div className={css.products}>
                         {filteredProducts?.map(
                             (product: {
-                                id: any
+                                id: string
+                                slug: string
                                 unit_amount?: number
                                 product?: {
                                     active: boolean

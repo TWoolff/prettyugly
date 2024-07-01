@@ -1,9 +1,10 @@
 'use client'
-import { createContext, useContext, ReactNode, useReducer, Dispatch } from 'react'
+import { createContext, useContext, ReactNode, useReducer, Dispatch, useEffect } from 'react'
 
 export type ProductType = {
     data: {
         id: string
+        slug?: string
         unit_amount: number
         product: {
             active: boolean
@@ -53,16 +54,23 @@ type Action = {
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
 }
 
-const initialState: State = {
-    loadingState: null,
-    error: null,
-    data: null,
-    cart: [],
-    saved: [],
-    isCartVisible: false,
-    isSearchVisible: false,
-    filters: {}
+const loadInitialState = (): State => {
+    const savedCart = typeof window !== 'undefined' ? localStorage.getItem('cart') : null
+    const savedProducts = typeof window !== 'undefined' ? localStorage.getItem('savedProducts') : null
+
+    return {
+        loadingState: null,
+        error: null,
+        data: null,
+        cart: savedCart ? JSON.parse(savedCart) : [],
+        saved: savedProducts ? JSON.parse(savedProducts) : [],
+        isCartVisible: false,
+        isSearchVisible: false,
+        filters: {}
+    }
 }
+
+const initialState: State = loadInitialState()
 
 interface AppContextType {
     state: State
@@ -129,7 +137,19 @@ const reducer = (state: State, action: Action): State => {
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
+    
 
+    useEffect(() => {
+        const savedCart = localStorage.getItem('cart')
+        if (savedCart) {
+            dispatch({ type: 'SET_STATE', payload: { cart: JSON.parse(savedCart) } })
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(state.cart))
+    }, [state.cart])
+    
     return (
         <AppContext.Provider value={{ state, dispatch }}>
             {children}

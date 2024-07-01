@@ -4,14 +4,13 @@ import Image from 'next/image'
 import { ProductType } from '@/app/context'
 import css from './product.module.css'
 
-const Product: React.FC<ProductType> = (data) => {
-    const { id } = data.data
-    const { name, description,  images } = data.data.product
-
+const Product: React.FC<ProductType> = ({ data }) => {
+    const { id, slug } = data
+    const { name, description, images } = data.product
 
     return ( 
         <div className={css.product}>
-            <Link key={id} href={`/products/${id}`}>
+            <Link key={id} href={`/products/${slug}`}>
                 <Image 
                     src={images[0]} 
                     alt={name} 
