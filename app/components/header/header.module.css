@@ -1,6 +1,6 @@
 .header {
     padding: 2rem 2rem 1rem 2rem;
-    background-color: #f8f9fa;
+    position: fixed;
 
     & h1 {
         width: 100%;

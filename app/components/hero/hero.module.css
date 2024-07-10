@@ -1,4 +1,5 @@
 .hero {
-    background: url('/hero.webp') no-repeat top center/cover;
-    height: 43rem;
+    background: url('/featureTEMP.webp') no-repeat bottom center;
+    height: 57rem;
+    background-color: var(--color-salmon);
 }
