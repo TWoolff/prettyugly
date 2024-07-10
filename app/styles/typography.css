@@ -11,6 +11,8 @@ h1 {
 	letter-spacing: -0.0675px;
 	text-transform: uppercase;
 	margin-bottom: 1.5rem;
+	font-family: "Anton", sans-serif;
+  	font-style: normal;
 }
 
 h2 {

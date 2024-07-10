@@ -31,7 +31,7 @@ const Header: React.FC = () => {
         <>
             <header className={css.header}>
                 <nav>
-                    <h1>
+                    {/* <h1>
                         <Link href='/'>
                             <span>P</span>
                             <span>r</span>
@@ -44,15 +44,13 @@ const Header: React.FC = () => {
                             <span>l</span>
                             <span>y</span>
                         </Link>
-                    </h1>
+                    </h1> */}
+                    <Button onClick={handleToggleCart} title={`Cart [ ${hasMounted ? totalQuantity : 0} ]`} className={css.btn} />
                     <ul>
                         <li><Link href='/products'>Products</Link></li>
                         <li><Button onClick={handleToggleSearch} title='Search' className={css.btn} /></li>
                         <li><Link href='/about'>About</Link></li>
                         <li><Link href='/products/saved'>Saved</Link></li>
-                        <li>
-                            <Button onClick={handleToggleCart} title={`Cart [ ${hasMounted ? totalQuantity : 0} ]`} className={css.btn} />
-                        </li>
                     </ul>
                 </nav>
             </header>

@@ -10,17 +10,6 @@ body {
   font-size: 16px;
 }
 
-button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin: 0.5rem;
-    border: 0;
-    color: white;
-    border-radius: 5px;
-    background-color: black;
-    cursor: pointer;
-}
-
 .transitionLayer {
   position: fixed;
   top: 0;
@@ -29,7 +18,7 @@ button {
   height: 100%;
   background-color: pink;
   z-index: 9999;
-  pointer-events: none; /* Ensures the layer doesn't block interactions */
+  pointer-events: none; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +26,17 @@ button {
 
 .pageContent {
   position: relative;
-  z-index: 1; /* Ensures content is above the transition layer */
+  z-index: 1; 
   width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1rem;
+  padding: 0 3.125rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(12, 1fr);
+  }
 }
