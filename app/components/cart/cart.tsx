@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useRef, useCallback, useMemo } from 'react'
+import { useEffect, useRef, useCallback, useMemo, useState } from 'react'
 import Image from 'next/image'
-import { Elements, AddressElement } from '@stripe/react-stripe-js'
+import { AddressElement, Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { motion, AnimatePresence } from 'framer-motion'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
@@ -21,6 +21,9 @@ const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
+    const [clientSecret, setClientSecret] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
+    const [isClientSecretFetched, setIsClientSecretFetched] = useState(false)
 
     const handleIncrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
@@ -42,6 +45,31 @@ const Cart: React.FC = () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [handleClickOutside])
+
+    useEffect(() => {
+        const fetchClientSecret = async () => {
+            const totalPrice = calculateTotalPrice(cart)
+            const response = await fetch('/api/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: totalPrice, cartItems: cart }),
+            })
+
+            const data = await response.json()
+            if (data.clientSecret) {
+                setClientSecret(data.clientSecret)
+            } else {
+                setError('Failed to initialize payment.')
+            }
+        }
+
+        if (cart.length > 0 && !isClientSecretFetched) {
+            fetchClientSecret()
+            setIsClientSecretFetched(true)
+        }
+    }, [cart, isClientSecretFetched])
 
     const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
@@ -90,12 +118,13 @@ const Cart: React.FC = () => {
                         ) : (
                             <p>Your cart is empty</p>
                         )}
-                        {totalQuantity > 0 &&
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
+                        {totalQuantity > 0 && clientSecret &&
+                            <Elements stripe={stripePromise} options={{ clientSecret }}>
                                 <AddressElement options={{mode: 'shipping', }} />
-                                <Checkout amount={totalPrice} />
+                                <Checkout amount={totalPrice} cartItems={cart} />
                             </Elements>
                         }
+                        {error && <p>{error}</p>}
                     </motion.section>
                 </div>
             )}

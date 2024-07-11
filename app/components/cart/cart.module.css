@@ -1,15 +1,16 @@
 .cart {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     width: 40rem;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: pink;
     z-index: 999;
+    overflow-y: auto;
 }
 
 .cartContainer {
