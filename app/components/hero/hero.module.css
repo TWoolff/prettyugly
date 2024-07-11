@@ -1,6 +1,6 @@
 .hero {
     background: url('/featureTEMP.webp') no-repeat bottom center;
-    height: 57rem;
+    height: 100dvh;
     background-color: var(--color-salmon);
 }
 

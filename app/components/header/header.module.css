@@ -1,6 +1,7 @@
 .header {
     padding: 4rem 3.125rem 1rem 3.125rem;
     position: fixed;
+    top: 0;
     width: 100%;
 
     & nav {
@@ -23,14 +24,14 @@
     }
 }
 
-.btn {
-    background: none;
+.headBtn {
+    background: none !important;
     border: none;
     cursor: pointer;
-    color: black;
-    padding: 0;
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 800;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.875rem !important;
+    font-weight: 800 !important;
     text-transform: uppercase;
 }

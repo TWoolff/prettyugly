@@ -18,10 +18,6 @@ const Filter: React.FC = () => {
         return Array.from(new Set(data?.map((product: { product: { metadata: { category: any } } }) => product.product.metadata.category)))
     }, [data])
 
-    if (!isSearchVisible) {
-        return null
-    }
-
     return (
         <section className={css.filter}>
             <h1>Filter</h1>

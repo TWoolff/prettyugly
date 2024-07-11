@@ -3,6 +3,7 @@ import { getProducts } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
 import Product from './product'
 import css from './product.module.css'
+import Filter from '../filter/filter'
 
 const Products: React.FC = () => {
     const { state, dispatch } = useAppContext()
@@ -13,6 +14,7 @@ const Products: React.FC = () => {
             const data = await getProducts()
             if (data) {
                 dispatch({ type: 'SET_STATE', payload: { data } })
+                dispatch({ type: 'TOGGLE_SEARCH', payload: { isSearchVisible: true } })
             }
         }
         fetchData()
@@ -32,6 +34,7 @@ const Products: React.FC = () => {
             {!state.data && <p>Loading...</p>}
             {state.data && (
                 <section>
+                    <Filter />
                     <h1>Products: {category ? <>{category} [ {filteredProducts.length} ]</> : <>All [ {filteredProducts.length} ]</>}</h1>
                     <div className={css.products}>
                         {filteredProducts?.map(

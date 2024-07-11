@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { getPage } from './utils/contentful'
 import Hero from './components/hero/hero'
 import Featured from './components/featured/featured'
-import Products from './components/products/products'
 import Ticker from './components/ticker/ticker'
 
 const Home: React.FC =  () => {
@@ -18,7 +17,6 @@ const Home: React.FC =  () => {
                 console.error('Error fetching home data:', error)
             }
         }
-        
         fetchData()
     }, [])
 
@@ -31,7 +29,6 @@ const Home: React.FC =  () => {
             {homeData.newsTicker && <Ticker data={homeData.newsTicker} />}
             <Hero />
             {homeData.features[0].fields && <Featured data={homeData.features[0].fields} />}
-            <Products />
         </section>
     )
 }
