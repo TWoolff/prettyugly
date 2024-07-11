@@ -8,10 +8,13 @@ type InputProps = {
     name: string
     value?: string
     checked?: boolean
+    placeholder?: string
+    required?: boolean
 }
 
-const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, id, name, value = '', checked = false}) => (
+const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, id, name, value = '', checked = false, placeholder, required}) => (
     <div className={css[type]}>
+        {label && <label htmlFor={id}>{label}</label>}
         <input 
             type={type}
             name={name}
@@ -19,8 +22,9 @@ const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, id,
             onChange={onChange}
             value={value}
             checked={checked}
+            placeholder={placeholder}
+            required={required}
         />
-        {label && <label htmlFor={id}>{label}</label>}
     </div>
 )
 

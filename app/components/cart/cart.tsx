@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useCallback, useMemo, useState } from 'react'
 import Image from 'next/image'
-import { AddressElement, Elements } from '@stripe/react-stripe-js'
+import { Elements, AddressElement } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { motion, AnimatePresence } from 'framer-motion'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
@@ -21,9 +21,7 @@ const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
-    const [clientSecret, setClientSecret] = useState<string | null>(null)
     const [error, setError] = useState<string | null>(null)
-    const [isClientSecretFetched, setIsClientSecretFetched] = useState(false)
 
     const handleIncrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
@@ -95,7 +93,7 @@ const Cart: React.FC = () => {
                         )}
                         {totalQuantity > 0 && 
                             <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
-                                <AddressElement options={{mode: 'shipping', }} />
+                                <AddressElement options={{mode: 'shipping'}} />
                                 <Checkout amount={totalPrice} cartItems={cart} />
                             </Elements>
                         }
