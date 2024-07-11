@@ -50,7 +50,7 @@ type State = {
 }
 
 type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
+    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'CLEAR_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
 }
 
@@ -97,6 +97,9 @@ const reducer = (state: State, action: Action): State => {
                 return { ...state, cart: [...state.cart, newItem], isCartVisible: true }
             }
         }
+        case 'CLEAR_CART':
+            localStorage.removeItem('cart')
+            return { ...state, cart: [] }
         case 'SAVE_PRODUCT': {
             const newItem = action.payload as CartItem
             const existingItemIndex = state.saved.findIndex(item => item.id === newItem.id)

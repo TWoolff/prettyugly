@@ -1,3 +1,7 @@
+'use client'
+import { useEffect } from "react"
+import { useAppContext } from "../context"
+
 type SuccessPageProps = {
   searchParams: {
     amount: string
@@ -5,6 +9,12 @@ type SuccessPageProps = {
 }
 
 const SuccessPage: React.FC<SuccessPageProps> = ({searchParams: {amount}}) => {
+  const { dispatch } = useAppContext()
+
+  useEffect(() => {
+    dispatch({ type: 'CLEAR_CART' })
+  }, [])
+
   return ( 
     <section>
       <h1>Success</h1>

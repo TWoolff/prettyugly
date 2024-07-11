@@ -22,24 +22,44 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
             return
         }
 
-        const { error: submitError } = await elements.submit()
+        try {
+            const response = await fetch('/api/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: amount, cartItems: cartItems }),
+            })
 
-        if (submitError) {
-            setError(submitError.message)
-            setLoading(false)
-            return
-        }
+            const data = await response.json()
 
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/success`,
-            },
-        })
+            if (!data.clientSecret) {
+                throw new Error('Failed to get client secret')
+            }
 
-        if (error) {
+            const { error: submitError } = await elements.submit()
+
+            if (submitError) {
+                setError(submitError.message)
+                setLoading(false)
+                return
+            }
+
+            const { error } = await stripe.confirmPayment({
+                elements,
+                clientSecret: data.clientSecret,
+                confirmParams: {
+                    return_url: `${window.location.origin}/success?amount=${amount}`,
+                },
+            })
+
+            if (error) {
+                setError(error.message)
+            }
+        } catch (error: any) {
             setError(error.message)
         }
+
         setLoading(false)
     }
 

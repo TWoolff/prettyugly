@@ -46,31 +46,6 @@ const Cart: React.FC = () => {
         }
     }, [handleClickOutside])
 
-    useEffect(() => {
-        const fetchClientSecret = async () => {
-            const totalPrice = calculateTotalPrice(cart)
-            const response = await fetch('/api/create-payment-intent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ amount: totalPrice, cartItems: cart }),
-            })
-
-            const data = await response.json()
-            if (data.clientSecret) {
-                setClientSecret(data.clientSecret)
-            } else {
-                setError('Failed to initialize payment.')
-            }
-        }
-
-        if (cart.length > 0 && !isClientSecretFetched) {
-            fetchClientSecret()
-            setIsClientSecretFetched(true)
-        }
-    }, [cart, isClientSecretFetched])
-
     const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
 
@@ -118,8 +93,8 @@ const Cart: React.FC = () => {
                         ) : (
                             <p>Your cart is empty</p>
                         )}
-                        {totalQuantity > 0 && clientSecret &&
-                            <Elements stripe={stripePromise} options={{ clientSecret }}>
+                        {totalQuantity > 0 && 
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
                                 <AddressElement options={{mode: 'shipping', }} />
                                 <Checkout amount={totalPrice} cartItems={cart} />
                             </Elements>
