@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import Input from '../formelements/input'
 import Button from '../formelements/button'
+import TextArea from '../formelements/textarea'
 
 type CheckoutProps = {
     amount: number,
@@ -14,6 +15,7 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
     const elements = useElements()
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
+    const [comment, setComment] = useState('')
     const [error, setError] = useState<string | null | undefined>(null)
     const [loading, setLoading] = useState(false)
 
@@ -23,6 +25,10 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
 
     const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPhone(event.target.value)
+    }
+
+    const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setComment(event.target.value)
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,7 +46,7 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ amount: amount, cartItems: cartItems }),
+                body: JSON.stringify({ amount: amount, cartItems: cartItems, comment: comment }),
             })
 
             const data = await response.json()
@@ -102,6 +108,13 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
                 id='phone' 
                 name='phone'  
                 label='Telefonnummer'
+            />
+            <TextArea 
+                value={comment}
+                onChange={handleCommentChange}
+                placeholder="Enter your comment"
+                id='comment'
+                label='Kommentar'
             />
             <PaymentElement />
             {error && <p>{error}</p>}
