@@ -3,7 +3,7 @@ import css from './formelements.module.css'
 type InputProps = {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
     label?: string
-    type: 'text' | 'email' | 'password' | 'number' | 'search' | 'range' | 'checkbox' | 'radio'
+    type: 'text' | 'email' | 'password' | 'number' | 'search' | 'range' | 'checkbox' | 'radio' | 'tel'
     id: string
     name: string
     value?: string

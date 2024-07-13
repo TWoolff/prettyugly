@@ -1,8 +1,8 @@
 :root {
   --color-black: rgb(0, 0, 0);
-  --color-darkgrey: rgb(40, 40, 40);
+  --color-darkgrey: #30313d;
   --color-grey: rgb(187, 187, 187);
-  --color-lightgrey: rgb(209, 208, 208);
+  --color-lightgrey: #e6e6e6;
   --color-white: rgb(243, 243, 243);
   --color-red: rgb(216, 130, 102);
   --color-salmon: rgb(255, 102, 102);

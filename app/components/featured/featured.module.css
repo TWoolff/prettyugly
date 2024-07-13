@@ -18,7 +18,7 @@
 }
 
 .content {
-    color: white;
+    color: var(--color-white);
     max-width: 50%;
     z-index: 2;
 }

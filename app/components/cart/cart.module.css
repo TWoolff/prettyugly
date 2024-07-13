@@ -31,5 +31,5 @@
     top: 0;
     right: 0;
     background-color: transparent !important;
-    color: black !important;
+    color: var(--color-black) !important;
 }

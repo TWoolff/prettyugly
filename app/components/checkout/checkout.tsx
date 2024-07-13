@@ -97,24 +97,24 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
                 required 
                 id='email' 
                 name='email'  
-                label='Emailadresse'
+                label='Email address'
             />
             <Input 
-                type='number'
+                type='tel'
                 value={phone}
                 onChange={handlePhoneChange}
                 placeholder="Enter your phone number"
                 required 
                 id='phone' 
                 name='phone'  
-                label='Telefonnummer'
+                label='Phone number'
             />
             <TextArea 
                 value={comment}
                 onChange={handleCommentChange}
                 placeholder="Enter your comment"
                 id='comment'
-                label='Kommentar'
+                label='Comment'
             />
             <PaymentElement />
             {error && <p>{error}</p>}

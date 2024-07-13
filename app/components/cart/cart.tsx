@@ -92,7 +92,7 @@ const Cart: React.FC = () => {
                             <p>Your cart is empty</p>
                         )}
                         {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk'}}>
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPrice, currency: 'dkk', locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
                                 <Checkout amount={totalPrice} cartItems={cart} />
                             </Elements>

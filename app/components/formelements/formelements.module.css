@@ -7,12 +7,12 @@
     }
 }
 
-.email, .number {
+.email, .number, .tel {
     & input {
         width: 100%;
         padding: 0.75rem;
         margin-bottom: 0.75rem;
-        border: 1px solid #e6e6e6;
+        border: 1px solid var(--color-lightgrey);
         border-radius: 5px;
         font-size: 1rem;
     }
@@ -21,7 +21,7 @@
         font-size: 0.93rem;
         margin-bottom: 0.25rem;
         display: block;
-        color: #30313d;
+        color: var(--color-darkgrey;
     }
 }
 
@@ -34,7 +34,7 @@
         width: 100%;
         padding: 0.75rem;
         margin-bottom: 0.75rem;
-        border: 1px solid #e6e6e6;
+        border: 1px solid var(--color-lightgrey);
         border-radius: 5px;
         font-family: Helvetica, sans-serif;
         font-size: 1rem;
@@ -46,7 +46,7 @@
         font-size: 0.93rem;
         margin-bottom: 0.25rem;
         display: block;
-        color: #30313d;
+        color: var(--color-darkgrey;
     }
 }
 
@@ -58,7 +58,7 @@
     padding: 1rem 1.25rem;
     margin: 0.5rem;
     border: 0;
-    color: white;
-    background-color: black;
+    color: var(--color-white);
+    background-color: var(--color-black);
     cursor: pointer;
 }

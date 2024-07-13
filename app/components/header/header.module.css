@@ -17,7 +17,7 @@
 
     & a {
         text-decoration: none;
-        color: black;
+        color: var(--color-black);
         font-size: 0.875rem;
         font-weight: 800;
         text-transform: uppercase;
@@ -28,7 +28,7 @@
     background: none !important;
     border: none;
     cursor: pointer;
-    color: black !important;
+    color: var(--color-black) !important;
     padding: 0 !important;
     margin: 0 !important;
     font-size: 0.875rem !important;
