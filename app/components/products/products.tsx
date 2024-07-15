@@ -6,19 +6,8 @@ import css from './product.module.css'
 import Filter from '../filter/filter'
 
 const Products: React.FC = () => {
-    const { state, dispatch } = useAppContext()
+    const { state } = useAppContext()
     const { filters: {category} } = state
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getProducts()
-            if (data) {
-                dispatch({ type: 'SET_STATE', payload: { data } })
-                dispatch({ type: 'TOGGLE_SEARCH', payload: { isSearchVisible: true } })
-            }
-        }
-        fetchData()
-    }, [])
 
     const filteredProducts = state.data?.filter(
         (product: { product: { metadata: { [x: string]: string } } }) => {

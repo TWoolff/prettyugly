@@ -10,6 +10,9 @@ const SavedProducts: React.FC = () => {
     const [savedProducts, setSavedProducts] = useState<any[]>([])
     const { state } = useAppContext()
 
+    console.log(state)
+    console.log(savedProductIds)
+
     const handleRemove = (id: string) => {
         const savedProductsFromStorage = localStorage.getItem('savedProducts')
         if (savedProductsFromStorage) {
@@ -38,7 +41,7 @@ const SavedProducts: React.FC = () => {
         } else if (savedProductIds.length === 0) {
             setSavedProducts([])
         }
-    }, [state.data, savedProductIds])
+    }, [])
 
     if (savedProducts.length === 0) {
         return <p>No saved products</p>

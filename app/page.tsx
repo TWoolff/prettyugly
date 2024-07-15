@@ -4,8 +4,11 @@ import { getPage } from './utils/contentful'
 import Hero from './components/hero/hero'
 import Featured from './components/featured/featured'
 import Ticker from './components/ticker/ticker'
+import { getProducts } from './utils/getProducts'
+import { useAppContext } from './context'
 
 const Home: React.FC =  () => {
+    const { state, dispatch } = useAppContext()
     const [homeData, setHomeData] = useState<any>(null)
     
     useEffect(() => {
@@ -15,6 +18,17 @@ const Home: React.FC =  () => {
                 setHomeData(JSON.parse(JSON.stringify(data.items[0].fields)))
             } catch (error) {
                 console.error('Error fetching home data:', error)
+            }
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getProducts()
+            if (data) {
+                dispatch({ type: 'SET_STATE', payload: { data } })
+                dispatch({ type: 'TOGGLE_SEARCH', payload: { isSearchVisible: true } })
             }
         }
         fetchData()

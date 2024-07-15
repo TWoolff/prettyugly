@@ -1,0 +1,9 @@
+.faqs {
+    min-height: 100dvh;
+    background-color: var(--color-salmon);
+    padding-top:10rem;
+
+    & article {
+        grid-column: 1 / 6;
+    }
+}

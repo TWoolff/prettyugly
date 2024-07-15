@@ -34,9 +34,8 @@ const Header: React.FC = () => {
                     <ul>
                         <li><Link href='/products'>Products</Link></li>
                         <li><Link href='/about'>About</Link></li>
-                        <li><Link href='/'>Profile</Link></li>
+                        <li><Link href='/profile'>Profile</Link></li>
                         {/* <li><Button onClick={handleToggleSearch} title='Search' className={css.btn} /></li> */}
-                        {/* <li><Link href='/products/saved'>Saved</Link></li> */}
                     </ul>
                 </nav>
             </header>

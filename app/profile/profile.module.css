@@ -1,0 +1,7 @@
+.profile {
+    background-color: var(--color-salmon);
+
+    & article {
+        grid-column: 1 / -1;
+    }
+}
