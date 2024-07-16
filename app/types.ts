@@ -48,7 +48,6 @@ export type CartItem = {
 export type ErrorState = string | null
 
 export type State = {
-    loadingState: string | null
     error: ErrorState | null
     data: DataState | null
     cart: CartItem[]

@@ -5,9 +5,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getProductBySlug } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
-import Button from '@/app/components/formelements/button'
-import css from './productdetail.module.css'
 import { Product, Price } from '@/app/types'
+import Button from '@/app/components/formelements/button'
+import Loader from '@/app/components/loader/loader'
+import css from './productdetail.module.css'
 
 const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     const { state, dispatch } = useAppContext()
@@ -34,7 +35,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     }, [params.slug, state.data])
 
     if (!product) {
-        return <p>Loading...</p>
+        return <Loader />
     }
 
     const { unit_amount, product: { id, slug, name, images, description, metadata } } = product

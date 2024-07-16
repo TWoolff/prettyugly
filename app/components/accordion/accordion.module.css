@@ -1,0 +1,14 @@
+.accordion {
+    widthq: 100%;
+    border-bottom: 1px solid var(--color-black);
+    margin: 0 0 10px;
+    padding: 0;
+    
+    & h2 {
+        cursor: pointer;
+    }
+
+    & summary {
+        list-style: none;
+    }
+}

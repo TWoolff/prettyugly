@@ -4,6 +4,6 @@
     padding-top:10rem;
 
     & article {
-        grid-column: 1 / 6;
+        grid-column: 1 / -1;
     }
 }

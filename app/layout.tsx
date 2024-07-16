@@ -1,4 +1,5 @@
-import type { Metadata } from 'next'
+import type { Metadata} from 'next'
+import { Head } from 'next/document'
 import { AppProvider } from './context'
 import './styles/index.css'
 
@@ -14,6 +15,7 @@ const RootLayout: React.FC<{children?: React.ReactNode}> = ({children}) => {
 				<AppProvider>
 					{children}
 				</AppProvider>
+				<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="d2268157-8075-4fe0-a7cb-265968fd52ad" data-blockingmode="auto" type="text/javascript"></script>
 			</body>
 		</html>
 	)

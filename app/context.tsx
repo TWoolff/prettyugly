@@ -7,7 +7,6 @@ const loadInitialState = (): State => {
     const savedProducts = typeof window !== 'undefined' ? localStorage.getItem('savedProducts') : null
 
     return {
-        loadingState: null,
         error: null,
         data: null,
         cart: savedCart ? JSON.parse(savedCart) : [],

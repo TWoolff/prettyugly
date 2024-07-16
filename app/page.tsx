@@ -6,6 +6,7 @@ import Featured from './components/featured/featured'
 import Ticker from './components/ticker/ticker'
 import { getProducts } from './utils/getProducts'
 import { useAppContext } from './context'
+import Loader from './components/loader/loader'
 
 const Home: React.FC =  () => {
     const { dispatch } = useAppContext()
@@ -34,14 +35,14 @@ const Home: React.FC =  () => {
     }, [])
 
     if (!homeData) {
-        return <div>Loading...</div>
+        return <Loader />
     }
 
     return (
         <section>
-            {homeData.newsTicker && <Ticker data={homeData.newsTicker} />}
+            {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             <Hero />
-            {homeData.features[0].fields && <Featured data={homeData.features[0].fields} />}
+            {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
         </section>
     )
 }

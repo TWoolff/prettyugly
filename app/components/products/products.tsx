@@ -4,6 +4,7 @@ import { getProducts } from '@/app/utils/getProducts'
 import Product from './product'
 import Filter from '../filter/filter'
 import css from './product.module.css'
+import Loader from '../loader/loader'
 
 const Products: React.FC = () => {
     const { state, dispatch } = useAppContext()
@@ -30,7 +31,7 @@ const Products: React.FC = () => {
 
     return (
         <>
-            {!state.data && <p>Loading...</p>}
+            {!state.data && <Loader />}
             {state.data && (
                 <section>
                     <Filter />
