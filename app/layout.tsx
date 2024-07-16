@@ -1,5 +1,4 @@
 import type { Metadata} from 'next'
-import { Head } from 'next/document'
 import { AppProvider } from './context'
 import './styles/index.css'
 
