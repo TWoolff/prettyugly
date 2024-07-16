@@ -8,6 +8,7 @@
     color: var(--color-white);
     padding: 3.125rem;
     opacity: 0.9;
+    z-index: 999;
 
     & p {
         margin: 0;
