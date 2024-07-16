@@ -1,58 +1,6 @@
 'use client'
-import { createContext, useContext, ReactNode, useReducer, Dispatch, useEffect } from 'react'
-
-export type ProductType = {
-    data: {
-        id: string
-        slug?: string
-        unit_amount: number
-        product: {
-            active: boolean
-            created: number
-            default_price: string
-            images: string[]
-            marketing_features: string[]
-            metadata: {
-                [key: string]: string
-            }
-            id: string
-            name: string
-            description: string
-            productInfo: string
-        }
-    }
-}
-
-export type DataState = {
-    data?: ProductType[]
-} | null | undefined | any
-
-export type CartItem = {
-    id: string;
-    name: string
-    unit_amount: number
-    quantity: number
-    metadata: { [key: string]: string }
-    images: string[]
-}
-
-type ErrorState = string | null
-
-type State = {
-    loadingState: string | null
-    error: ErrorState | null
-    data: DataState | null
-    cart: CartItem[]
-    saved: CartItem[]
-    isCartVisible: boolean
-    isSearchVisible: boolean
-    filters: { [key: string]: string }
-}
-
-type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'CLEAR_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
-    payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
-}
+import { createContext, useContext, ReactNode, useReducer, useEffect } from 'react'
+import { State, Action, CartItem, AppContextType } from './types'
 
 const loadInitialState = (): State => {
     const savedCart = typeof window !== 'undefined' ? localStorage.getItem('cart') : null
@@ -71,11 +19,6 @@ const loadInitialState = (): State => {
 }
 
 const initialState: State = loadInitialState()
-
-interface AppContextType {
-    state: State
-    dispatch: Dispatch<Action>
-}
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 

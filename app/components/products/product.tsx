@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ProductType } from '@/app/context'
+import { ProductType } from '@/app/types'
 import css from './product.module.css'
 
 const Product: React.FC<ProductType> = ({ data }) => {

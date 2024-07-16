@@ -1,13 +1,23 @@
 import { useEffect } from 'react'
-import { getProducts } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
+import { getProducts } from '@/app/utils/getProducts'
 import Product from './product'
-import css from './product.module.css'
 import Filter from '../filter/filter'
+import css from './product.module.css'
 
 const Products: React.FC = () => {
-    const { state } = useAppContext()
-    const { filters: {category} } = state
+    const { state, dispatch } = useAppContext()
+    const { filters: { category } } = state
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getProducts()
+            if (data) {
+                dispatch({ type: 'SET_STATE', payload: { data } })
+            }
+        }
+        if (!state.data) fetchData()
+    }, [])
 
     const filteredProducts = state.data?.filter(
         (product: { product: { metadata: { [x: string]: string } } }) => {
@@ -24,7 +34,16 @@ const Products: React.FC = () => {
             {state.data && (
                 <section>
                     <Filter />
-                    <h1>Products: {category ? <>{category} [ {filteredProducts.length} ]</> : <>All [ {filteredProducts.length} ]</>}</h1>
+                    <h1>
+                        Products:{' '}
+                        {category ? (
+                            <>
+                                {category} [ {filteredProducts.length} ]
+                            </>
+                        ) : (
+                            <>All [ {filteredProducts.length} ]</>
+                        )}
+                    </h1>
                     <div className={css.products}>
                         {filteredProducts?.map(
                             (product: {
@@ -44,7 +63,25 @@ const Products: React.FC = () => {
                                     productInfo: string
                                 }
                             }) => (
-                                <Product key={product.id} data={{ ...product, unit_amount: product.unit_amount || 0, product: product.product || { active: false, created: 0, default_price: '', images: [], marketing_features: [], metadata: {}, id: '', name: '', description: '', productInfo: '' } }} />
+                                <Product
+                                    key={product.id}
+                                    data={{
+                                        ...product,
+                                        unit_amount: product.unit_amount || 0,
+                                        product: product.product || {
+                                            active: false,
+                                            created: 0,
+                                            default_price: '',
+                                            images: [],
+                                            marketing_features: [],
+                                            metadata: {},
+                                            id: '',
+                                            name: '',
+                                            description: '',
+                                            productInfo: '',
+                                        },
+                                    }}
+                                />
                             )
                         )}
                     </div>

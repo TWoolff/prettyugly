@@ -8,7 +8,7 @@ import { getProducts } from './utils/getProducts'
 import { useAppContext } from './context'
 
 const Home: React.FC =  () => {
-    const { state, dispatch } = useAppContext()
+    const { dispatch } = useAppContext()
     const [homeData, setHomeData] = useState<any>(null)
     
     useEffect(() => {
@@ -28,7 +28,6 @@ const Home: React.FC =  () => {
             const data = await getProducts()
             if (data) {
                 dispatch({ type: 'SET_STATE', payload: { data } })
-                dispatch({ type: 'TOGGLE_SEARCH', payload: { isSearchVisible: true } })
             }
         }
         fetchData()

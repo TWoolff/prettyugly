@@ -4,10 +4,11 @@ import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import Input from '../formelements/input'
 import Button from '../formelements/button'
 import TextArea from '../formelements/textarea'
+import { CartItem } from '@/app/types'
 
 type CheckoutProps = {
     amount: number,
-    cartItems: any[]
+    cartItems: CartItem[]
 }
 
 const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
