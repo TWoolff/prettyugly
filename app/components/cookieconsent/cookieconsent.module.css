@@ -1,0 +1,21 @@
+.cookieconsent {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: fit-content;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding: 3.125rem;
+    opacity: 0.9;
+
+    & p {
+        margin: 0;
+    }
+}
+
+.cookiebtn {
+    background-color: var(--color-white) !important;
+    color: var(--color-black) !important;
+    margin: 2rem 0 0 0 !important;
+}

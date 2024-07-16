@@ -7,6 +7,7 @@ import Ticker from './components/ticker/ticker'
 import { getProducts } from './utils/getProducts'
 import { useAppContext } from './context'
 import Loader from './components/loader/loader'
+import CookieConsent from './components/cookieconsent/cookieconsent'
 
 const Home: React.FC =  () => {
     const { dispatch } = useAppContext()
@@ -43,6 +44,7 @@ const Home: React.FC =  () => {
             {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             <Hero />
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
+            <CookieConsent />
         </section>
     )
 }
