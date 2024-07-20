@@ -119,7 +119,7 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
             />
             <PaymentElement />
             {error && <p>{error}</p>}
-            <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount / 100} kr.`} />
+            <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount / 100},00 kr.`} />
         </form>
     )
 }

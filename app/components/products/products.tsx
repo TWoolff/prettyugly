@@ -8,7 +8,7 @@ import Loader from '../loader/loader'
 
 const Products: React.FC = () => {
     const { state, dispatch } = useAppContext()
-    const { filters: { category } } = state
+    const { filters } = state
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,10 +21,26 @@ const Products: React.FC = () => {
     }, [])
 
     const filteredProducts = state.data?.filter(
-        (product: { product: { metadata: { [x: string]: string } } }) => {
-            return Object.entries(state.filters).every(
-                ([key, value]) =>
-                    value === '' || product.product.metadata[key] === value
+        (product: { product: { name: string; metadata: { [key: string]: string } } }) => {
+            return Object.entries(filters).every(
+                ([key, value]) => {
+                    if (value === '') return true
+                    if (key === 'color') {
+                        const colors = product.product.metadata[key]?.split(',').map(c => c.trim().toLowerCase()) || []
+                        return colors.includes(value.toLowerCase())
+                    }
+                    if (key === 'search') {
+                        const searchWords = value.toLowerCase().split(' ').filter(word => word.length > 0)
+                        const name = product.product.name.toLowerCase()
+                        const metadataValues = Object.values(product.product.metadata).map(val => val.toLowerCase())
+
+                        return searchWords.every(word =>
+                            name.includes(word) ||
+                            metadataValues.some(metadataValue => metadataValue.includes(word))
+                        )
+                    }
+                    return product.product.metadata[key] === value
+                }
             )
         }
     )
@@ -33,14 +49,18 @@ const Products: React.FC = () => {
         <>
             {!state.data && <Loader />}
             {state.data && (
-                <section>
+                <div>
                     <Filter />
                     <h1>
                         Products:{' '}
-                        {category ? (
+                        {filters.category ? (
                             <>
-                                {category} [ {filteredProducts.length} ]
+                                {filters.category} [ {filteredProducts.length} ]
                             </>
+                        ) : filters.color ? (
+                            <>
+                            {filters.color} [ {filteredProducts.length} ]
+                        </>
                         ) : (
                             <>All [ {filteredProducts.length} ]</>
                         )}
@@ -86,7 +106,7 @@ const Products: React.FC = () => {
                             )
                         )}
                     </div>
-                </section>
+                </div>
             )}
         </>
     )

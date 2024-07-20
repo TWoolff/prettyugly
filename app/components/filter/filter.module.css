@@ -1,6 +1,8 @@
 .filter {
   margin-top: 5rem;
-  padding: 3.125rem;;
+  padding: 3.125rem;
+  display: flex;
+  gap: 10rem;
 }
 
 .inputRadio {

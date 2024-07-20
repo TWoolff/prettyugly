@@ -1,11 +1,11 @@
 'use client'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useAppContext } from '@/app/context'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
 import Button from '../formelements/button'
 import Cart from '../cart/cart'
 import css from './header.module.css'
+import { TransitionLink } from '@/app/utils/transitionLinks'
 
 const Header: React.FC = () => {
     const { state, dispatch } = useAppContext()
@@ -32,9 +32,9 @@ const Header: React.FC = () => {
                 <nav>
                     <Button onClick={handleToggleCart} title={`Cart [ ${hasMounted ? totalQuantity : 0} ]`} className={css.headBtn} />
                     <ul>
-                        <li><Link href='/products'>Products</Link></li>
-                        <li><Link href='/about'>About</Link></li>
-                        <li><Link href='/profile'>Profile</Link></li>
+                        <li><TransitionLink href='/products'>Products</TransitionLink></li>
+                        <li><TransitionLink href='/about'>About</TransitionLink></li>
+                        <li><TransitionLink href='/profile'>Profile</TransitionLink></li>
                         {/* <li><Button onClick={handleToggleSearch} title='Search' className={css.btn} /></li> */}
                     </ul>
                 </nav>

@@ -10,18 +10,16 @@ body {
     font-size: 16px;
 }
 
-.transitionLayer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: pink;
-    z-index: 9999;
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+body {
+    transition-property: opacity, filter, background;
+    transition-timing-function: ease-in-out;
+    transition-duration: 500ms;
+}
+
+.page-transition {
+    opacity: 0;
+    background: var(--color-salmon);
+    filter: blur(12px);
 }
 
 .pageContent {
