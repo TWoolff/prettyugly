@@ -10,15 +10,24 @@ export type Customer = {
     metadata: {
         [key: string]: string
     }
-}[] | null
+} | null
 
-export const getCustomer = async (email: string, password: string ) => {
+export const getCustomer = async (email: string, password: string): Promise<Customer> => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string ?? '', {apiVersion: '2024-04-10'})
     const customers = await stripe.customers.list({});
-    const customer = customers.data = customers.data.filter((customer: any) => (customer as any).email === email);
-    const customerPassword = customer[0].metadata.password;
-    if (customerPassword === password) {
-        return customer;
+    const customer = customers.data.find((customer) => customer.email === email);
+
+    console.log('customer', customer);
+
+    if (customer && customer.metadata.password === password) {
+        return {
+            id: customer.id,
+            email: customer.email || '',
+            name: customer.name || '',
+            phone: customer.phone || '',
+            address: customer.address ? `${customer.address.line1}, ${customer.address.postal_code} ${customer.address.city}, ${customer.address.country}` : '',
+            metadata: customer.metadata
+        };
     } else {
         return null;
     }

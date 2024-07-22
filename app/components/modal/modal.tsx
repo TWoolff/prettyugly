@@ -12,27 +12,24 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({onClose}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [customer, setCustomer] = useState<Customer[] | null>(null)
-    
-    // const sendData = async (email: string, password: string) => {
-    //     // @ts-ignore
-    //     const customerData: Customer[] = await createCustomer(email, password)
-    // }
+    const [success, setSuccess] = useState(false)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         createCustomer(email, password)
+        setSuccess(true)
     }
 
     return ( 
         <div className={css.modal}>
             <h2>Sign up</h2>
             <button onClick={onClose} className={css.close}>X</button>
-            <form onSubmit={handleSubmit}>
+            {!success && <form onSubmit={handleSubmit}>
                 <Input type='email' value={email} id={'email'} name={'email'} onChange={(e) => setEmail(e.target.value)} label='Email' required/>
                 <Input type='password' value={password} id={'password'} name={'password'} onChange={(e) => setPassword(e.target.value)} label='Password' required/>
                 <Button type='submit' title='Sign up' className={css.btn} />
-            </form>
+            </form>}
+            {success && <p>Thank you for signing up! You can now log in.</p>}
         </div>
     );
 }
