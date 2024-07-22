@@ -8,6 +8,7 @@ import { getProducts } from './utils/getProducts'
 import { useAppContext } from './context'
 import Loader from './components/loader/loader'
 import CookieConsent from './components/cookieconsent/cookieconsent'
+import Carousel from './components/carousel/carousel'
 
 const Home: React.FC =  () => {
     const { dispatch } = useAppContext()
@@ -43,6 +44,7 @@ const Home: React.FC =  () => {
         <section>
             {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             <Hero />
+            <Carousel />
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
             <CookieConsent />
         </section>
