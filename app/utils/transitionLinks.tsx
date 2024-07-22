@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 interface TransitionLinkProps extends LinkProps {
     children: React.ReactNode;
     href: string;
+    className?: string;
 }
 
 function sleep(ms: number): Promise<void> {
