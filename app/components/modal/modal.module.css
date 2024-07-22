@@ -1,0 +1,19 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
+    background-color: var(--color-salmon);
+    border-radius: 5px;
+
+    & form {
+        width: 30rem;
+        padding: 2rem;
+    }
+}

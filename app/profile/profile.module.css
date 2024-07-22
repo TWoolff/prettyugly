@@ -1,7 +1,15 @@
 .profile {
-    background-color: var(--color-salmon);
+    padding-top: 20rem;
 
     & article {
         grid-column: 1 / -1;
+
+        & form {
+            max-width: 25rem;
+        }
     }
+}
+
+.btn {
+    margin: 2rem 0;
 }

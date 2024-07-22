@@ -10,9 +10,6 @@ const SavedProducts: React.FC = () => {
     const [savedProducts, setSavedProducts] = useState<any[]>([])
     const { state } = useAppContext()
 
-    console.log(state)
-    console.log(savedProductIds)
-
     const handleRemove = (id: string) => {
         const savedProductsFromStorage = localStorage.getItem('savedProducts')
         if (savedProductsFromStorage) {

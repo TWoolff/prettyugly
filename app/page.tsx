@@ -43,9 +43,8 @@ const Home: React.FC =  () => {
     return (
         <section>
             {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
-            <Hero />
-            {state.data && <Carousel data={state.data} />}
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
+            {state.data && <Carousel data={state.data} />}
             <CookieConsent />
         </section>
     )

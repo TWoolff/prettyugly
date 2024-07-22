@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Button from '../formelements/button'
 import css from './hero.module.css'
 

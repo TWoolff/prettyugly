@@ -1,9 +1,12 @@
 'use client'
 import { useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { useAppContext } from '@/app/context'
 import Product from '../products/product'
+import Button from '../formelements/button'
 import css from './featured.module.css'
+import { TransitionLink } from '@/app/utils/transitionLinks'
 
 type Product = {
     id: string
@@ -43,33 +46,32 @@ type FeaturedProps = {
 }
 
 const Featured: React.FC<FeaturedProps> = ({ data }) => {
-    const { state } = useAppContext()
+    const router = useRouter()
+    const { state, dispatch } = useAppContext()
     const { title, paragraph, image, products } = data
-    const { description, file } = image.fields
+    const { file } = image.fields
     const productIds = products.map(product => product.fields.productId)
 
     const featuredProducts = useMemo(() => {
         return state.data?.filter((product: Product) => productIds.includes(product.product.id)) || []
     }, [state.data, productIds])
 
+    console.log('featuredProducts:', featuredProducts)
+
+    const handleClick = () => {
+        dispatch({ type: 'SET_FILTER', payload: { key: 'featured', value: productIds.join(',') } })
+        router.push('/products')
+    }
+
     return (
-        <section className={css.featured}>
-            <img src={file.url} alt={description} className={css.featuredImg} />
+        <section className={`${css.featured} grid`} style={{backgroundImage: `url(${file.url})`}}>
             <div className={css.content}>
-                <h2>{title}</h2>
+                <h1>{title}</h1>
                 {documentToReactComponents(paragraph)}
-            </div>
-            <div className={css.featuredProducts}>
-                {featuredProducts.length > 0 ? (
-                    featuredProducts.map((product: Product) => (
-                        <Product key={product.product.id} data={product} />
-                    ))
-                ) : (
-                    <p>No featured products available.</p>
-                )}
+                <TransitionLink href={'/products'} filter={productIds} className={css.btn}>Shop Now</TransitionLink>
             </div>
         </section>
     )
 }
 
-export default Featured
+export default Featured;
