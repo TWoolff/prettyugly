@@ -12,7 +12,7 @@ const Profile: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [showModal, setShowModal] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     const fetchCustomer = async (email: string, password: string) => {
         const customerData = await getCustomer(email, password)
@@ -60,7 +60,7 @@ const Profile: React.FC = () => {
                         </>
                     )}
                     <Button type='submit' title={!state.customer ? 'Log in' : 'Log out'} className={css.btn} />
-                    {!state.customer && <p>Dont have an account? <a href='#' onClick={() => setShowModal(true)}>Sign up</a></p>}
+                    {!state.customer && <p>Dont have an account? <a href='#' onClick={() => setIsOpen(true)}>Sign up</a></p>}
                 </form>
                 {state.customer ? (
                     <>
@@ -79,7 +79,7 @@ const Profile: React.FC = () => {
                 )}
             </article>
             <SavedProducts />
-            {showModal && <Modal onClose={() => setShowModal(false)} />}
+             <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
         </section>
     )
 }
