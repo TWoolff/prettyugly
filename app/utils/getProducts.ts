@@ -1,4 +1,3 @@
-// app/utils/getProducts.ts
 'use server'
 import Stripe from 'stripe'
 import { slugify } from './slugify'

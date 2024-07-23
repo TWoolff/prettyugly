@@ -15,7 +15,7 @@ function sleep(ms: number): Promise<void> {
 }
 
 export const TransitionLink: React.FC<TransitionLinkProps> = ({children, href, filter, ...props}) => {
-    const { state, dispatch } = useAppContext()
+    const { dispatch } = useAppContext()
     const router = useRouter();
 
     const handleTransition = async (

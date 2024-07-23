@@ -11,7 +11,7 @@ import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 
 const Home: React.FC =  () => {
-    const { dispatch, state } = useAppContext()
+    const { dispatch } = useAppContext()
     const [homeData, setHomeData] = useState<any>(null)
     
     useEffect(() => {
@@ -44,7 +44,7 @@ const Home: React.FC =  () => {
         <section>
             {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
-            {state.data && <Carousel data={state.data} />}
+            {homeData?.carousel && <Carousel data={homeData.carousel} />}
             <CookieConsent />
         </section>
     )

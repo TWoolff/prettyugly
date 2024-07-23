@@ -1,28 +1,34 @@
 'use client';
 import { motion, useTransform, useScroll } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useMemo, JSX } from 'react';
+import { useAppContext } from '@/app/context';
 import Card, { CardProps } from './card';
-import { DataState } from '../../types';
 import css from './carousel.module.css';
 
-type carouselProps = {
-    data: DataState
+type CarouselProps = {
+    data: any
 } 
 
-const Carousel: React.FC<carouselProps> = ({data}) => {
+const Carousel: React.FC<CarouselProps> = ({ data }) => {
+    const { state } = useAppContext();
     const targetRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: targetRef,
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ['1%', '-95%']);
+    const productIds = useMemo(() => data.fields.products.map((p: any) => p.fields.productId), [data]);
+    const filteredProducts = useMemo(() => {
+        return state.data?.filter((product: any) => productIds.includes(product.product.id)) || [];
+    }, [state.data, productIds]);
+
+    const x = useTransform(scrollYProgress, [0, 1], ['0%', '-95%']);
 
     return (
         <section ref={targetRef} className={css.carouselContainer}>
             <div className={css.stickyContainer}>
                 <motion.div style={{ x }} className={css.motionContainer}>
-                    {data?.map((card: CardProps) => {
-                        return <Card key={card.product.id} {...card} />;
+                    {filteredProducts.map((product: JSX.IntrinsicAttributes & CardProps) => {
+                        return <Card key={product.product.id} {...product} />;
                     })}
                 </motion.div>
             </div>

@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
+import { createCustomer } from '@/app/utils/createCustomer';
 import Button from '../formelements/button';
 import Input from '../formelements/input';
-import { Customer, createCustomer } from '@/app/utils/createCustomer';
 import css from './modal.module.css'
 
 type ModalProps = {
