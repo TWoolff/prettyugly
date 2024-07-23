@@ -1,31 +1,32 @@
 'use client'
 import { useState } from 'react'
 import SavedProducts from '../components/saved/saved'
-import { getCustomer, Customer } from '../utils/getCustomer'
+import { getCustomer } from '../utils/getCustomer'
 import Input from '../components/formelements/input'
 import Button from '../components/formelements/button'
 import Modal from '../components/modal/modal'
 import css from './profile.module.css'
+import { useAppContext } from '../context'
 
 const Profile: React.FC = () => {
+    const { state, dispatch } = useAppContext()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [customer, setCustomer] = useState<Customer>(null)
     const [showModal, setShowModal] = useState(false)
 
     const fetchCustomer = async (email: string, password: string) => {
         const customerData = await getCustomer(email, password)
         if (customerData) {
-            setCustomer(customerData)
+            dispatch({ type: 'SET_CUSTOMER', payload: customerData })
         }
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!customer) { 
+        if (!state.customer) { 
             fetchCustomer(email, password) 
         } else { 
-            setCustomer(null) 
+            dispatch({ type: 'SET_CUSTOMER', payload: null })
             setEmail('')
             setPassword('')
         }
@@ -36,7 +37,7 @@ const Profile: React.FC = () => {
             <article>
                 <h1>Your Profile</h1>
                 <form onSubmit={handleSubmit}>
-                    {!customer && (
+                    {!state.customer && (
                         <>
                             <Input 
                                 type='email' 
@@ -58,16 +59,16 @@ const Profile: React.FC = () => {
                             />
                         </>
                     )}
-                    <Button type='submit' title={!customer ? 'Log in' : 'Log out'} className={css.btn} />
-                    {!customer && <p>Dont have an account? <a href='#' onClick={() => setShowModal(true)}>Sign up</a></p>}
+                    <Button type='submit' title={!state.customer ? 'Log in' : 'Log out'} className={css.btn} />
+                    {!state.customer && <p>Dont have an account? <a href='#' onClick={() => setShowModal(true)}>Sign up</a></p>}
                 </form>
-                {customer ? (
+                {state.customer ? (
                     <>
                         <h2>Account Information</h2>
-                        <p>Name: {customer.name}</p>
-                        <p>Email: {customer.email}</p>
-                        {customer.phone && <p>Phone: {customer.phone}</p>}
-                        {customer.address && <p>Address: {customer.address}</p>}
+                        <p>Name: {state.customer.name}</p>
+                        <p>Email: {state.customer.email}</p>
+                        {state.customer.phone && <p>Phone: {state.customer.phone}</p>}
+                        {state.customer.address && <p>Address: {state.customer.address}</p>}
                         <h2>Order History</h2>
                         {/* Render order history here */}
                         <p>Order 1</p>

@@ -43,14 +43,18 @@
 
 .motionContainer {
     display: flex;
-    gap: 3.125rem;
 }
 
 .card {
     position: relative;
     height: 60rem; 
     width: 60rem;
+    border-right: 3.125rem solid var(--color-white);
     overflow: hidden;
+
+    &:last-child {
+        border-right: 0;
+    }
 }
 
 .cardBackground {
@@ -60,7 +64,6 @@
     transition: transform 0.3s ease-in-out;
     background-size: cover;
     background-position: center;
-    background-color: var(--color-lightgrey);
 }
 
 .cardContent {

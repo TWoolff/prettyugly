@@ -6,8 +6,8 @@ export type AppContextType = {
 }
 
 export type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'ADD_TO_CART' | 'CLEAR_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
-    payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string }
+    type: 'SET_STATE' | 'RESET_STATE' | 'SET_CUSTOMER' | 'ADD_TO_CART' | 'CLEAR_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
+    payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string } | Customer | null
 }
 
 export type ProductType = {
@@ -54,8 +54,18 @@ export type State = {
     saved: CartItem[]
     isCartVisible: boolean
     isSearchVisible: boolean
+    customer: Customer | null
     filters: { [key: string]: string }
 }
+
+export type Customer = {
+    id: string
+    address: string | null
+    email: string
+    name: string
+    phone: string | null
+}
+
 
 export type Product = {
     id: string

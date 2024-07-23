@@ -11,7 +11,7 @@ import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 
 const Home: React.FC =  () => {
-    const { dispatch } = useAppContext()
+    const { state, dispatch } = useAppContext()
     const [homeData, setHomeData] = useState<any>(null)
     
     useEffect(() => {
@@ -35,6 +35,8 @@ const Home: React.FC =  () => {
         }
         fetchData()
     }, [])
+
+    console.log(state)
 
     if (!homeData) {
         return <Loader />

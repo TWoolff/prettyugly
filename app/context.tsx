@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useContext, ReactNode, useReducer, useEffect } from 'react'
-import { State, Action, CartItem, AppContextType } from './types'
+import { State, Action, CartItem, AppContextType, Customer } from './types'
 
 const loadInitialState = (): State => {
     const savedCart = typeof window !== 'undefined' ? localStorage.getItem('cart') : null
@@ -13,6 +13,7 @@ const loadInitialState = (): State => {
         saved: savedProducts ? JSON.parse(savedProducts) : [],
         isCartVisible: false,
         isSearchVisible: false,
+        customer: null,
         filters: {}
     }
 }
@@ -27,6 +28,8 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, ...action.payload }
         case 'RESET_STATE':
             return initialState
+        case 'SET_CUSTOMER':
+            return { ...state, customer: action.payload as Customer | null }
         case 'ADD_TO_CART': {
             const newItem = action.payload as CartItem
             const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id)

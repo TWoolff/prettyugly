@@ -4,12 +4,9 @@ import { Stripe } from 'stripe';
 export type Customer = {
     id: string
     email: string
-    name: string
-    phone: string
-    address: string
-    metadata: {
-        [key: string]: string
-    }
+    name: string | null
+    phone: string | null
+    address: string | null
 } | null
 
 export const getCustomer = async (email: string, password: string): Promise<Customer> => {
@@ -26,7 +23,6 @@ export const getCustomer = async (email: string, password: string): Promise<Cust
             name: customer.name || '',
             phone: customer.phone || '',
             address: customer.address ? `${customer.address.line1}, ${customer.address.postal_code} ${customer.address.city}, ${customer.address.country}` : '',
-            metadata: customer.metadata
         };
     } else {
         return null;
