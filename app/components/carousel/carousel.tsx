@@ -2,6 +2,7 @@
 import { motion, useTransform, useScroll } from 'framer-motion';
 import { useRef, useMemo, JSX } from 'react';
 import { useAppContext } from '@/app/context';
+import { TransitionLink } from "@/app/utils/transitionLinks";
 import Card, { CardProps } from './card';
 import css from './carousel.module.css';
 
@@ -27,10 +28,16 @@ const Carousel: React.FC<CarouselProps> = ({ data }) => {
         <section ref={targetRef} className={css.carouselContainer}>
             <div className={css.stickyContainer}>
                 <motion.div style={{ x }} className={css.motionContainer}>
-                    {filteredProducts.map((product: JSX.IntrinsicAttributes & CardProps) => {
+                    {filteredProducts.map((product: typeof TransitionLink & CardProps) => {
                         return <Card key={product.product.id} {...product} />;
                     })}
                 </motion.div>
+                <div className={css.scrollText}>
+                    <TransitionLink href='products/'>
+                        <h2>This is just a small selection</h2>
+                        <p>Click here to see our full catalogue</p>
+                    </TransitionLink>
+                </div>
             </div>
         </section>
     );

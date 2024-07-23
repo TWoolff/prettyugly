@@ -14,6 +14,33 @@
     z-index: 0;
 }
 
+.scrollText {
+    position: absolute;
+    top: 70%;
+    right: 3.125rem;
+    z-index: -1;
+    text-align: right;
+
+    & a {
+        margin: 1rem 0;
+        color: var(--color-black);
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    & h2 {
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    & p {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 300;
+    }
+}
+
 .motionContainer {
     display: flex;
     gap: 3.125rem;
@@ -33,6 +60,7 @@
     transition: transform 0.3s ease-in-out;
     background-size: cover;
     background-position: center;
+    background-color: var(--color-lightgrey);
 }
 
 .cardContent {
