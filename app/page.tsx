@@ -36,8 +36,6 @@ const Home: React.FC =  () => {
         fetchData()
     }, [])
 
-    console.log(state)
-
     if (!homeData) {
         return <Loader />
     }

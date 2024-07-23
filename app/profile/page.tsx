@@ -180,7 +180,7 @@ const Profile: React.FC = () => {
                         <p>Order 1</p>
                     </>
                 ) : (
-                    !deleted ? <p>Please log in to view your profile information.</p> : <p>Your account has been deleted.</p>
+                    !deleted ? <h2>Please log in to view your profile information.</h2> : <h2>Your account has been deleted.</h2>
                 )}
             </article>
             <SavedProducts />

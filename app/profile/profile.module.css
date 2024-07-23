@@ -1,5 +1,6 @@
 .profile {
     padding-top: 20rem;
+    min-height: 100dvh;
 
     & article {
         grid-column: 1 / -1;

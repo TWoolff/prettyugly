@@ -1,9 +1,24 @@
+import { TransitionLink } from '@/app/utils/transitionLinks'
 import css from './footer.module.css'
 
 const Footer: React.FC = () => {
     return (
-        <footer className={css.footer}>
-            <p>© 2024 All rights reserved</p>
+        <footer className={`${css.footer} grid`}>
+            <div className={css.info}>
+                <h3>General Information</h3>
+                <p>Terms & Conditions</p>
+                <p>Privacy Policy</p>
+                <p>Cookie Policy</p>
+                <TransitionLink href={'/faqs'} className={css.faq}>FAQ</TransitionLink>
+                <p>Shipping & Returns</p>
+            </div>
+            <div className={css.socials}>
+                <h3>Get in touch</h3>
+                <p>Contact: <a href="mailto:hello@prettyugly.fashion">hello@prettyugly.fashion</a></p>
+                <p>Instagram</p>
+                <p>Facebook</p>
+            </div>
+            <p className={css.copyright}>© 2024 PrettyUgly</p>
         </footer>
     )
 }

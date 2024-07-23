@@ -44,7 +44,7 @@ const Cart: React.FC = () => {
         }
     }, [handleClickOutside])
 
-    const shippingCost = 3500
+    const shippingCost = 0
     const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
     const totalPriceWithShipping = totalPrice + shippingCost
@@ -90,10 +90,9 @@ const Cart: React.FC = () => {
                         </ul>
                         {totalQuantity > 0 ? (
                             <>
-                            <h4>Packaging & Shipping: 35,00 kr.</h4>
-                            <h3>Total: {totalPriceWithShipping / 100},00 kr.</h3>
+                                <h4>Packaging & Shipping: 35,00 kr.</h4>
+                                <h3>Total: {totalPriceWithShipping / 100},00 kr.</h3>
                             </>
-
                         ) : (
                             <p>Your cart is empty</p>
                         )}
