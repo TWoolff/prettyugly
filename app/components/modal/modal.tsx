@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { createCustomer } from '@/app/utils/createCustomer';
+import { createCustomer } from '@/app/utils/crudCustomer';
 import Button from '../formelements/button';
 import Input from '../formelements/input';
 import css from './modal.module.css';
@@ -65,11 +65,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => {
                                             label='Password'
                                             required
                                         />
-                                        <Button
-                                            type='submit'
-                                            title='Sign up'
-                                            className={css.btn}
-                                        />
+                                        <Button type='submit' title='Sign up' className={css.btn} />
                                     </form>
                                 )}
                                 {success && ( <p>Thank you for signing up! You can now log in.</p>)}

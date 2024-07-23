@@ -7,7 +7,7 @@
     }
 }
 
-.email, .number, .tel, .password {
+.email, .number, .tel, .password, .text {
     & input {
         width: 100%;
         padding: 0.75rem;

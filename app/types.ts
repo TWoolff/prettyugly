@@ -60,7 +60,13 @@ export type State = {
 
 export type Customer = {
     id: string
-    address: string | null
+    address: {
+        city: string
+        country: string
+        line1: string
+        line2: string | null
+        postal_code: string
+    } | null
     email: string
     name: string
     phone: string | null
