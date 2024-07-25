@@ -2,7 +2,7 @@
     height: 100dvh;
     background-color: var(--color-salmon);
     background-repeat: no-repeat;
-    background-position: bottom center;
+    background-size: cover;
 }
 
 
@@ -30,7 +30,7 @@
     display: inline-block;
     margin: 2rem 0 0 0;
     padding: 1rem 1.25rem;
-    color: var(--color-salmon);
+    color: var(--color-lightsalmon);
     text-transform: uppercase;
     font-size: 0.75rem;
     font-weight: 800;

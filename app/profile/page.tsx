@@ -205,10 +205,7 @@ const Profile: React.FC = () => {
                             />
                             <Button type='submit' title={'Update Profile'} className={css.btn} />  
                         </form>
-                        <Button title={'Unsubscribe'} className={css.btn} onClick={handleDelete} />
-                        <h2>Order History</h2>
-                        {/* Render order history here */}
-                        <p>Order 1</p>
+                        <Button title={'Unsubscribe and delete profile'} className={css.unsubBtn} onClick={handleDelete} />
                     </>
                 ) : (
                     !deleted ? <h2>Please log in to view your profile information.</h2> : <h2>Your account has been deleted.</h2>

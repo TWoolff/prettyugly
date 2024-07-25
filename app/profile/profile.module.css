@@ -14,3 +14,15 @@
 .btn {
     margin: 2rem 0;
 }
+
+.unsubBtn {
+    background: none !important;
+    border: none;
+    cursor: pointer;
+    color: var(--color-black) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.875rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+}
