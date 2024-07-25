@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
         <footer className={`${css.footer} grid`}>
             <div className={css.socials}>
                 <h3>Get in touch</h3>
-                <p>Contact: <a href="mailto:hello@prettyugly.fashion">hello@prettyugly.fashion</a></p>
+                <p><a href="mailto:hello@prettyugly.fashion">hello@prettyugly.fashion</a></p>
                 <p>Instagram</p>
                 <p>Facebook</p>
             </div>

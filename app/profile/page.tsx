@@ -30,8 +30,8 @@ const Profile: React.FC = () => {
         }
     }
 
-    const handleUpdateCustomer = async (email: string, id: string, name: string, phone: string, address: any) => {
-        const customerData = await updateCustomer(email, id, name, phone, address)
+    const handleUpdateCustomer = async (updates: any) => {
+        const customerData = await updateCustomer(id, updates)
         dispatch({ type: 'SET_CUSTOMER', payload: customerData })
     }
 
@@ -58,8 +58,18 @@ const Profile: React.FC = () => {
 
     const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const address = { line1, line2, postal_code: postalCode, city, country }
-        handleUpdateCustomer(email, id, name, phone, address)
+        const updates: any = {}
+        if (name) updates.name = name
+        if (email) updates.email = email
+        if (phone) updates.phone = phone
+        const address: any = {}
+        if (line1) address.line1 = line1
+        if (line2) address.line2 = line2
+        if (postalCode) address.postal_code = postalCode
+        if (city) address.city = city
+        if (country) address.country = country
+        if (Object.keys(address).length > 0) updates.address = address
+        handleUpdateCustomer(updates)
     }
 
     const handleDelete = () => {
@@ -93,7 +103,7 @@ const Profile: React.FC = () => {
                             />
                         </>
                     )}
-                    <Button type='submit' title={!state.customer ? 'Sign in' : 'Sign out'} className={css.btn} />
+                    {!state.customer && <Button type='submit' title='Sign in' className={css.btn} />}
                     {!state.customer && <p>Dont have an account? <a href='#' onClick={() => setIsOpen(true)}>Sign up</a></p>}
                 </form>
                 {state.customer ? (
@@ -107,6 +117,8 @@ const Profile: React.FC = () => {
                                 id='name' 
                                 name='name'
                                 onChange={(e) => setName(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.name ?? ''}
                                 label='Name' 
                             />
                             <Input 
@@ -116,15 +128,19 @@ const Profile: React.FC = () => {
                                 id='email' 
                                 name='email' 
                                 onChange={(e) => setEmail(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.email ?? ''}
                                 label='Email' 
                             />
                             <Input 
-                                type='number' 
+                                type='tel' 
                                 value={phone} 
                                 placeholder={state.customer.phone ?? ''}
                                 id='phone' 
                                 name='phone' 
                                 onChange={(e) => setPhone(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.phone ?? ''}
                                 label='Phone' 
                             />
                             <Input 
@@ -134,6 +150,8 @@ const Profile: React.FC = () => {
                                 id='line1' 
                                 name='line1' 
                                 onChange={(e) => setLine1(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.address?.line1 ?? ''}
                                 label='Address Line 1' 
                             />
                             <Input 
@@ -143,6 +161,8 @@ const Profile: React.FC = () => {
                                 id='line2' 
                                 name='line2' 
                                 onChange={(e) => setLine2(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.address?.line2 ?? ''}
                                 label='Address Line 2' 
                             />
                             <Input 
@@ -152,6 +172,8 @@ const Profile: React.FC = () => {
                                 id='postalCode' 
                                 name='postalCode' 
                                 onChange={(e) => setPostalCode(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.address?.postal_code ?? ''}
                                 label='Postal Code' 
                             />
                             <Input 
@@ -161,6 +183,8 @@ const Profile: React.FC = () => {
                                 id='city' 
                                 name='city' 
                                 onChange={(e) => setCity(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.address?.city ?? ''}
                                 label='City' 
                             />
                             <Input 
@@ -170,6 +194,8 @@ const Profile: React.FC = () => {
                                 id='country' 
                                 name='country' 
                                 onChange={(e) => setCountry(e.target.value)}
+                                onFocus={(e) => e.currentTarget.placeholder = ''}
+                                onBlur={(e) => e.currentTarget.placeholder = state.customer?.address?.country ?? ''}
                                 label='Country' 
                             />
                             <Button type='submit' title={'Update Profile'} className={css.btn} />  

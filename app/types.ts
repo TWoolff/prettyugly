@@ -72,7 +72,6 @@ export type Customer = {
     phone: string | null
 }
 
-
 export type Product = {
     id: string
     object: string

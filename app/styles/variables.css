@@ -4,8 +4,15 @@
     --color-grey: rgb(187, 187, 187);
     --color-lightgrey: #e6e6e6;
     --color-white: rgb(255, 255, 255);
-    --color-red: rgb(216, 130, 102);
+
     --color-salmon: rgb(255, 102, 102);
+    --color-lightsalmon: rgb(250, 176, 177);
+    --color-blue: rgb(2, 17, 158);
+    --color-lightblue: rgb(53, 67, 200);
+    --color-green: rgb(128, 163, 59);
+    --color-lightgreen: rgb(167, 222, 77);
+    --color-orange: rgb(233, 115, 53);
+    --color-lightorange: rgb(242, 143, 102);
 
     --font-body: Helvetica, sans-serif;
     --font-heading: 'Anton', sans-serif;

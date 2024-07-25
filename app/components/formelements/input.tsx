@@ -2,6 +2,8 @@ import css from './formelements.module.css'
 
 type InputProps = {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void
+    onBlur?: React.FocusEventHandler<HTMLInputElement>
     label?: string
     type: 'text' | 'email' | 'password' | 'number' | 'search' | 'range' | 'checkbox' | 'radio' | 'tel'
     id: string
@@ -12,7 +14,19 @@ type InputProps = {
     required?: boolean
 }
 
-const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, id, name, value = '', checked = false, placeholder, required}) => (
+const Input: React.FC<InputProps> = ({
+    onChange = () => {},
+    onFocus = () => {},
+    onBlur = () => {},
+    label = '',
+    type,
+    id,
+    name,
+    value = '',
+    checked = false,
+    placeholder,
+    required
+}) => (
     <div className={css[type]}>
         {label && <label htmlFor={id}>{label}</label>}
         <input 
@@ -20,6 +34,8 @@ const Input: React.FC<InputProps> = ({onChange = () => {}, label = '', type, id,
             name={name}
             id={id}
             onChange={onChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
             value={value}
             checked={checked}
             placeholder={placeholder}

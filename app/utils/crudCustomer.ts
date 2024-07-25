@@ -15,7 +15,7 @@ type Customer = {
     } | null
 } | null
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string ?? '', {apiVersion: '2024-04-10'})
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string ?? '', { apiVersion: '2024-04-10' });
 
 export const getCustomer = async (email: string, password: string): Promise<Customer> => {
     const customers = await stripe.customers.list({});
@@ -27,42 +27,45 @@ export const getCustomer = async (email: string, password: string): Promise<Cust
             email: customer.email || '',
             name: customer.name || '',
             phone: customer.phone || '',
-            address: {
-                city: customer.address?.city ?? '',
-                country: customer.address?.country ?? '',
-                line1: customer.address?.line1 ?? '',
-                line2: customer.address?.line2 ?? null,
-                postal_code: customer.address?.postal_code ?? '',
-            } || null,
+            address: customer.address ? {
+                city: customer.address.city || '',
+                country: customer.address.country || '',
+                line1: customer.address.line1 || '',
+                line2: customer.address.line2 || null,
+                postal_code: customer.address.postal_code || '',
+            } : null,
         };
     } else {
         return null;
     }
 }
 
-export const createCustomer = async (email: string, password: string ) => {    
+export const createCustomer = async (email: string, password: string) => {
     const customer = await stripe.customers.create({
         email: email,
-        metadata: {password: password}
+        metadata: { password: password }
     });
 
     return customer;
 }
 
-export const updateCustomer = async (email: string, id: string, name: string, phone: string, address: any) => {
-    const customer = await stripe.customers.update(id, {
-        email: email,
-        name: name,
-        phone: phone,
-        address: {
-            line1: address.line1,
-            line2: address.line2,
-            postal_code: address.postal_code,
-            city: address.city,
-            country: address.country,
-        }
-    });
+export const updateCustomer = async (id: string, updates: Partial<Customer>) => {
+    const updatePayload: Stripe.CustomerUpdateParams = {};
 
+    if (updates?.email !== undefined) updatePayload.email = updates.email || '';
+    if (updates?.name !== undefined) updatePayload.name = updates.name || '';
+    if (updates?.phone !== undefined) updatePayload.phone = updates.phone || '';
+    if (updates?.address !== undefined) {
+        updatePayload.address = {
+            city: updates?.address?.city || undefined,
+            country: updates?.address?.country || undefined,
+            line1: updates?.address?.line1 || undefined,
+            line2: updates?.address?.line2 || undefined,
+            postal_code: updates?.address?.postal_code || undefined,
+        };
+    }
+
+    const customer = await stripe.customers.update(id, updatePayload);
     return customer;
 }
 

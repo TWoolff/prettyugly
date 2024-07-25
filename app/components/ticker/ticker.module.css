@@ -1,8 +1,8 @@
 .ticker {
     max-width: 100%;
     overflow: hidden;
+    //background-color: var(--color-lightorange);
 }
-
 
 .tickerInner {
     white-space: nowrap;
@@ -15,7 +15,7 @@
         font-size: 25rem;
         font-weight: 800;
         text-transform: uppercase;
-        color: var(--color-black);
+        color: var(--color-lightgreen);
     }
 }
 
