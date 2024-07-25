@@ -93,7 +93,7 @@ const Profile: React.FC = () => {
                             />
                         </>
                     )}
-                    <Button type='submit' title={!state.customer ? 'Log in' : 'Log out'} className={css.btn} />
+                    <Button type='submit' title={!state.customer ? 'Sign in' : 'Sign out'} className={css.btn} />
                     {!state.customer && <p>Dont have an account? <a href='#' onClick={() => setIsOpen(true)}>Sign up</a></p>}
                 </form>
                 {state.customer ? (

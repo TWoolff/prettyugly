@@ -40,11 +40,13 @@ const Home: React.FC =  () => {
         return <Loader />
     }
 
+    console.log(homeData.newsTicker)
+
     return (
         <section>
-            {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
             {homeData?.carousel && <Carousel data={homeData.carousel} />}
+            {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             <CookieConsent />
         </section>
     )

@@ -1,8 +1,8 @@
 .cookieconsent {
     position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    right: 3.125rem;
+    bottom: 3.125rem;
+    width: 30rem;
     height: fit-content;
     background-color: var(--color-black);
     color: var(--color-white);
