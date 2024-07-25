@@ -1,27 +1,28 @@
 'use client'
 import { useState } from 'react'
-import SavedProducts from '../components/saved/saved'
+import { useAppContext } from '../context'
 import { getCustomer, updateCustomer, deleteCustomer } from '../utils/crudCustomer'
+import SavedProducts from '../components/saved/saved'
 import Input from '../components/formelements/input'
 import Button from '../components/formelements/button'
 import Modal from '../components/modal/modal'
 import css from './profile.module.css'
-import { useAppContext } from '../context'
 
 const Profile: React.FC = () => {
     const { state, dispatch } = useAppContext()
-    const [email, setEmail] = useState('')
+    const id = state.customer?.id ?? ''
+    const [email, setEmail] = useState(state.customer?.email ?? '')
     const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [city, setCity] = useState('')
-    const [country, setCountry] = useState('')
-    const [line1, setLine1] = useState('')
-    const [line2, setLine2] = useState('')
-    const [postalCode, setPostalCode] = useState('')
+    const [name, setName] = useState(state.customer?.name ?? '')
+    const [phone, setPhone] = useState(state.customer?.phone ?? '')
+    const [city, setCity] = useState(state.customer?.address?.city ?? '')
+    const [country, setCountry] = useState(state.customer?.address?.country ?? '')
+    const [line1, setLine1] = useState(state.customer?.address?.line1 ?? '')
+    const [line2, setLine2] = useState(state.customer?.address?.line2 ?? '')
+    const [postalCode, setPostalCode] = useState(state.customer?.address?.postal_code ?? '')
     const [isOpen, setIsOpen] = useState(false)
     const [deleted, setDeleted] = useState(false)
-    const id = state.customer?.id ?? ''
+    const [updated, setUpdated] = useState(false)
 
     const fetchCustomer = async (email: string, password: string) => {
         const customerData = await getCustomer(email, password)
@@ -59,17 +60,21 @@ const Profile: React.FC = () => {
     const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const updates: any = {}
-        if (name) updates.name = name
-        if (email) updates.email = email
-        if (phone) updates.phone = phone
+        if (name !== state.customer?.name) updates.name = name
+        if (email !== state.customer?.email) updates.email = email
+        if (phone !== state.customer?.phone) updates.phone = phone
         const address: any = {}
-        if (line1) address.line1 = line1
-        if (line2) address.line2 = line2
-        if (postalCode) address.postal_code = postalCode
-        if (city) address.city = city
-        if (country) address.country = country
+        if (line1 !== state.customer?.address?.line1) address.line1 = line1
+        if (line2 !== state.customer?.address?.line2) address.line2 = line2
+        if (postalCode !== state.customer?.address?.postal_code) address.postal_code = postalCode
+        if (city !== state.customer?.address?.city) address.city = city
+        if (country !== state.customer?.address?.country) address.country = country
         if (Object.keys(address).length > 0) updates.address = address
-        handleUpdateCustomer(updates)
+
+        if (Object.keys(updates).length > 0) {
+            handleUpdateCustomer(updates)
+            setUpdated(true)
+        }
     }
 
     const handleDelete = () => {
@@ -208,6 +213,7 @@ const Profile: React.FC = () => {
                 ) : (
                     !deleted ? <h2>Please log in to view your profile information.</h2> : <h2>Your account has been deleted.</h2>
                 )}
+                {updated && <p>Your profile has been updated.</p>}
             </article>
             <SavedProducts />
             <Modal isOpen={isOpen} setIsOpen={setIsOpen} />

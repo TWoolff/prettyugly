@@ -40,8 +40,6 @@ const Home: React.FC =  () => {
         return <Loader />
     }
 
-    console.log(homeData.newsTicker)
-
     return (
         <section>
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
