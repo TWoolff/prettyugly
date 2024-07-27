@@ -1,21 +1,21 @@
 .ticker {
     max-width: 100%;
     overflow: hidden;
-    //background-color: var(--color-lightorange);
+    background-color: var(--color-lightblue);
 }
 
 .tickerInner {
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
-    animation: tickerAnimation 40s linear infinite;
+    animation: tickerAnimation 80s linear infinite;
 
     & p {
         display: inline-block;
         font-size: 25rem;
         font-weight: 800;
         text-transform: uppercase;
-        color: var(--color-lightgreen);
+        color: var(--color-blue);
     }
 }
 

@@ -32,6 +32,7 @@ const Header: React.FC = () => {
                 <nav>
                     <Button onClick={handleToggleCart} title={`Cart [ ${hasMounted ? totalQuantity : 0} ]`} className={css.headBtn} />
                     <ul>
+                        <li><TransitionLink href='/'>Home</TransitionLink></li>
                         <li><TransitionLink href='/products'>Products</TransitionLink></li>
                         <li><TransitionLink href='/about'>About</TransitionLink></li>
                         {state.customer ? ( <Button onClick={handleLogout} title='Sign out' className={css.headBtn} />) : (

@@ -1,11 +1,12 @@
 .footer {
     height: fit-content;
-    color: var(--color-green);
+    color: var(--color-blue);
     font-weight: 800;
     width: 100%;
     align-items: end;
     padding: 0 3.125rem 3.125rem 3.125rem;
     text-transform: uppercase;
+    background-color: var(--color-lightblue);
 
     & h3 {
         text-transform: uppercase;
@@ -13,7 +14,7 @@
 
     & a {
         text-decoration: none;
-        color: var(--color-green);
+        color: var(--color-blue);
     }
 }
 
