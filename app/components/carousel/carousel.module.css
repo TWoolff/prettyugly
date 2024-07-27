@@ -16,8 +16,9 @@
 
 .scrollText {
     position: absolute;
-    top: 70%;
+    bottom: 20%;
     right: 3.125rem;
+    max-width: 40rem;
     z-index: -1;
     text-align: right;
 
@@ -35,8 +36,6 @@
     }
 
     & p {
-        margin: 0;
-        font-size: 0.75rem;
         font-weight: 300;
     }
 }
