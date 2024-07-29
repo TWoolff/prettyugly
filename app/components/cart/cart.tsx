@@ -52,8 +52,8 @@ const Cart: React.FC = () => {
     const totalPriceWithShipping = totalPrice + shippingCost
 
     const displayPrice = currency === 'ddk' 
-        ? Math.round(totalPriceWithShipping / 100) 
-        : Math.round((totalPriceWithShipping / 100) / 7.46)
+        ? Number(totalPriceWithShipping / 100).toFixed(2)
+        : Number((totalPriceWithShipping / 100) / 7.46).toFixed(2)
 
     const currencySymbol = currency === 'ddk' ? 'kr.' : '€'
 
@@ -127,9 +127,9 @@ const Cart: React.FC = () => {
                             <p>Your cart is empty</p>
                         )}
                         {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: Math.round(displayPrice * 100), currency: currency === 'ddk' ? 'dkk' : 'eur', locale: 'en-GB'}}>
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(displayPrice) * 100), currency: currency === 'ddk' ? 'dkk' : 'eur', locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
-                                <Checkout amount={displayPrice} currency={currency} cartItems={cart} />
+                                <Checkout amount={Number(displayPrice)} currency={currency} cartItems={cart} />
                             </Elements>
                         }
                         {error && <p>{error}</p>}

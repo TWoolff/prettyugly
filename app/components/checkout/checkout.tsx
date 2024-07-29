@@ -21,6 +21,8 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
     const [error, setError] = useState<string | null | undefined>(null)
     const [loading, setLoading] = useState(false)
 
+    console.log(currency)
+
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value)
     }
@@ -48,7 +50,7 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ amount: amount, cartItems: cartItems, comment: comment }),
+                body: JSON.stringify({ currency: currency, amount: amount, cartItems: cartItems, comment: comment }),
             })
 
             const data = await response.json()
@@ -69,7 +71,7 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
                 elements,
                 clientSecret: data.clientSecret,
                 confirmParams: {
-                    return_url: `${window.location.origin}/success?amount=${amount}`,
+                    return_url: `${window.location.origin}/success?amount=${amount * 100}`,
                     payment_method_data: {
                         billing_details: {
                             email: email,
