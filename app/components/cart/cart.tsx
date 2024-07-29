@@ -10,6 +10,7 @@ import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
 import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
+import Input from '../formelements/input'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
     throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
@@ -22,6 +23,7 @@ const Cart: React.FC = () => {
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
     const [error, setError] = useState<string | null>(null)
+    const [currency, setCurrency] = useState<'ddk' | 'eur'>('ddk')
 
     const handleIncrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
@@ -48,6 +50,12 @@ const Cart: React.FC = () => {
     const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
     const totalPriceWithShipping = totalPrice + shippingCost
+
+    const displayPrice = currency === 'ddk' 
+        ? Math.round(totalPriceWithShipping / 100) 
+        : Math.round((totalPriceWithShipping / 100) / 7.46)
+
+    const currencySymbol = currency === 'ddk' ? 'kr.' : '€'
 
     const variants = {
         hidden: { opacity: 0, x: '100%' },
@@ -81,7 +89,7 @@ const Cart: React.FC = () => {
                                         height={160} 
                                         quality={90} 
                                     />
-                                    <p>{item.unit_amount / 100},00 kr.</p>
+                                    {currency === 'ddk' ? <p>{(item.unit_amount / 100).toFixed(2)} {currencySymbol}</p> : <p>{currencySymbol}{(item.unit_amount / 100 / 7.46).toFixed(2)}</p>}
                                     <p>{item.quantity}</p>
                                     <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
                                     <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
@@ -90,16 +98,38 @@ const Cart: React.FC = () => {
                         </ul>
                         {totalQuantity > 0 ? (
                             <>
-                                <h4>Packaging & Shipping: 35,00 kr.</h4>
-                                <h3>Total: {totalPriceWithShipping / 100},00 kr.</h3>
+                                <div>
+                                    <Input
+                                        type="radio"
+                                        name="currency"
+                                        value="ddk"
+                                        checked={currency === 'ddk'}
+                                        onChange={() => setCurrency('ddk')} 
+                                        id='currency'
+                                        label='Danske kroner'                                        
+                                    />
+                                    <Input
+                                        type="radio"
+                                        name="currency"
+                                        value="eur"
+                                        checked={currency === 'eur'}
+                                        onChange={() => setCurrency('eur')} 
+                                        id='currency'
+                                        label='Euro'                                        
+                                    />
+                                </div>
+                                {currency === 'ddk' && <h4>Packaging & Shipping: {shippingCost} {currencySymbol}</h4>}
+                                {currency === 'eur' && <h4>Packaging & Shipping: {currencySymbol}{shippingCost}</h4>}
+                                {currency === 'ddk' && <h3>Total: {displayPrice} {currencySymbol}</h3>}
+                                {currency === 'eur' && <h3>Total: {currencySymbol}{displayPrice}</h3>}
                             </>
                         ) : (
                             <p>Your cart is empty</p>
                         )}
                         {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: totalPriceWithShipping, currency: 'dkk', locale: 'en-GB'}}>
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: Math.round(displayPrice * 100), currency: currency === 'ddk' ? 'dkk' : 'eur', locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
-                                <Checkout amount={totalPriceWithShipping} cartItems={cart} />
+                                <Checkout amount={displayPrice} currency={currency} cartItems={cart} />
                             </Elements>
                         }
                         {error && <p>{error}</p>}

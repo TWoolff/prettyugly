@@ -7,11 +7,12 @@ import TextArea from '../formelements/textarea'
 import { CartItem } from '@/app/types'
 
 type CheckoutProps = {
+    currency: string,
     amount: number,
     cartItems: CartItem[]
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
+const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
     const stripe = useStripe()
     const elements = useElements()
     const [email, setEmail] = useState('')
@@ -119,7 +120,8 @@ const Checkout: React.FC<CheckoutProps> = ({ amount, cartItems }) => {
             />
             <PaymentElement />
             {error && <p>{error}</p>}
-            <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount / 100},00 kr.`} />
+            {currency === 'ddk' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount} kr`} />}
+            {currency === 'eur' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay €${amount}`} />}
         </form>
     )
 }
