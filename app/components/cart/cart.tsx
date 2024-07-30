@@ -23,7 +23,7 @@ const Cart: React.FC = () => {
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
     const [error, setError] = useState<string | null>(null)
-    const [currency, setCurrency] = useState<'ddk' | 'eur'>('ddk')
+    const [currency, setCurrency] = useState<'dkk' | 'eur'>('dkk')
 
     const handleIncrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
@@ -51,11 +51,11 @@ const Cart: React.FC = () => {
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
     const totalPriceWithShipping = totalPrice + shippingCost
 
-    const displayPrice = currency === 'ddk' 
+    const displayPrice = currency === 'dkk' 
         ? Number(totalPriceWithShipping / 100).toFixed(2)
         : Number((totalPriceWithShipping / 100) / 7.46).toFixed(2)
 
-    const currencySymbol = currency === 'ddk' ? 'kr.' : '€'
+    const currencySymbol = currency === 'dkk' ? 'kr.' : '€'
 
     const variants = {
         hidden: { opacity: 0, x: '100%' },
@@ -89,7 +89,7 @@ const Cart: React.FC = () => {
                                         height={160} 
                                         quality={90} 
                                     />
-                                    {currency === 'ddk' ? <p>{(item.unit_amount / 100).toFixed(2)} {currencySymbol}</p> : <p>{currencySymbol}{(item.unit_amount / 100 / 7.46).toFixed(2)}</p>}
+                                    {currency === 'dkk' ? <p>{(item.unit_amount / 100).toFixed(2)} {currencySymbol}</p> : <p>{currencySymbol}{(item.unit_amount / 100 / 7.46).toFixed(2)}</p>}
                                     <p>{item.quantity}</p>
                                     <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
                                     <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
@@ -103,8 +103,8 @@ const Cart: React.FC = () => {
                                         type="radio"
                                         name="currency"
                                         value="ddk"
-                                        checked={currency === 'ddk'}
-                                        onChange={() => setCurrency('ddk')} 
+                                        checked={currency === 'dkk'}
+                                        onChange={() => setCurrency('dkk')} 
                                         id='currency'
                                         label='Danske kroner'                                        
                                     />
@@ -118,16 +118,16 @@ const Cart: React.FC = () => {
                                         label='Euro'                                        
                                     />
                                 </div>
-                                {currency === 'ddk' && <h4>Packaging & Shipping: {shippingCost} {currencySymbol}</h4>}
+                                {currency === 'dkk' && <h4>Packaging & Shipping: {shippingCost} {currencySymbol}</h4>}
                                 {currency === 'eur' && <h4>Packaging & Shipping: {currencySymbol}{shippingCost}</h4>}
-                                {currency === 'ddk' && <h3>Total: {displayPrice} {currencySymbol}</h3>}
+                                {currency === 'dkk' && <h3>Total: {displayPrice} {currencySymbol}</h3>}
                                 {currency === 'eur' && <h3>Total: {currencySymbol}{displayPrice}</h3>}
                             </>
                         ) : (
                             <p>Your cart is empty</p>
                         )}
                         {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(displayPrice) * 100), currency: currency === 'ddk' ? 'dkk' : 'eur', locale: 'en-GB'}}>
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(displayPrice) * 100), currency: currency === 'dkk' ? 'dkk' : 'eur', locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
                                 <Checkout amount={Number(displayPrice)} currency={currency} cartItems={cart} />
                             </Elements>

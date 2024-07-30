@@ -21,8 +21,6 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
     const [error, setError] = useState<string | null | undefined>(null)
     const [loading, setLoading] = useState(false)
 
-    console.log(currency)
-
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value)
     }
@@ -122,7 +120,7 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
             />
             <PaymentElement />
             {error && <p>{error}</p>}
-            {currency === 'ddk' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount} kr`} />}
+            {currency === 'dkk' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount} kr`} />}
             {currency === 'eur' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay €${amount}`} />}
         </form>
     )
