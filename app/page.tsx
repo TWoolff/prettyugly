@@ -36,9 +36,7 @@ const Home: React.FC =  () => {
         fetchData()
     }, [])
 
-    if (!homeData) {
-        return <Loader />
-    }
+    if (!homeData) return <Loader />
 
     return (
         <section>

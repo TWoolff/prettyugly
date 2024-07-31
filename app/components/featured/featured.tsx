@@ -34,7 +34,7 @@ const Featured: React.FC<FeaturedProps> = ({ data }) => {
             <div className={css.content}>
                 <h1>{title}</h1>
                 {documentToReactComponents(paragraph)}
-                <TransitionLink href={'/products'} filter={productIds} className={css.btn}>Shop Now</TransitionLink>
+                <TransitionLink href={'/featured'} filter={productIds} className={css.btn}>Shop Now</TransitionLink>
             </div>
         </section>
     )
