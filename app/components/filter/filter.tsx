@@ -32,7 +32,7 @@ const Filter: React.FC = () => {
 
     return (
         <section className={css.filter}>
-            <h1>Filter</h1>
+            <h2>Filter</h2>
             <div>
                 <h2>Search</h2>
                 <input

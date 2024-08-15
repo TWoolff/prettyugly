@@ -54,7 +54,7 @@ const Products: React.FC = () => {
         <>
             {!state.data && <Loader />}
             {state.data && (
-                <div>
+                <div className={css.productsContainer}>
                     <Filter />
                     <h1>
                         Products:{' '}

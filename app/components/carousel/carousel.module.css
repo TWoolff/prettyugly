@@ -15,12 +15,23 @@
 }
 
 .scrollText {
+    display: flex;
+    gap: 5rem;
+    align-items: center;
     position: absolute;
     bottom: 20%;
     right: 3.125rem;
-    max-width: 40rem;
+    max-width: 60rem;
     z-index: -1;
     text-align: right;
+
+    & svg {
+        width: 30rem;
+    }
+
+    & div {
+        max-width: 25rem;
+    }
 
     & a {
         margin: 1rem 0;

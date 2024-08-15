@@ -1,3 +1,21 @@
+@font-face {
+    font-family: 'Made Infinity Black';
+    src: url('/fonts/MADE-INFINITY-Black.woff2') format('woff2');
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'Made Infinity Medium';
+    src: url('/fonts/MADE-INFINITY-Medium.woff2') format('woff2');
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'Made Infinity Regular';
+    src: url('/fonts/MADE-INFINITY-Regular.woff2') format('woff2');
+	font-style: normal;
+}
+
 * {
     box-sizing: border-box;
     padding: 0;

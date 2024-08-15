@@ -14,6 +14,7 @@
     --color-orange: rgb(233, 115, 53);
     --color-lightorange: rgb(242, 143, 102);
 
-    --font-body: Helvetica, sans-serif;
-    --font-heading: 'Anton', sans-serif;
+    --font-body: 'Made Infinity Regular';
+    --font-heading: 'Made Infinity Black';
+    --font-subheading: 'Made Infinity Medium';
 }

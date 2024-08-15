@@ -20,9 +20,10 @@ const Product: React.FC<ProductType> = ({ data }) => {
                     quality={90} 
                 />
             </Link>
-            <h2>{name}</h2>
-            <p>{description}</p>
-            <p>{unit_amount / 100} kr.</p>
+            <div>
+                <h2>{name}</h2>
+                <p>{unit_amount / 100} kr.</p>
+            </div>
         </div>
     )
 }
