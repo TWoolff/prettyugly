@@ -19,11 +19,11 @@ const Product: React.FC<ProductType> = ({ data }) => {
                     height={500} 
                     quality={90} 
                 />
+                <div className={css.text}>
+                    <h2>{name}</h2>
+                    <p>{unit_amount / 100} kr.</p>
+                </div>
             </Link>
-            <div>
-                <h2>{name}</h2>
-                <p>{unit_amount / 100} kr.</p>
-            </div>
         </div>
     )
 }

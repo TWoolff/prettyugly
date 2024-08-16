@@ -50,6 +50,11 @@ const Products: React.FC = () => {
         }
     )
 
+    const getRandomSize = () => {
+        const sizes = ['small', 'medium', 'large'];
+        return sizes[Math.floor(Math.random() * sizes.length)];
+    };
+
     return (
         <>
             {!state.data && <Loader />}
@@ -90,7 +95,7 @@ const Products: React.FC = () => {
                                         productInfo: string
                                     }
                                 }) => (
-                                    <motion.div key={product.id} layout>
+                                    <motion.div key={product.id} layout className={css.product} data-size={getRandomSize()}>
                                         <Product
                                             key={product.id}
                                             data={{
