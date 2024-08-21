@@ -74,7 +74,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                 className={css.mainImg}
             />
             <p>{description}</p>
-            <p>{unit_amount / 100} {currency}</p>
+            <p>{unit_amount / 100} {currency.toUpperCase()}</p>
             <Button onClick={saveProduct} title='Save Product' className={css.btn} />
             <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
 
@@ -93,7 +93,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                                         quality={90} 
                                     />
                                     <p>{similarProduct.product.name}</p>
-                                    <p>{similarProduct.unit_amount / 100} {currency}</p>
+                                    <p>{similarProduct.unit_amount / 100} {currency.toUpperCase()}</p>
                                 </Link>
                             </div>
                         ))}

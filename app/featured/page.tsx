@@ -1,8 +1,8 @@
 'use client'
 import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import Product from '../components/products/product'
 import { useAppContext } from '../context'
+import Product from '../components/products/product'
 import css from './featured.module.css'
 
 const Featured: React.FC = () => {
@@ -56,6 +56,7 @@ const Featured: React.FC = () => {
                                         <Product
                                             key={product.id}
                                             data={{
+                                                currency: '',
                                                 ...product,
                                                 unit_amount: product.unit_amount || 0,
                                                 product: product.product || {

@@ -1,11 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { getPage } from './utils/contentful'
-import Hero from './components/hero/hero'
-import Featured from './components/featured/featured'
-import Ticker from './components/ticker/ticker'
 import { getProducts } from './utils/getProducts'
 import { useAppContext } from './context'
+import Featured from './components/featured/featured'
+import Ticker from './components/ticker/ticker'
 import Loader from './components/loader/loader'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
@@ -15,6 +14,7 @@ const Home: React.FC =  () => {
     const [homeData, setHomeData] = useState<any>(null)
     
     useEffect(() => {
+        if (homeData) return
         const fetchData = async () => {
             try {
                 const data = await getPage('/')

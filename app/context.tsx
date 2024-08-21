@@ -15,7 +15,7 @@ const loadInitialState = (): State => {
         isSearchVisible: false,
         customer: null,
         filters: {},
-        currency: 'ddk',
+        currency: 'DKK',
         exchangeRate: null,
     }
 }
