@@ -10,8 +10,6 @@ const ProductsPage: React.FC = () => {
         dispatch({ type: 'SET_FILTER', payload: { key: 'featured', value: '' } })
     }, [])
 
-    console.log(state)
-
     return ( 
         <section>
             <Products />

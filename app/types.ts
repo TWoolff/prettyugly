@@ -6,7 +6,20 @@ export type AppContextType = {
 }
 
 export type Action = {
-    type: 'SET_STATE' | 'RESET_STATE' | 'SET_CUSTOMER' | 'ADD_TO_CART' | 'CLEAR_CART' | 'INCREMENT_QUANTITY' | 'DECREMENT_QUANTITY' | 'TOGGLE_CART' | 'TOGGLE_SEARCH' | 'SET_FILTER' | 'SAVE_PRODUCT'
+    type: 
+        'SET_STATE' | 
+        'RESET_STATE' | 
+        'SET_CUSTOMER' | 
+        'ADD_TO_CART' | 
+        'CLEAR_CART' | 
+        'INCREMENT_QUANTITY' | 
+        'DECREMENT_QUANTITY' | 
+        'TOGGLE_CART' | 
+        'TOGGLE_SEARCH' | 
+        'SET_FILTER' | 
+        'SAVE_PRODUCT' | 
+        'SET_CURRENCY' | 
+        'UPDATE_PRODUCTS'
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string } | Customer | null
 }
 
@@ -15,6 +28,7 @@ export type ProductType = {
         id: string
         slug?: string
         unit_amount: number
+        currency: string
         product: {
             active: boolean
             created: number
@@ -56,6 +70,8 @@ export type State = {
     isSearchVisible: boolean
     customer: Customer | null
     filters: { [key: string]: string }
+    currency: string
+    exchangeRate: {EUR: string, SEK: string} | null
 }
 
 export type Customer = {
@@ -94,6 +110,7 @@ export type Product = {
     updated: number
     url: string | null
     slug: string
+    currency: string
 }
 
 export type Price = {
@@ -117,4 +134,5 @@ export type Price = {
     unit_amount: number
     unit_amount_decimal: string
     slug: string
+
 }

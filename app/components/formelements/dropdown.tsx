@@ -1,20 +1,25 @@
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler } from 'react';
 
 type DropdownProps = {
-    onChange: ChangeEventHandler<HTMLSelectElement>
-    options: string[]
-    label?: string
-    defaultValue?: string
-    name: string
-    className: string
-}
+    onChange: ChangeEventHandler<HTMLSelectElement>;
+    options: string[];
+    label?: string;
+    defaultValue?: string;
+    value?: string;
+    name: string;
+    className: string;
+};
 
-const Dropdown: React.FC<DropdownProps> = ({ onChange, options, name, defaultValue, label, className }) => {
-    return ( 
+const Dropdown: React.FC<DropdownProps> = ({onChange, options, name, defaultValue,value = '', label, className}) => {
+    return (
         <label>
-            {label}
-            <select name={name} onChange={onChange} className={className}>
-                <option value=''>{defaultValue}</option>
+            {label && <span>{label}</span>}
+            <select name={name} onChange={onChange} className={className} value={value}>
+                {defaultValue && (
+                    <option value=''>
+                        {defaultValue}
+                    </option>
+                )}
                 {options.map((option) => (
                     <option key={option} value={option}>
                         {option}
@@ -22,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onChange, options, name, defaultVal
                 ))}
             </select>
         </label>
-    )
-}
+    );
+};
 
-export default Dropdown
+export default Dropdown;

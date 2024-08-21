@@ -1,45 +1,51 @@
-// app/products/[slug]/page.tsx
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getProductBySlug } from '@/app/utils/getProducts'
+import { getProductBySlug as fetchProductBySlug } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
-import { Product, Price } from '@/app/types'
+import { Price } from '@/app/types'
 import Button from '@/app/components/formelements/button'
 import Loader from '@/app/components/loader/loader'
 import css from './productdetail.module.css'
 
 const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
-    const { state, dispatch } = useAppContext()
-    const [product, setProduct] = useState<Price | null>(null)
-    const [similarProducts, setSimilarProducts] = useState<Price[]>([])
+    const { state, dispatch } = useAppContext();
+    const [product, setProduct] = useState<Price | null>(null);
+    const [similarProducts, setSimilarProducts] = useState<Price[]>([]);
 
     useEffect(() => {
         const fetchProduct = async () => {
-            const result = await getProductBySlug(params.slug)
-            setProduct(result as Price)
+            let localProduct = state.data.find((p: Price) => p.slug === params.slug);
 
-            const resultProduct = result?.product as Product
-            if (resultProduct.metadata.similar) {
-                const similarTags = resultProduct.metadata.similar.split(',').map(tag => tag.trim().toLowerCase())
-                const similarProducts = state.data?.filter((p: Price) => {
-                    const productTags = p.product.metadata.similar?.split(',').map(tag => tag.trim().toLowerCase()) || []
-                    return similarTags.some(tag => productTags.includes(tag)) && p.product.id !== resultProduct.id
-                })
-                setSimilarProducts(similarProducts)
+            if (!localProduct) {
+                localProduct = await fetchProductBySlug(params.slug) as Price;
             }
-        }
 
-        fetchProduct()
-    }, [params.slug, state.data])
+            setProduct(localProduct);
+
+            // Handle similar products logic if localProduct is available
+            if (localProduct) {
+                const resultProduct = localProduct.product;
+                if (resultProduct.metadata.similar) {
+                    const similarTags = resultProduct.metadata.similar.split(',').map((tag: string) => tag.trim().toLowerCase());
+                    const similarProducts = state.data?.filter((p: Price) => {
+                        const productTags = p.product.metadata.similar?.split(',').map(tag => tag.trim().toLowerCase()) || [];
+                        return similarTags.some((tag: string) => productTags.includes(tag)) && p.product.id !== resultProduct.id;
+                    });
+                    setSimilarProducts(similarProducts);
+                }
+            }
+        };
+
+        fetchProduct();
+    }, [params.slug, state.data]);
 
     if (!product) {
-        return <Loader />
+        return <Loader />;
     }
 
-    const { unit_amount, product: { id, slug, name, images, description, metadata } } = product
-
+    const { unit_amount, currency, product: { id, slug, name, images, description, metadata } } = product; 
     const handleAddToCart = () => {
         const newItem = {
             quantity: 1,
@@ -56,7 +62,6 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     const saveProduct = () => {
         dispatch({ type: 'SAVE_PRODUCT', payload: { id } })
     }
-
     return (
         <section className={css.productDetail}>
             <h1>{name}</h1>
@@ -69,11 +74,11 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                 className={css.mainImg}
             />
             <p>{description}</p>
-            <p>{unit_amount / 100},00 kr.</p>
+            <p>{unit_amount / 100} {currency}</p>
             <Button onClick={saveProduct} title='Save Product' className={css.btn} />
             <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
 
-            {similarProducts && similarProducts.length > 0 && (
+            {similarProducts.length > 0 && (
                 <>
                     <h2>Similar Products</h2>
                     <div className={css.similarProducts}>
@@ -88,7 +93,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                                         quality={90} 
                                     />
                                     <p>{similarProduct.product.name}</p>
-                                    <p>{similarProduct.unit_amount / 100},00 kr.</p>
+                                    <p>{similarProduct.unit_amount / 100} {currency}</p>
                                 </Link>
                             </div>
                         ))}
@@ -96,7 +101,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                 </>
             )}
         </section>
-    )
-}
+    );
+};
 
-export default ProductDetail
+export default ProductDetail;

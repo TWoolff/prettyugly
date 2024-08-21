@@ -10,7 +10,6 @@ import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
 import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
-import Input from '../formelements/input'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
     throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
@@ -23,7 +22,6 @@ const Cart: React.FC = () => {
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
     const [error, setError] = useState<string | null>(null)
-    const [currency, setCurrency] = useState<'dkk' | 'eur'>('dkk')
 
     const handleIncrementQuantity = useCallback((id: string) => {
         dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
@@ -51,17 +49,13 @@ const Cart: React.FC = () => {
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
     const totalPriceWithShipping = totalPrice + shippingCost
 
-    const displayPrice = currency === 'dkk' 
-        ? Number(totalPriceWithShipping / 100).toFixed(2)
-        : Number((totalPriceWithShipping / 100) / 7.46).toFixed(2)
-
-    const currencySymbol = currency === 'dkk' ? 'kr.' : '€'
-
     const variants = {
         hidden: { opacity: 0, x: '100%' },
         visible: { opacity: 1, x: 0 },
         exit: { opacity: 0, x: '100%' },
     }
+
+    console.log(cart)
 
     return (
         <AnimatePresence>
@@ -89,7 +83,7 @@ const Cart: React.FC = () => {
                                         height={160} 
                                         quality={90} 
                                     />
-                                    {currency === 'dkk' ? <p>{(item.unit_amount / 100).toFixed(2)} {currencySymbol}</p> : <p>{currencySymbol}{(item.unit_amount / 100 / 7.46).toFixed(2)}</p>}
+                                    <p>{(item.unit_amount / 100).toFixed(2)} {state.currency}</p>
                                     <p>{item.quantity}</p>
                                     <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
                                     <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
@@ -98,38 +92,16 @@ const Cart: React.FC = () => {
                         </ul>
                         {totalQuantity > 0 ? (
                             <>
-                                <div>
-                                    <Input
-                                        type="radio"
-                                        name="currency"
-                                        value="ddk"
-                                        checked={currency === 'dkk'}
-                                        onChange={() => setCurrency('dkk')} 
-                                        id='currency'
-                                        label='Danske kroner'                                        
-                                    />
-                                    <Input
-                                        type="radio"
-                                        name="currency"
-                                        value="eur"
-                                        checked={currency === 'eur'}
-                                        onChange={() => setCurrency('eur')} 
-                                        id='currency'
-                                        label='Euro'                                        
-                                    />
-                                </div>
-                                {currency === 'dkk' && <h4>Packaging & Shipping: {shippingCost} {currencySymbol}</h4>}
-                                {currency === 'eur' && <h4>Packaging & Shipping: {currencySymbol}{shippingCost}</h4>}
-                                {currency === 'dkk' && <h3>Total: {displayPrice} {currencySymbol}</h3>}
-                                {currency === 'eur' && <h3>Total: {currencySymbol}{displayPrice}</h3>}
+                                <h4>Packaging & Shipping: {shippingCost} {state.currency}</h4>
+                                <h3>Total: {totalPriceWithShipping / 100} {state.currency}</h3>
                             </>
                         ) : (
                             <p>Your cart is empty</p>
                         )}
                         {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(displayPrice) * 100), currency: currency === 'dkk' ? 'dkk' : 'eur', locale: 'en-GB'}}>
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(totalPriceWithShipping) * 100), currency: state.currency.toLowerCase(), locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
-                                <Checkout amount={Number(displayPrice)} currency={currency} cartItems={cart} />
+                                <Checkout amount={Number(totalPriceWithShipping)} currency={state.currency.toLowerCase()} cartItems={cart} />
                             </Elements>
                         }
                         {error && <p>{error}</p>}

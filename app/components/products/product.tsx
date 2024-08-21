@@ -5,8 +5,8 @@ import { ProductType } from '@/app/types'
 import css from './product.module.css'
 
 const Product: React.FC<ProductType> = ({ data }) => {
-    const { id, slug, unit_amount } = data
-    const { name, description, images } = data.product
+    const { id, slug, unit_amount, currency } = data
+    const { name, description, images } = data.product;
 
     return ( 
         <div className={css.product}>
@@ -21,7 +21,7 @@ const Product: React.FC<ProductType> = ({ data }) => {
                 />
                 <div className={css.text}>
                     <h2>{name}</h2>
-                    <p>{unit_amount / 100} kr.</p>
+                    <p>{unit_amount / 100} {currency}</p>
                 </div>
             </Link>
         </div>

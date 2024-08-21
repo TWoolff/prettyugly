@@ -55,6 +55,8 @@ const Products: React.FC = () => {
         return sizes[Math.floor(Math.random() * sizes.length)];
     };
 
+    console.log(state)
+
     return (
         <>
             {!state.data && <Loader />}
@@ -101,6 +103,7 @@ const Products: React.FC = () => {
                                             data={{
                                                 ...product,
                                                 unit_amount: product.unit_amount || 0,
+                                                currency: state.currency,
                                                 product: product.product || {
                                                     active: false,
                                                     created: 0,

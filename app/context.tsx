@@ -14,7 +14,9 @@ const loadInitialState = (): State => {
         isCartVisible: false,
         isSearchVisible: false,
         customer: null,
-        filters: {}
+        filters: {},
+        currency: 'ddk',
+        exchangeRate: null,
     }
 }
 
@@ -78,6 +80,10 @@ const reducer = (state: State, action: Action): State => {
         case 'SET_FILTER':
             const { key, value } = action.payload as { key: string; value: string }
             return { ...state, filters: { ...state.filters, [key]: value } }
+        case 'SET_CURRENCY':
+            return { ...state, currency: action.payload as string }
+        case 'UPDATE_PRODUCTS':
+            return {...state, data: action.payload};
         default:
             return state
     }

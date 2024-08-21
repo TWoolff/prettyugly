@@ -1,13 +1,16 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { ChangeEvent, useMemo, useState } from 'react'
 import { useAppContext } from '@/app/context'
+import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
 import Input from '../formelements/input'
 import css from './filter.module.css'
+import Dropdown from '../formelements/dropdown'
 
 const Filter: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const { data } = state
     const [searchTerm, setSearchTerm] = useState('')
+    const { changeCurrency } = useChangeCurrency();
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -30,9 +33,17 @@ const Filter: React.FC = () => {
         return Array.from(new Set(allColors))
     }, [data])
 
+    const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        changeCurrency(e.target.value as 'DKK' | 'EUR' | 'SEK');
+    };
+
     return (
         <section className={css.filter}>
             <h2>Filter</h2>
+            <div>
+                <h2>Currency</h2>
+                <Dropdown onChange={handleCurrencyChange} value={state.currency ?? ''} options={['DKK', 'EUR', 'SEK']} name={'Currency'} className={''} />
+            </div>
             <div>
                 <h2>Search</h2>
                 <input
