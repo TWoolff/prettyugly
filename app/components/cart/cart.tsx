@@ -55,8 +55,6 @@ const Cart: React.FC = () => {
         exit: { opacity: 0, x: '100%' },
     }
 
-    console.log(cart)
-
     return (
         <AnimatePresence>
             {isCartVisible && (

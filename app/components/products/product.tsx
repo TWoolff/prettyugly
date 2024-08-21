@@ -6,7 +6,7 @@ import css from './product.module.css'
 
 const Product: React.FC<ProductType> = ({ data }) => {
     const { id, slug, unit_amount, currency } = data
-    const { name, description, images } = data.product;
+    const { name, images } = data.product;
 
     return ( 
         <div className={css.product}>

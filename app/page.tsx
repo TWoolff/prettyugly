@@ -9,7 +9,6 @@ import { useAppContext } from './context'
 import Loader from './components/loader/loader'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
-import { getExchangeRate } from './utils/getExchangeRate'
 
 const Home: React.FC =  () => {
     const { state, dispatch } = useAppContext()
@@ -28,6 +27,7 @@ const Home: React.FC =  () => {
     }, [])
 
     useEffect(() => {
+        if (state.data) return
         const fetchData = async () => {
             const data = await getProducts()
             if (data) {
@@ -36,18 +36,6 @@ const Home: React.FC =  () => {
         }
         fetchData()
     }, [])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getExchangeRate()
-            if (data) {
-                dispatch({ type: 'SET_STATE', payload: { exchangeRate: data } })
-            }
-        }
-        fetchData()
-    }, [])
-
-    console.log(state)
 
     if (!homeData) return <Loader />
 

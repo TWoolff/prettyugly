@@ -1,17 +1,29 @@
 import { useEffect } from 'react'
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAppContext } from '@/app/context'
 import { getProducts } from '@/app/utils/getProducts'
+import { getExchangeRate } from '@/app/utils/getExchangeRate'
 import Product from './product'
 import Filter from '../filter/filter'
-import css from './product.module.css'
 import Loader from '../loader/loader'
+import css from './product.module.css'
 
 const Products: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const { filters } = state
 
     useEffect(() => {
+        const fetchData = async () => {
+            const data = await getExchangeRate()
+            if (data) {
+                dispatch({ type: 'SET_STATE', payload: { exchangeRate: data } })
+            }
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        if (state.data) return
         const fetchData = async () => {
             const data = await getProducts()
             if (data) {
