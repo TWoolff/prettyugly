@@ -59,7 +59,7 @@
     position: relative;
     height: 60rem; 
     width: 60rem;
-    border-right: 3.125rem solid var(--color-white);
+    border-right: 3.125rem solid var(--color-background);
     overflow: hidden;
 
     &:last-child {
