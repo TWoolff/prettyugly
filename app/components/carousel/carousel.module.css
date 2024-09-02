@@ -60,6 +60,8 @@
     height: 60rem; 
     width: 60rem;
     border-right: 3.125rem solid var(--color-background);
+    border-top-left-radius: 23.125rem;
+    border-top-right-radius: 23.125rem;
     overflow: hidden;
 
     &:last-child {
