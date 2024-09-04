@@ -1,12 +1,12 @@
 .cookieconsent {
     position: fixed;
-    right: 3.125rem;
-    bottom: 3.125rem;
+    right: var(--spacing-desktop);
+    bottom: var(--spacing-desktop);
     width: 30rem;
     height: fit-content;
     background-color: var(--color-black);
     color: var(--color-white);
-    padding: 3.125rem;
+    padding: var(--spacing-desktop);
     opacity: 0.9;
     z-index: 999;
 

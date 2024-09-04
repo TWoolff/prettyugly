@@ -9,7 +9,7 @@
     display: flex;
     height: 100vh;
     align-items: center;
-    padding: 0 0 0 3.125rem;
+    padding: 0 0 0 var(--spacing-desktop);
     overflow: hidden;
     z-index: 0;
 }
@@ -20,7 +20,7 @@
     align-items: center;
     position: absolute;
     bottom: 20%;
-    right: 3.125rem;
+    right: var(--spacing-desktop);
     max-width: 60rem;
     z-index: -1;
     text-align: right;
@@ -59,9 +59,7 @@
     position: relative;
     height: 60rem; 
     width: 60rem;
-    border-right: 3.125rem solid var(--color-background);
-    /* border-top-left-radius: 23.125rem;
-    border-top-right-radius: 23.125rem; */
+    border-right: var(--spacing-desktop) solid var(--color-background);
     overflow: hidden;
 
     &:last-child {

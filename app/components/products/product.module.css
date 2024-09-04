@@ -1,5 +1,5 @@
 .productsContainer {
-    padding: 5rem 3.125rem;
+    padding: 5rem var(--spacing-desktop);
     margin: 0 0 10rem 15rem;
     margin-bottom: 10rem;
     position: relative;
