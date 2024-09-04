@@ -1,9 +1,10 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getProductBySlug as fetchProductBySlug } from '@/app/utils/getProducts'
 import { useAppContext } from '@/app/context'
+import { getProductBySlug as fetchProductBySlug } from '@/app/utils/getProducts'
+import { getProductImages } from '@/app/utils/getProductImages'
 import { Price } from '@/app/types'
 import Button from '@/app/components/formelements/button'
 import Loader from '@/app/components/loader/loader'
@@ -12,11 +13,14 @@ import css from './productdetail.module.css'
 const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     const { state, dispatch } = useAppContext();
     const [product, setProduct] = useState<Price | null>(null);
+    const [productImages, setProductImages] = useState<any>(null);
     const [similarProducts, setSimilarProducts] = useState<Price[]>([]);
+    const flexRef = useRef<HTMLDivElement>(null);
+    const infoContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchProduct = async () => {
-            let localProduct = state.data.find((p: Price) => p.slug === params.slug);
+            let localProduct = state?.data?.find((p: Price) => p.slug === params.slug);
 
             if (!localProduct) {
                 localProduct = await fetchProductBySlug(params.slug) as Price;
@@ -24,14 +28,13 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 
             setProduct(localProduct);
 
-            // Handle similar products logic if localProduct is available
             if (localProduct) {
-                const resultProduct = localProduct.product;
+                const resultProduct = localProduct?.product;
                 if (resultProduct.metadata.similar) {
-                    const similarTags = resultProduct.metadata.similar.split(',').map((tag: string) => tag.trim().toLowerCase());
-                    const similarProducts = state.data?.filter((p: Price) => {
+                    const similarTags = resultProduct?.metadata?.similar.split(',').map((tag: string) => tag.trim().toLowerCase());
+                    const similarProducts = state?.data?.filter((p: Price) => {
                         const productTags = p.product.metadata.similar?.split(',').map(tag => tag.trim().toLowerCase()) || [];
-                        return similarTags.some((tag: string) => productTags.includes(tag)) && p.product.id !== resultProduct.id;
+                        return similarTags?.some((tag: string) => productTags.includes(tag)) && p.product.id !== resultProduct.id;
                     });
                     setSimilarProducts(similarProducts);
                 }
@@ -41,11 +44,44 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
         fetchProduct();
     }, [params.slug, state.data]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!product?.product.id) return; 
+    
+            try {
+                const data = await getProductImages(product.product.id);
+                setProductImages(JSON.parse(JSON.stringify(data)));
+            } catch (error) {
+                console.error('Error fetching product images:', error);
+            }
+        };
+    
+        fetchData();
+    }, [product?.product.id]);
+
+    useEffect(() => {
+        const updateInfoContainerHeight = () => {
+            if (flexRef.current && infoContainerRef.current) {
+                const flexHeight = flexRef.current.offsetHeight;
+                infoContainerRef.current.style.height = `${flexHeight}px`;
+            }
+        };
+
+        updateInfoContainerHeight();
+        window.addEventListener('resize', updateInfoContainerHeight);
+
+        return () => {
+            window.removeEventListener('resize', updateInfoContainerHeight);
+        };
+    }, [productImages]); 
+
+    
     if (!product) {
         return <Loader />;
     }
-
+    
     const { unit_amount, currency, product: { id, slug, name, images, description, metadata } } = product; 
+    
     const handleAddToCart = () => {
         const newItem = {
             quantity: 1,
@@ -64,22 +100,45 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     }
     return (
         <section className={css.productDetail}>
-            <h1>{name}</h1>
-            <Image 
-                src={images[0]} 
-                alt={name}
-                width={700} 
-                height={700} 
-                quality={90} 
-                className={css.mainImg}
-            />
-            <p>{description}</p>
-            <p>{unit_amount / 100} {currency.toUpperCase()}</p>
-            <Button onClick={saveProduct} title='Save Product' className={css.btn} />
-            <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
+            <div className={css.flex} ref={flexRef}>
+                <div className={css.productImages}>
+                    <Image 
+                        src={images[0]} 
+                        alt={name}
+                        width={700} 
+                        height={700} 
+                        quality={90}
+                    />
+                    {productImages && (
+                        <>
+                            {productImages.map((image: any, i: number) => (
+                                <Image 
+                                    key={i} 
+                                    src={`https:${image.url}`} 
+                                    alt={image.title} 
+                                    width={700} 
+                                    height={700} 
+                                    quality={90}
+                                />
+                            ))}
+                        </>
+                    )}
+                </div>
+                <div className={css.infoContainer} ref={infoContainerRef}>
+                    <div className={css.info}>
+                        <h1>{name}</h1>
+                        <p>{description}</p>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat consectetur quas tempore possimus ut id maxime quaerat laborum labore beatae explicabo doloribus perferendis, nam odit consequuntur repellendus, praesentium nesciunt vitae!</p>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat consectetur quas tempore possimus ut id maxime quaerat laborum labore beatae explicabo doloribus perferendis, nam odit consequuntur repellendus, praesentium nesciunt vitae!</p>
 
-            {similarProducts.length > 0 && (
-                <>
+                        <p>{unit_amount / 100} {currency.toUpperCase()}</p>
+                        <Button onClick={saveProduct} title='Save Product' className={css.btn} />
+                        <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
+                    </div>
+                </div>
+            </div>
+            {similarProducts?.length > 0 && (
+                <div className={css.similarProductsContainer}>
                     <h2>Similar Products</h2>
                     <div className={css.similarProducts}>
                         {similarProducts.map(similarProduct => (
@@ -98,7 +157,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                             </div>
                         ))}
                     </div>
-                </>
+                </div>
             )}
         </section>
     );
