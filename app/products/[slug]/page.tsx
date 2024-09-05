@@ -130,8 +130,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                         <p>{description}</p>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat consectetur quas tempore possimus ut id maxime quaerat laborum labore beatae explicabo doloribus perferendis, nam odit consequuntur repellendus, praesentium nesciunt vitae!</p>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat consectetur quas tempore possimus ut id maxime quaerat laborum labore beatae explicabo doloribus perferendis, nam odit consequuntur repellendus, praesentium nesciunt vitae!</p>
-
-                        <p>{unit_amount / 100} {currency.toUpperCase()}</p>
+                        <p className={css.price}>{unit_amount / 100} {currency.toUpperCase()}</p>
                         <Button onClick={saveProduct} title='Save Product' className={css.btn} />
                         <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
                     </div>

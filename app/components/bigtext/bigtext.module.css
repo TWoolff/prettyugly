@@ -1,0 +1,20 @@
+.bigtext {
+  padding: var(--spacing-desktop);
+  background-color: transparent !important;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  transition-duration: 500ms;
+  
+  & h2 {
+    font-family: var(--font-heading);
+    font-size: 7rem;
+    letter-spacing: -0.0675px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-orange);
+  }
+}
+
+.bigTextInView {
+  background-color: none !important;
+}

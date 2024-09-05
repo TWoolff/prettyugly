@@ -8,11 +8,14 @@ import Ticker from './components/ticker/ticker'
 import Loader from './components/loader/loader'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
+import BigText from './components/bigtext/bigtext'
+import css from './Home.module.css'
 
 const Home: React.FC =  () => {
     const { state, dispatch } = useAppContext()
     const [homeData, setHomeData] = useState<any>(null)
-    
+    const [bigTextInView, setBigTextInView] = useState(false);
+
     useEffect(() => {
         if (homeData) return
         const fetchData = async () => {
@@ -39,10 +42,13 @@ const Home: React.FC =  () => {
 
     if (!homeData) return <Loader />
 
+    const bigTextClassName = bigTextInView ? 'bigTextInView' : '';
+
     return (
-        <section>
+        <section className={`home ${bigTextClassName}`}>
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
             {homeData?.carousel && <Carousel data={homeData.carousel} />}
+            {homeData?.bigText && <BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />}
             {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             <CookieConsent />
         </section>

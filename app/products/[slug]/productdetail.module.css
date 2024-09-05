@@ -36,9 +36,13 @@
     justify-content: flex-start;
     top: 35%;
     width: 100%;
-    padding: 0 var(--spacing-desktop);
+    padding: var(--spacing-desktop);
 }
 
+.price {
+    align-self: flex-end;
+    padding-right: 0.5rem;
+}
 
 .similarProductsContainer {
     padding: var(--spacing-desktop);

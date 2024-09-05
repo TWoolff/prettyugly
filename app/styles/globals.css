@@ -48,3 +48,18 @@ body {
         grid-template-columns: repeat(12, 1fr);
     }
 }
+
+.home {
+    background-color: var(--color-background);
+    transition-property: all;
+    transition-timing-function: ease-in-out;
+    transition-duration: 500ms;
+}
+
+.bigTextInView {
+    background-color: var(--color-lightgreen);
+
+    & h2 {
+        color: var(--color-green) !important;
+    }
+}
