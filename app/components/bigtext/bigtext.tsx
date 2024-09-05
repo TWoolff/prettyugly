@@ -16,7 +16,7 @@ const BigText: React.FC<BigTextProps> = ({text, className, onInViewChange}) => {
         ([entry]) => {
             onInViewChange(entry.isIntersecting);
         },
-        {threshold: 0.2}
+        {threshold: 0.3}
     );
 
     if (bigTextRef.current) {

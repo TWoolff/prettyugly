@@ -83,8 +83,9 @@
     display: grid;
     place-content: end;
     padding: 2rem;
-    color: var(--color-white);
+    color: var(--color-black) !important;
     text-align: right;
+
 
     & h2 {
         text-transform: uppercase;
