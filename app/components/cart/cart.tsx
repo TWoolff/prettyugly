@@ -99,7 +99,7 @@ const Cart: React.FC = () => {
                         {totalQuantity > 0 && 
                             <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(totalPriceWithShipping) * 100), currency: state.currency.toLowerCase(), locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
-                                <Checkout amount={Number(totalPriceWithShipping)} currency={state.currency.toLowerCase()} cartItems={cart} />
+                                <Checkout amount={Number(totalPriceWithShipping / 100)} currency={state.currency.toLowerCase()} cartItems={cart} />
                             </Elements>
                         }
                         {error && <p>{error}</p>}

@@ -69,7 +69,7 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
                 elements,
                 clientSecret: data.clientSecret,
                 confirmParams: {
-                    return_url: `${window.location.origin}/success?amount=${amount * 100}`,
+                    return_url: `${window.location.origin}/success?amount=${amount}`,
                     payment_method_data: {
                         billing_details: {
                             email: email,
@@ -120,8 +120,7 @@ const Checkout: React.FC<CheckoutProps> = ({ currency, amount, cartItems }) => {
             />
             <PaymentElement />
             {error && <p>{error}</p>}
-            {currency === 'dkk' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay ${amount} kr`} />}
-            {currency === 'eur' && <Button disabled={loading} type="submit" title={loading ? 'Processing...' : `Pay €${amount}`} />}
+            <Button disabled={loading} type="submit" title={loading ? 'Processing...' : 'Purchase'} />
         </form>
     )
 }
