@@ -4,8 +4,8 @@ import { motion, useTransform, useScroll } from 'framer-motion';
 import { useAppContext } from '@/app/context';
 import { TransitionLink } from "@/app/utils/transitionLinks";
 import Card, { CardProps } from './card';
-import css from './carousel.module.css';
 import Logo from '../logo/logo';
+import css from './carousel.module.css';
 
 type CarouselProps = {
     data: any

@@ -1,17 +1,25 @@
 .bigtext {
-  padding: var(--spacing-desktop);
+  padding: var(--spacing-mobile);
   background-color: transparent !important;
   transition-property: all;
   transition-timing-function: ease-in-out;
   transition-duration: 500ms;
+
+  @media (min-width: 768px) {
+    padding: var(--spacing-desktop);
+  }
   
   & h2 {
     font-family: var(--font-heading);
-    font-size: 7rem;
+    font-size: 2rem;
     letter-spacing: -0.0675px;
     line-height: 1;
     text-transform: uppercase;
     color: var(--color-orange);
+
+    @media (min-width: 768px) {
+      font-size: 7rem;
+    }
   }
 }
 

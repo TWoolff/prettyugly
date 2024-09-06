@@ -4,9 +4,13 @@
     font-weight: 800;
     width: 100%;
     align-items: end;
-    padding:var(--spacing-desktop);
+    padding: var(--spacing-mobile);
     text-transform: uppercase;
     background-color: var(--color-lightblue);
+
+    @media (min-width: 768px) {
+        padding: var(--spacing-desktop);
+    }
 
     & h3 {
         text-transform: uppercase;
@@ -19,7 +23,11 @@
 }
 
 .info {
-    grid-column: 4 / 7;
+    grid-column: 1 / -1;
+
+    @media (min-width: 768px) {
+        grid-column: 4 / 7;
+    }
 }
 
 .faq {
@@ -28,12 +36,20 @@
 }
 
 .socials {
-    grid-column: 1 / 4;
+    grid-column: 1 / -1;
+
+    @media (min-width: 768px) {
+        grid-column: 1 / 4;
+    }
 }
 
 .copyright {
-    grid-column: 10 / -1;
+    grid-column: 1 / -1;
     justify-self: end;
     font-size: 0.75rem;
     text-transform: uppercase;
+
+    @media (min-width: 768px) {
+        grid-column: 10 / -1;
+    }
 }
