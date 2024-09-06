@@ -1,14 +1,21 @@
 .cookieconsent {
     position: fixed;
-    right: var(--spacing-desktop);
-    bottom: var(--spacing-desktop);
-    width: 30rem;
+    right: var(--spacing-mobile);
+    bottom: var(--spacing-mobile);
+    width: calc(100% - var(--spacing-mobile) * 2);
     height: fit-content;
     background-color: var(--color-black);
     color: var(--color-white);
-    padding: var(--spacing-desktop);
+    padding: var(--spacing-mobile);
     opacity: 0.9;
     z-index: 999;
+
+    @media (min-width: 768px) {
+        right: var(--spacing-desktop);
+        bottom: var(--spacing-desktop);
+        width: 30rem;
+        padding: var(--spacing-desktop);
+    }
 
     & p {
         margin: 0;
