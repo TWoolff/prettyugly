@@ -5,9 +5,8 @@
 
 .stickyContainer {
     position: sticky;
-    top: 0;
+    top: 7rem;
     display: flex;
-    height: 100vh;
     align-items: center;
     padding: 0;
     overflow: hidden;
@@ -15,6 +14,7 @@
 
     @media (min-width: 768px) {
         top: 2rem;
+        height: 100vh;
         padding: 0 0 0 var(--spacing-desktop);
     }
 }
@@ -31,7 +31,11 @@
     text-align: right;
 
     & svg {
-        width: 30rem;
+        width: 12rem;
+
+        @media (min-width: 768px) {
+            width: 30rem;
+        }
     }
 
     & div {
@@ -62,8 +66,8 @@
 
 .card {
     position: relative;
-    height: 22rem; 
-    width: 22rem;
+    height: 25rem; 
+    width: 25rem;
     border-right: var(--spacing-mobile) solid var(--color-background);
     overflow: hidden;
 
@@ -93,7 +97,7 @@
     z-index: 10;
     display: grid;
     place-content: end;
-    padding: 0 1rem;
+    padding: 0 1.2rem;
     color: var(--color-black) !important;
     text-align: right;
 
@@ -105,5 +109,13 @@
     & h2 {
         text-transform: uppercase;
         margin: 0;
+    }
+}
+
+.desktopOnly {
+    display: none;
+
+    @media (min-width: 768px) {
+        display: block;
     }
 }

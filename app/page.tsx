@@ -9,7 +9,7 @@ import Loader from './components/loader/loader'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 import BigText from './components/bigtext/bigtext'
-import css from './Home.module.css'
+import { TransitionLink } from './utils/transitionLinks'
 
 const Home: React.FC =  () => {
     const { state, dispatch } = useAppContext()
@@ -48,6 +48,14 @@ const Home: React.FC =  () => {
         <section className={`home ${bigTextClassName}`}>
             {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
             {homeData?.carousel && <Carousel data={homeData.carousel} />}
+            <div className='mobileOnly'>
+                <h2>Introduction to PrettyUgly</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lectus augue, accumsan non vestibulum sed, varius ut velit. Suspendisse potenti. Quisque fringilla ornare est, et elementum justo venenatis eget. Sed mi risus, varius sit amet pharetra nec, consectetur at justo. Proin scelerisque lacus id fringilla gravida. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec tempus malesuada nunc vitae imperdiet. Quisque sodales turpis vitae feugiat blandit.</p>
+                <p>Praesent semper ipsum turpis, vel tincidunt velit tristique sit amet. Proin laoreet, nibh sit amet aliquet sodales, odio lacus egestas quam, et condimentum turpis arcu eu dolor. Cras malesuada ipsum nisl, vitae eleifend mi mollis id. Nam blandit id dolor hendrerit vehicula. Sed metus eros, hendrerit eget placerat nec, malesuada id diam. Cras non lorem condimentum, convallis mi eu, consequat orci. Integer lectus neque, tristique non arcu nec, dignissim suscipit velit. Sed mi est, blandit sit amet tellus id, consequat pretium.</p>
+                <TransitionLink href='products/'>
+                    Click here to see our full catalogue
+                </TransitionLink>
+            </div>
             {homeData?.bigText && <BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />}
             {homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
             <CookieConsent />
