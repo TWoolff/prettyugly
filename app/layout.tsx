@@ -1,6 +1,7 @@
 import type { Metadata} from 'next'
 import { AppProvider } from './context'
 import './styles/index.css'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
 	title: 'PrettyUgly',
@@ -28,6 +29,7 @@ const RootLayout: React.FC<{children?: React.ReactNode}> = ({children}) => {
 				<AppProvider>
 					{children}
 				</AppProvider>
+                <GoogleAnalytics gaId={'G-S58W3MWPD1'} />
 			</body>
 		</html>
 	)
