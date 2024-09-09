@@ -134,7 +134,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                             {metadata?.finding && <li>Earring Findings: {metadata.finding}</li>}
                         </ul>
                         <h3>The small print:</h3>
-                        <p>The images should be used a guide reference only. Due to the nature of the acrylic materials and processes required, each piece's colour and pattern will be unique. We will always aim to create pieces as close as possible to what is represented in the photos and we always quality check our jewelry before shipping them to you. Also keep in mind that colours may vary depending on your computer and device screen - we of course do our best to present colours and tones accurately, to give you the best reference and meet your expectations for your purchase.</p>
+                        <p>The images should be used a guide reference only. Due to the nature of the acrylic materials and processes required, each piece´s colour and pattern will be unique. We will always aim to create pieces as close as possible to what is represented in the photos and we always quality check our jewelry before shipping them to you. Also keep in mind that colours may vary depending on your computer and device screen - we of course do our best to present colours and tones accurately, to give you the best reference and meet your expectations for your purchase.</p>
                         <p className={css.price}>{unit_amount / 100} {currency.toUpperCase()}</p>
                         <Button onClick={saveProduct} title='Save Product' className={css.btn} />
                         <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
