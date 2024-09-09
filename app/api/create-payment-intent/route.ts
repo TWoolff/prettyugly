@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
 
         const lineItems = cartItems.map((item: { name: string; quantity: number }) => ({
             name: item.name,
-            quantity: item.quantity
+            quantity: item.quantity,
         }))
 
 

@@ -21,6 +21,8 @@ const Cart: React.FC = () => {
     const { state, dispatch } = useAppContext()
     const { cart, isCartVisible } = state
     const cartRef = useRef<HTMLDivElement>(null)
+    const [promoCode, setPromoCode] = useState<string>('')
+    const [promoDiscountPercentage, setPromoDiscountPercentage] = useState<number>(0)
     const [error, setError] = useState<string | null>(null)
 
     const handleIncrementQuantity = useCallback((id: string) => {
@@ -47,7 +49,36 @@ const Cart: React.FC = () => {
     const shippingCost = 0
     const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
     const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
-    const totalPriceWithShipping = totalPrice + shippingCost
+    
+    // Apply the promo discount as a percentage
+    const discountedPrice = totalPrice * (1 - promoDiscountPercentage / 100)
+    const totalPriceWithShipping = discountedPrice + shippingCost
+
+    const handleApplyPromoCode = async () => {
+        setError(null)
+        try {
+            const response = await fetch('/api/apply-promo-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify({ promoCode }),
+            })
+    
+            const data = await response.json()
+    
+            if (response.status === 404) {
+                setError('Promo code does not exist')
+            } else if (data.valid) {
+                setPromoDiscountPercentage(data.discountAmount) // Set the percentage discount (e.g., 20 for 20%)
+                setError('')  
+            } else {
+                setError('Invalid promo code')
+            }
+        } catch (err) {
+            setError('Failed to apply promo code')
+        }
+    }
 
     const variants = {
         hidden: { opacity: 0, x: '100%' },
@@ -91,18 +122,37 @@ const Cart: React.FC = () => {
                         {totalQuantity > 0 ? (
                             <>
                                 <h4>Packaging & Shipping: {shippingCost} {state.currency}</h4>
-                                <h3>Total: {totalPriceWithShipping / 100} {state.currency}</h3>
+                                <h3>Total: {(totalPriceWithShipping / 100).toFixed(2)} {state.currency}</h3>
                             </>
                         ) : (
                             <p>Your cart is empty</p>
                         )}
+
+                        {totalQuantity > 0 && (
+                            <>
+                                <div className={css.promoCodeContainer}>
+                                    <input 
+                                        type="text" 
+                                        value={promoCode} 
+                                        onChange={(e) => setPromoCode(e.target.value)} 
+                                        placeholder="Enter promo code" 
+                                        className={css.promoCodeInput} 
+                                    />
+                                    <Button onClick={handleApplyPromoCode} title="Apply Promo Code" />
+                                </div>
+                                {promoDiscountPercentage > 0 && (
+                                    <p>Discount applied: {promoDiscountPercentage}%</p>
+                                )}
+                            </>
+                        )}
+
                         {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: (Number(totalPriceWithShipping) * 100), currency: state.currency.toLowerCase(), locale: 'en-GB'}}>
+                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: Number(totalPriceWithShipping) * 100, currency: state.currency.toLowerCase(), locale: 'en-GB'}}>
                                 <AddressElement options={{mode: 'shipping'}} />
                                 <Checkout amount={Number(totalPriceWithShipping / 100)} currency={state.currency.toLowerCase()} cartItems={cart} />
                             </Elements>
                         }
-                        {error && <p>{error}</p>}
+                        {error && <p className={css.error}>{error}</p>}
                     </motion.section>
                 </div>
             )}
