@@ -18,6 +18,10 @@
     color: var(--color-orange);
 
     @media (min-width: 768px) {
+      font-size: 5rem;
+    }
+
+    @media (min-width: 1224px) {
       font-size: 7rem;
     }
   }

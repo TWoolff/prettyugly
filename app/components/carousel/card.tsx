@@ -19,7 +19,7 @@ const Card: React.FC<CardProps> = ({ slug, unit_amount, product, currency  }) =>
             <div className={css.cardBackground} style={{backgroundImage: `url(${product.images[0]})`}} />
             <div className={css.cardContent}>
                 <h2>{product.name}</h2>
-                <p>{product.description}</p>
+                {/* <p>{product.description}</p> */}
                 <p>{unit_amount / 100} {currency.toUpperCase()}</p>
             </div>
         </TransitionLink>

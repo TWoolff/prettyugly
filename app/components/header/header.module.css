@@ -37,18 +37,20 @@
 }
 
 .headBtn {
-    background: var(--color-white);
+    background: var(--color-white) !important;
     border: none;
     cursor: pointer;
-    color: var(--color-black);
-    padding: 0.1rem 0.4rem;
+    color: var(--color-black) !important;
+    padding: 0.1rem 0.4rem !important;
     margin: 0;
     font-size: 0.875rem;
     font-weight: 800;
     text-transform: uppercase;
 
     @media (min-width: 768px) {
-        background: none;
-        padding: 0;
+        background: none !important;
+        color: var(--color-black) !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 }

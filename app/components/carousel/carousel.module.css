@@ -1,6 +1,11 @@
 .carouselContainer {
     position: relative;
     height: 300vh;
+    margin-top: 7rem;
+
+    @media (min-width: 768px) {
+        margin-top: 0rem;
+    }
 }
 
 .stickyContainer {

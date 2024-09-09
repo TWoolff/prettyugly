@@ -3,10 +3,7 @@
     background-color: var(--color-salmon);
     background-repeat: no-repeat;
     background-position: center center;
-
-    @media (min-width: 768px) {
-        background-size: cover;
-    }
+    background-size: cover;
 }
 
 
