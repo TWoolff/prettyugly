@@ -15,6 +15,8 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     const [product, setProduct] = useState<Price | null>(null);
     const [productImages, setProductImages] = useState<any>(null);
     const [similarProducts, setSimilarProducts] = useState<Price[]>([]);
+    const [zoomedIndex, setZoomedIndex] = useState<number | null>(null); // Track which image is zoomed
+    const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
     const flexRef = useRef<HTMLDivElement>(null);
     const infoContainerRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +77,17 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
         };
     }, [productImages]); 
 
-    
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+        if (zoomedIndex !== index) return; // Only calculate zoom for the active image
+        const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - left) / width) * 100;
+        const y = ((e.clientY - top) / height) * 100;
+        setZoomPosition({ x, y });
+    };
+
+    const handleMouseEnter = (index: number) => setZoomedIndex(index); // Set the zoomed image by index
+    const handleMouseLeave = () => setZoomedIndex(null); // Reset when mouse leaves
+
     if (!product) {
         return <Loader />;
     }
@@ -98,28 +110,58 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
     const saveProduct = () => {
         dispatch({ type: 'SAVE_PRODUCT', payload: { id } })
     }
+
     return (
         <section className={css.productDetail}>
             <div className={css.flex} ref={flexRef}>
                 <div className={css.productImages}>
-                    <Image 
-                        src={images[0]} 
-                        alt={name}
-                        width={700} 
-                        height={700} 
-                        quality={90}
-                    />
+                    {/* Main product image */}
+                    <div
+                        className={css.zoomWrapper}
+                        onMouseMove={(e) => handleMouseMove(e, 0)} // Pass index 0 for the main image
+                        onMouseEnter={() => handleMouseEnter(0)}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <Image 
+                            src={images[0]} 
+                            alt={name}
+                            width={700} 
+                            height={700} 
+                            quality={90}
+                            className={zoomedIndex === 0 ? css.zoomedImage : ''} 
+                            style={{
+                                transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                                transform: zoomedIndex === 0 ? 'scale(2)' : 'scale(1)',
+                                transition: 'transform 0.2s ease',
+                            }}
+                        />
+                    </div>
+                    
+                    {/* Additional product images */}
                     {productImages && (
                         <>
                             {productImages.map((image: any, i: number) => (
-                                <Image 
-                                    key={i} 
-                                    src={`https:${image.url}`} 
-                                    alt={image.title} 
-                                    width={700} 
-                                    height={700} 
-                                    quality={90}
-                                />
+                                <div
+                                    key={i}
+                                    className={css.zoomWrapper}
+                                    onMouseMove={(e) => handleMouseMove(e, i + 1)} // Use index based on loop (i + 1 to avoid collision with the main image)
+                                    onMouseEnter={() => handleMouseEnter(i + 1)}
+                                    onMouseLeave={handleMouseLeave}
+                                >
+                                    <Image 
+                                        src={`https:${image.url}`} 
+                                        alt={image.title} 
+                                        width={700} 
+                                        height={700} 
+                                        quality={90}
+                                        className={zoomedIndex === i + 1 ? css.zoomedImage : ''} 
+                                        style={{
+                                            transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                                            transform: zoomedIndex === i + 1 ? 'scale(2)' : 'scale(1)',
+                                            transition: 'transform 0.2s ease',
+                                        }}
+                                    />
+                                </div>
                             ))}
                         </>
                     )}
@@ -133,8 +175,6 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
                             {metadata?.material && <li>Material: {metadata.material}</li>}
                             {metadata?.finding && <li>Earring Findings: {metadata.finding}</li>}
                         </ul>
-                        <h3>The small print:</h3>
-                        <p>The images should be used a guide reference only. Due to the nature of the acrylic materials and processes required, each piece´s colour and pattern will be unique. We will always aim to create pieces as close as possible to what is represented in the photos and we always quality check our jewelry before shipping them to you. Also keep in mind that colours may vary depending on your computer and device screen - we of course do our best to present colours and tones accurately, to give you the best reference and meet your expectations for your purchase.</p>
                         <p className={css.price}>{unit_amount / 100} {currency.toUpperCase()}</p>
                         <Button onClick={saveProduct} title='Save Product' className={css.btn} />
                         <Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
