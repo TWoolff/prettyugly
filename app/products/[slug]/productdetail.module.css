@@ -87,5 +87,5 @@
 
 .zoomedImage {
     transition: transform 0.2s ease-in-out;
-    cursor: zoom-in;
+    cursor: normal;
 }
