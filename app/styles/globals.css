@@ -26,10 +26,29 @@ body {
     transition-duration: 500ms;
 }
 
-.page-transition {
-    opacity: 0;
-    background: var(--color-salmon);
-    filter: blur(12px);
+.svgContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: var(--color-lightsalmon);
+}
+
+.svg {
+    width: 100px;
+    height: auto;
+}
+
+.svg path {
+    fill: var(--color-salmon);
 }
 
 .pageContent {

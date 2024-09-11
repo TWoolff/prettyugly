@@ -15,6 +15,7 @@ const Home: React.FC =  () => {
     const { state, dispatch } = useAppContext()
     const [homeData, setHomeData] = useState<any>(null)
     const [bigTextInView, setBigTextInView] = useState(false);
+    const [hasLoaded, setHasLoaded] = useState(false);
 
     useEffect(() => {
         if (homeData) return
@@ -46,7 +47,7 @@ const Home: React.FC =  () => {
 
     return (
         <section className={`home ${bigTextClassName}`}>
-            {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
+            {homeData?.features[0].fields && <Featured data={homeData.features[0].fields} hasLoaded={hasLoaded} setHasLoaded={setHasLoaded} />}
             {homeData?.carousel && <Carousel data={homeData.carousel} />}
             <div className='mobileOnly'>
                 <h2>Introduction to PrettyUgly</h2>
