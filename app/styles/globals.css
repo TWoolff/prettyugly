@@ -51,23 +51,6 @@ body {
     fill: var(--color-salmon);
 }
 
-.frontSvg {
-    position: absolute;
-    background-color: var(--color-background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    inset: 0;
-    z-index: 0;
-
-    & svg {
-        width: calc(100vw - (var(--spacing-desktop) * 2));
-        & path {
-            fill: var(--color-blue);
-        }
-    }
-}
-
 .pageContent {
     position: relative;
     z-index: 1;

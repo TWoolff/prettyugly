@@ -64,6 +64,7 @@ export type ErrorState = string | null
 export type State = {
     error: ErrorState | null
     data: DataState | null
+    hasLoaded: boolean
     cart: CartItem[]
     saved: CartItem[]
     isCartVisible: boolean
@@ -134,5 +135,4 @@ export type Price = {
     unit_amount: number
     unit_amount_decimal: string
     slug: string
-
 }

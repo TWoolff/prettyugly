@@ -9,6 +9,7 @@ const loadInitialState = (): State => {
     return {
         error: null,
         data: null,
+        hasLoaded: false,
         cart: savedCart ? JSON.parse(savedCart) : [],
         saved: savedProducts ? JSON.parse(savedProducts) : [],
         isCartVisible: false,
