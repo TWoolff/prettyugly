@@ -1,7 +1,36 @@
-import { motion } from 'framer-motion'
-import css from './loader.module.css'
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useAppContext } from '../../context';
+import css from './loader.module.css';
 
-const Loader = () => { 
+const Loader = () => {
+  const { state } = useAppContext();
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+
+    interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        if (!state.hasLoaded) {
+          if (prevProgress < 99) {
+            return prevProgress + 1;
+          } else {
+            return prevProgress;
+          }
+        } else {
+          if (prevProgress < 100) {
+            return prevProgress + 1;
+          } else {
+            clearInterval(interval);
+            return prevProgress;
+          }
+        }
+      });
+    }, 5);
+
+    return () => clearInterval(interval);
+  }, [state.hasLoaded]);
   return (
     <motion.div className={css.loader}
       initial={{ y: 0 }}
@@ -21,6 +50,7 @@ const Loader = () => {
         <path d="M144.62.23h4.29v15.9h7.73v3.83h-12.01V.23Z" />
         <path d="M161.82,10.8L154.66.23h5.24l4.06,6.8,4.06-6.8h5.27l-7.19,10.57v9.16h-4.29v-9.16Z" />
       </svg>
+      <h2 className={css.progress}>{progress}%</h2>
     </motion.div>
   )
 }
