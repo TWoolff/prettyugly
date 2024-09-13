@@ -8,7 +8,7 @@ const Loader = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let interval: string | number | NodeJS.Timeout | undefined;
+    let interval: NodeJS.Timeout;
 
     interval = setInterval(() => {
       setProgress((prevProgress) => {
@@ -31,6 +31,7 @@ const Loader = () => {
 
     return () => clearInterval(interval);
   }, [state.hasLoaded]);
+  
   return (
     <motion.div className={css.loader}
       initial={{ y: 0 }}

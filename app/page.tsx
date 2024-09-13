@@ -33,11 +33,17 @@ const Home: React.FC =  () => {
         const fetchData = async () => {
             const data = await getProducts()
             if (data) {
-                dispatch({ type: 'SET_STATE', payload: { data, hasLoaded: true } })
+                dispatch({ type: 'SET_STATE', payload: { data } })
             }
         }
         fetchData()
     }, [])
+
+    useEffect(() => {
+        if (homeData && state.data) {
+            dispatch({ type: 'SET_STATE', payload: { hasLoaded: true } });
+        }
+    }, [homeData, state.data]);
 
     const bigTextClassName = bigTextInView ? 'bigTextInView' : '';
 
