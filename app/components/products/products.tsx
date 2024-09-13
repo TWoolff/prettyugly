@@ -29,7 +29,7 @@ const Products: React.FC = () => {
 			if (data) {
 				// @ts-ignore
 				const activeProducts = data.filter((item) => item.active === true && item.product.active === true);
-				dispatch({ type: 'SET_STATE', payload: { data: activeProducts } });
+				dispatch({ type: 'SET_STATE', payload: { data: activeProducts, hasLoaded: true } });
 			}
 		};
 		fetchData();
