@@ -91,7 +91,7 @@ export type Customer = {
 
 export type Product = {
     id: string
-    object: string
+    object: any
     active: boolean
     attributes: string[]
     created: number
@@ -116,7 +116,7 @@ export type Product = {
 
 export type Price = {
     id: string
-    object: string
+    object: any
     active: boolean
     billing_scheme: string
     created: number
