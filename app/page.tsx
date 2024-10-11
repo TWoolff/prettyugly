@@ -49,8 +49,6 @@ const Home: React.FC = () => {
 
 	const bigTextClassName = bigTextInView ? 'bigTextInView' : '';
 
-	console.log(state);
-
 	return (
 		<section className={`home ${bigTextClassName}`}>
 			{homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}

@@ -22,6 +22,10 @@ const loadInitialState = (): State => {
     }
 }
 
+type AppAction = Action & {
+    payload: any;  // You might want to define this more strictly
+};
+
 const initialState: State = loadInitialState()
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -29,7 +33,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'SET_STATE':
-            return { ...state, ...action.payload }
+            return { ...state, ...(action.payload as Partial<State>) }
         case 'RESET_STATE':
             return initialState
         case 'SET_CUSTOMER':
