@@ -18,6 +18,7 @@ const loadInitialState = (): State => {
         filters: {},
         currency: 'DKK',
         exchangeRate: null,
+        language: 'da-DK',
     }
 }
 
@@ -85,6 +86,8 @@ const reducer = (state: State, action: Action): State => {
             return { ...state, currency: action.payload as string }
         case 'UPDATE_PRODUCTS':
             return {...state, data: action.payload};
+        case 'SET_LANGUAGE':
+            return {...state, language: action.payload as string}
         default:
             return state
     }

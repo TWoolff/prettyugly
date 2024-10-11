@@ -5,6 +5,7 @@ import { calculateTotalQuantity } from '@/app/utils/getQuantity'
 import { TransitionLink } from '@/app/utils/transitionLinks'
 import Button from '../formelements/button'
 import Cart from '../cart/cart'
+import Toggle from '../formelements/toggle'
 import css from './header.module.css'
 
 const Header: React.FC = () => {
@@ -18,6 +19,10 @@ const Header: React.FC = () => {
 
     const handleLogout = () => {
         dispatch({ type: 'SET_CUSTOMER', payload: null })
+    }
+
+    const handleLangChange = () => {
+        dispatch({ type: 'SET_LANGUAGE', payload: { language: state.language === 'da-DK' ? 'en-US' : 'da-DK' } });
     }
 
     const totalQuantity = calculateTotalQuantity(cart)
@@ -38,8 +43,9 @@ const Header: React.FC = () => {
                         {state.customer ? ( <Button onClick={handleLogout} title='Sign out' className={css.headBtn} />) : (
                             <TransitionLink href='/profile'>Sign in</TransitionLink>
                         )}
+                    <Toggle onChange={handleLangChange} labelLeft='da' labelRight='en' className={css.headerToggle} />
                     </ul>
-                </nav>
+                    </nav>
             </header>
             <Cart />
         </>

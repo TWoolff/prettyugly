@@ -19,7 +19,8 @@ export type Action = {
         'SET_FILTER' | 
         'SAVE_PRODUCT' | 
         'SET_CURRENCY' | 
-        'UPDATE_PRODUCTS'
+        'UPDATE_PRODUCTS' |
+        'SET_LANGUAGE'
     payload?: Partial<State> | CartItem | { id: string } | { key: string, value: string } | Customer | null
 }
 
@@ -73,6 +74,7 @@ export type State = {
     filters: { [key: string]: string }
     currency: string
     exchangeRate: {EUR: string, SEK: string} | null
+    language: string
 }
 
 export type Customer = {
