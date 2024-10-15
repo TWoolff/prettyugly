@@ -1,6 +1,7 @@
 'use client'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { TransitionLink } from '@/app/utils/transitionLinks'
+import { useAppContext } from '@/app/context'
 import css from './featured.module.css'
 
 type FeaturedProps = {
@@ -24,6 +25,7 @@ type FeaturedProps = {
 }
 
 const Featured: React.FC<FeaturedProps> = ({ data }) => {
+  const { state } = useAppContext()
   const { title, paragraph, image, products } = data
   const { file } = image.fields
   const productIds = products.map(product => product.fields.productId)
@@ -33,7 +35,7 @@ const Featured: React.FC<FeaturedProps> = ({ data }) => {
       <div className={css.content}>
         <h1>{title}</h1>
         {documentToReactComponents(paragraph)}
-        <TransitionLink href={'/featured'} filter={productIds} className={css.btn}>Shop Now</TransitionLink>
+        <TransitionLink href={'/featured'} filter={productIds} className={css.btn}>{state.language === 'en-US' ? 'Shop now' : 'Køb nu'}</TransitionLink>
       </div>
     </section>
   )

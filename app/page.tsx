@@ -49,12 +49,14 @@ const Home: React.FC = () => {
 
 	const bigTextClassName = bigTextInView ? 'bigTextInView' : '';
 
+	console.log(state.language)
+
 	return (
 		<section className={`home ${bigTextClassName}`}>
 			{homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
 			{homeData?.carousel && <Carousel data={homeData.carousel} />}
 			<div className='mobileOnly'>
-				<h2>Introduction to PrettyUgly</h2>
+				<h2>{state.language === 'en-US' ? 'Introduction to PrettyUgly' : 'Introduktion til PrettyUgly'}</h2>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lectus augue, accumsan non
 					vestibulum sed, varius ut velit. Suspendisse potenti. Quisque fringilla ornare est, et elementum
@@ -71,7 +73,7 @@ const Home: React.FC = () => {
 					consequat orci. Integer lectus neque, tristique non arcu nec, dignissim suscipit velit. Sed mi est,
 					blandit sit amet tellus id, consequat pretium.
 				</p>
-				<TransitionLink href='products/'>Click here to see our full catalogue</TransitionLink>
+				<TransitionLink href='products/'>{state.language === 'en-US' ? 'Click here to see our full catalogue' : 'Klik her for at se vores fulde katalog'}</TransitionLink>
 			</div>
 			{homeData?.bigText && (
 				<BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />

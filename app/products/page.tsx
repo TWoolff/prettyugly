@@ -4,7 +4,7 @@ import Products from '../components/products/products'
 import { useAppContext } from '../context'
 
 const ProductsPage: React.FC = () => {
-	const { state, dispatch } = useAppContext()
+	const { dispatch } = useAppContext()
 
 	useEffect(() => {
 		dispatch({ type: 'SET_FILTER', payload: { key: 'featured', value: '' } })

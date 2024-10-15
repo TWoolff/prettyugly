@@ -20,6 +20,8 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const flexRef = useRef<HTMLDivElement>(null)
 	const infoContainerRef = useRef<HTMLDivElement>(null)
 
+	console.log('state', state)
+
 	useEffect(() => {
 		const fetchProduct = async () => {
 			let localProduct = state?.data?.find((p: Price) => p.slug === params.slug);
@@ -100,6 +102,12 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 		product: { id, slug, name, images, description, metadata },
 	} = product;
 
+	const displayTitle = state.language === 'da-DK' ? metadata.title_da : metadata.title_en
+	const displayDescription = state.language === 'da-DK' ? metadata.description_da : metadata.description_en
+	const displaySize = state.language === 'da-DK' ? `Størrelse: ${metadata.size_da}` : `Size: ${metadata.size_en}`
+	const displayMaterial = state.language === 'da-DK' ? `Materiale: ${metadata.material_da}` : `Material: ${metadata.material_en}`
+	const displayFinding = state.language === 'da-DK' ? `Komponenter: ${metadata.finding_da}` : `Findings: ${metadata.finding_en}`
+
 	const handleAddToCart = () => {
 		const newItem = {
 			quantity: 1,
@@ -116,6 +124,8 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const saveProduct = () => {
 		dispatch({ type: 'SAVE_PRODUCT', payload: { id } });
 	};
+
+	console.log('product', product)
 
 	return (
 		<section className={css.productDetail}>
@@ -164,24 +174,24 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 				</div>
 				<div className={css.infoContainer} ref={infoContainerRef}>
 					<div className={css.info}>
-						<h1>{name}</h1>
-						<p className={css.description}>{description}</p>
+						<h1>{displayTitle}</h1>
+						<p className={css.description}>{displayDescription}</p>
 						<ul className={css.metadata}>
-							{metadata?.size && <li>Size: {metadata.size}</li>}
-							{metadata?.material && <li>Material: {metadata.material}</li>}
-							{metadata?.finding && <li>Earring Findings: {metadata.finding}</li>}
+							{metadata?.size_da && <li>{displaySize}</li>}
+							{metadata?.material_da && <li>{displayMaterial}</li>}
+							{metadata?.finding_da && <li>{displayFinding}</li>}
 						</ul>
 						<p className={css.price}>
 							{unit_amount / 100} {currency.toUpperCase()}
 						</p>
-						<Button onClick={saveProduct} title='Save Product' className={css.btn} />
-						<Button onClick={handleAddToCart} title='Add to Cart' className={css.btn} />
+						<Button onClick={saveProduct} title={state.language === 'da-DK' ? 'Gem Produkt' : 'Save Product'} className={css.btn} />
+						<Button onClick={handleAddToCart} title={state.language === 'da-DK' ? 'Tilføj til kurv' : 'Add to Cart'} className={css.btn} />
 					</div>
 				</div>
 			</div>
 			{similarProducts?.length > 0 && (
 				<div className={css.similarProductsContainer}>
-					<h2>Similar Products</h2>
+					<h2>{state.language === 'da-DK' ? 'Lignende Produkter' : 'Similar Products'}</h2>
 					<div className={css.similarProducts}>
 						{similarProducts.map(similarProduct => (
 							<div key={similarProduct.id} className={css.similarProduct}>
