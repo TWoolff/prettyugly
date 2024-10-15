@@ -12,152 +12,152 @@ import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
-    throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
+  throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const Cart: React.FC = () => {
-    const { state, dispatch } = useAppContext()
-    const { cart, isCartVisible } = state
-    const cartRef = useRef<HTMLDivElement>(null)
-    const [promoCode, setPromoCode] = useState<string>('')
-    const [promoDiscountPercentage, setPromoDiscountPercentage] = useState<number>(0)
-    const [error, setError] = useState<string | null>(null)
+  const { state, dispatch } = useAppContext()
+  const { cart, isCartVisible } = state
+  const cartRef = useRef<HTMLDivElement>(null)
+  const [promoCode, setPromoCode] = useState<string>('')
+  const [promoDiscountPercentage, setPromoDiscountPercentage] = useState<number>(0)
+  const [error, setError] = useState<string | null>(null)
 
-    const handleIncrementQuantity = useCallback((id: string) => {
-        dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
-    }, [dispatch])
+  const handleIncrementQuantity = useCallback((id: string) => {
+    dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
+  }, [dispatch])
 
-    const handleDecrementQuantity = useCallback((id: string) => {
-        dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
-    }, [dispatch])
+  const handleDecrementQuantity = useCallback((id: string) => {
+    dispatch({ type: 'DECREMENT_QUANTITY', payload: { id } })
+  }, [dispatch])
 
-    const handleClickOutside = useCallback((event: MouseEvent) => {
-        if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
-            dispatch({ type: 'TOGGLE_CART' })
-        }
-    }, [dispatch])
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [handleClickOutside])
-
-    const shippingCost = 0
-    const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
-    const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
-    
-    // Apply the promo discount as a percentage
-    const discountedPrice = totalPrice * (1 - promoDiscountPercentage / 100)
-    const totalPriceWithShipping = discountedPrice + shippingCost
-
-    const handleApplyPromoCode = async () => {
-        setError(null)
-        try {
-            const response = await fetch('/api/apply-promo-code', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify({ promoCode }),
-            })
-    
-            const data = await response.json()
-    
-            if (response.status === 404) {
-                setError('Promo code does not exist')
-            } else if (data.valid) {
-                setPromoDiscountPercentage(data.discountAmount) // Set the percentage discount (e.g., 20 for 20%)
-                setError('')  
-            } else {
-                setError('Invalid promo code')
-            }
-        } catch (err) {
-            setError('Failed to apply promo code')
-        }
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+      dispatch({ type: 'TOGGLE_CART' })
     }
+  }, [dispatch])
 
-    const variants = {
-        hidden: { opacity: 0, x: '100%' },
-        visible: { opacity: 1, x: 0 },
-        exit: { opacity: 0, x: '100%' },
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
     }
+  }, [handleClickOutside])
 
-    return (
-        <AnimatePresence>
-            {isCartVisible && (
-                <div className={css.cartContainer}>
-                    <motion.section
-                        ref={cartRef}
-                        className={css.cart}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={variants}
-                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    >
-                        <Button onClick={() => dispatch({ type: 'TOGGLE_CART' })} title='Close' className={css.btnClose} />
-                        <h2>Cart</h2>
-                        <ul>
-                            {cart.map((item) => (
-                                <li key={item.id}>
-                                    <p>{item.name}</p>
-                                    <Image 
-                                        src={item.images[0]} 
-                                        alt={item.name}
-                                        width={160} 
-                                        height={160} 
-                                        quality={90} 
-                                    />
-                                    <p>{(item.unit_amount / 100).toFixed(2)} {state.currency}</p>
-                                    <p>{item.quantity}</p>
-                                    <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
-                                    <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
-                                </li>
-                            ))}
-                        </ul>
-                        {totalQuantity > 0 ? (
-                            <>
-                                <h4>Packaging & Shipping: {shippingCost} {state.currency}</h4>
-                                <h3>Total: {(totalPriceWithShipping / 100).toFixed(2)} {state.currency}</h3>
-                            </>
-                        ) : (
-                            <p>Your cart is empty</p>
-                        )}
+  const shippingCost = 0
+  const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
+  const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
 
-                        {totalQuantity > 0 && (
-                            <>
-                                <div className={css.promoCodeContainer}>
-                                    <input 
-                                        type="text" 
-                                        value={promoCode} 
-                                        onChange={(e) => setPromoCode(e.target.value)} 
-                                        placeholder="Enter promo code" 
-                                        className={css.promoCodeInput} 
-                                    />
-                                    <Button onClick={handleApplyPromoCode} title="Apply Promo Code" />
-                                </div>
-                                {promoDiscountPercentage > 0 && (
-                                    <p>Discount applied: {promoDiscountPercentage}%</p>
-                                )}
-                            </>
-                        )}
+  // Apply the promo discount as a percentage
+  const discountedPrice = totalPrice * (1 - promoDiscountPercentage / 100)
+  const totalPriceWithShipping = discountedPrice + shippingCost
 
-                        {totalQuantity > 0 && 
-                            <Elements stripe={stripePromise} options={{mode: 'payment', amount: Number(totalPriceWithShipping) * 100, currency: state.currency.toLowerCase(), locale: 'en-GB'}}>
-                                <AddressElement options={{mode: 'shipping'}} />
-                                <Checkout amount={Number(totalPriceWithShipping / 100)} currency={state.currency.toLowerCase()} cartItems={cart} />
-                            </Elements>
-                        }
-                        {error && <p className={css.error}>{error}</p>}
-                    </motion.section>
-                </div>
+  const handleApplyPromoCode = async () => {
+    setError(null)
+    try {
+      const response = await fetch('/api/apply-promo-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ promoCode }),
+      })
+
+      const data = await response.json()
+
+      if (response.status === 404) {
+        setError('Promo code does not exist')
+      } else if (data.valid) {
+        setPromoDiscountPercentage(data.discountAmount) // Set the percentage discount (e.g., 20 for 20%)
+        setError('')
+      } else {
+        setError('Invalid promo code')
+      }
+    } catch (err) {
+      setError('Failed to apply promo code')
+    }
+  }
+
+  const variants = {
+    hidden: { opacity: 0, x: '100%' },
+    visible: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: '100%' },
+  }
+
+  return (
+    <AnimatePresence>
+      {isCartVisible && (
+        <div className={css.cartContainer}>
+          <motion.section
+            ref={cartRef}
+            className={css.cart}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={variants}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          >
+            <Button onClick={() => dispatch({ type: 'TOGGLE_CART' })} title='Close' className={css.btnClose} />
+            <h2>Cart</h2>
+            <ul>
+              {cart.map((item) => (
+                <li key={item.id}>
+                  <p>{item.name}</p>
+                  <Image
+                    src={item.images[0]}
+                    alt={item.name}
+                    width={160}
+                    height={160}
+                    quality={90}
+                  />
+                  <p>{(item.unit_amount / 100).toFixed(2)} {state.currency}</p>
+                  <p>{item.quantity}</p>
+                  <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
+                  <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
+                </li>
+              ))}
+            </ul>
+            {totalQuantity > 0 ? (
+              <>
+                <h4>Packaging & Shipping: {shippingCost} {state.currency}</h4>
+                <h3>Total: {(totalPriceWithShipping / 100).toFixed(2)} {state.currency}</h3>
+              </>
+            ) : (
+              <p>Your cart is empty</p>
             )}
-        </AnimatePresence>
-    )
+
+            {totalQuantity > 0 && (
+              <>
+                <div className={css.promoCodeContainer}>
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    placeholder="Enter promo code"
+                    className={css.promoCodeInput}
+                  />
+                  <Button onClick={handleApplyPromoCode} title="Apply Promo Code" />
+                </div>
+                {promoDiscountPercentage > 0 && (
+                  <p>Discount applied: {promoDiscountPercentage}%</p>
+                )}
+              </>
+            )}
+
+            {totalQuantity > 0 &&
+              <Elements stripe={stripePromise} options={{ mode: 'payment', amount: Number(totalPriceWithShipping) * 100, currency: state.currency.toLowerCase(), locale: 'en-GB' }}>
+                <AddressElement options={{ mode: 'shipping' }} />
+                <Checkout amount={Number(totalPriceWithShipping / 100)} currency={state.currency.toLowerCase()} cartItems={cart} />
+              </Elements>
+            }
+            {error && <p className={css.error}>{error}</p>}
+          </motion.section>
+        </div>
+      )}
+    </AnimatePresence>
+  )
 }
 
 export default Cart

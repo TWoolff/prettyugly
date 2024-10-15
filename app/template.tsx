@@ -7,23 +7,21 @@ import Loader from './components/loader/loader'
 import { AnimatePresence } from 'framer-motion'
 
 type TemplateProps = {
-    children: React.ReactNode
+	children: React.ReactNode
 }
 
 const Template: React.FC<TemplateProps> = ({ children }) => {
-    const { state } = useAppContext()
-    useCustomCursor();
+	const { state } = useAppContext()
+	useCustomCursor()
 
-    return (
-        <>
-            <AnimatePresence>
-                {!state.hasLoaded && <Loader />}
-            </AnimatePresence>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-        </>
-    )
+	return (
+		<>
+			<AnimatePresence>{!state.hasLoaded && <Loader />}</AnimatePresence>
+			<Header />
+			<main>{children}</main>
+			<Footer />
+		</>
+	)
 }
 
 export default Template

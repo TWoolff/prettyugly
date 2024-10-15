@@ -1,61 +1,61 @@
 .header {
-    padding: var(--spacing-mobile);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
+  padding: var(--spacing-mobile);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
 
-    @media (min-width: 768px) {
-        padding: 4rem var(--spacing-desktop) 1rem var(--spacing-desktop);
-    }
+  @media (min-width: 768px) {
+    padding: 4rem var(--spacing-desktop) 1rem var(--spacing-desktop);
+  }
 
-    & nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
+  & nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
-    & ul {
-        list-style: none;
-        text-align: right;
-    }
+  & ul {
+    list-style: none;
+    text-align: right;
+  }
 
-    & a {
-        text-decoration: none;
-        color: var(--color-black);
-        padding: 0 0.5rem;
-        background-color: var(--color-white);
-        font-size: 0.875rem;
-        font-weight: 800;
-        text-transform: uppercase;
-
-        @media (min-width: 768px) {
-            background-color: transparent;
-            padding: 0;
-        }
-    }
-}
-
-.headBtn {
-    background: var(--color-white) !important;
-    border: none;
-    cursor: pointer;
-    color: var(--color-black) !important;
-    padding: 0.1rem 0.4rem !important;
-    margin: 0;
+  & a {
+    text-decoration: none;
+    color: var(--color-black);
+    padding: 0 0.5rem;
+    background-color: var(--color-white);
     font-size: 0.875rem;
     font-weight: 800;
     text-transform: uppercase;
 
     @media (min-width: 768px) {
-        background: none !important;
-        color: var(--color-black) !important;
-        margin: 0 !important;
-        padding: 0 !important;
+      background-color: transparent;
+      padding: 0;
     }
+  }
+}
+
+.headBtn {
+  background: var(--color-white) !important;
+  border: none;
+  cursor: pointer;
+  color: var(--color-black) !important;
+  padding: 0.1rem 0.4rem !important;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+
+  @media (min-width: 768px) {
+    background: none !important;
+    color: var(--color-black) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }
 
 .headerToggle {
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
 }

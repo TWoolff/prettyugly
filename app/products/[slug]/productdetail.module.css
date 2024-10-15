@@ -1,91 +1,91 @@
 .productDetail {
-    background-color: var(--color-lightgreen);
+	background-color: var(--color-lightgreen);
 }
 
 .flex {
-    position: relative;
-    display: flex;
-    align-items: center;
+	position: relative;
+	display: flex;
+	align-items: center;
 }
 
 .productImages {
-    position: relative;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
+	position: relative;
+	width: 50%;
+	display: flex;
+	flex-direction: column;
 
-    & img {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        height: auto;
-    }
+	& img {
+		position: sticky;
+		top: 0;
+		width: 100%;
+		height: auto;
+	}
 }
 
 .zoomWrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
 }
 
 .infoContainer {
-    position: relative;
-    width: 50%;
-    height: 100%;
+	position: relative;
+	width: 50%;
+	height: 100%;
 }
 
 .info {
-    position: sticky;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    top: 33%;
-    width: 100%;
-    padding: var(--spacing-desktop);
+	position: sticky;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	top: 33%;
+	width: 100%;
+	padding: var(--spacing-desktop);
 
-    & h3 {
-        text-transform: uppercase;
-        margin: 0;
-    }
+	& h3 {
+		text-transform: uppercase;
+		margin: 0;
+	}
 }
 
 .description {
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    line-height: 1;
+	font-size: 1.5rem;
+	text-transform: uppercase;
+	line-height: 1;
 }
 
 .metadata {
-    font-size: 1.2rem;
-    line-height: 1.2;
-    list-style: none;
-    margin-bottom: 3rem;
+	font-size: 1.2rem;
+	line-height: 1.2;
+	list-style: none;
+	margin-bottom: 3rem;
 }
 
 .price {
-    align-self: flex-end;
-    padding-right: 0.5rem;
-    font-size: 1.5rem;
+	align-self: flex-end;
+	padding-right: 0.5rem;
+	font-size: 1.5rem;
 }
 
 .similarProductsContainer {
-    padding: var(--spacing-desktop);
-    background-color: var(--color-lightorange);
+	padding: var(--spacing-desktop);
+	background-color: var(--color-lightorange);
 
-    & h2 {
-        margin-top: 0;
-    }
+	& h2 {
+		margin-top: 0;
+	}
 }
 
 .similarProducts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
 }
 
 .zoomedImage {
-    transition: transform 0.2s ease-in-out;
-    cursor: normal;
+	transition: transform 0.2s ease-in-out;
+	cursor: normal;
 }

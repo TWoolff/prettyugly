@@ -1,66 +1,66 @@
 .featured {
-    height: 100dvh;
-    background-color: var(--color-salmon);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+  height: 100dvh;
+  background-color: var(--color-salmon);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 
 .content {
-    grid-column: 1 / 5;
-    align-self: end;
-    margin-bottom: 1rem;
+  grid-column: 1 / 5;
+  align-self: end;
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    margin-bottom: 10rem;
+  }
+
+  & h1 {
+    color: var(--color-white);
+    font-size: 4rem;
+    margin: 0;
 
     @media (min-width: 768px) {
-        margin-bottom: 10rem;
+      font-size: 7.5rem;
     }
+  }
 
-    & h1 {
-        color: var(--color-white);
-        font-size: 4rem;
-        margin: 0;
+  & h2 {
+    color: var(--color-white);
+    font-size: 2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin: -1rem 0 0 0;
+    line-height: 1;
 
-        @media (min-width: 768px) {
-            font-size: 7.5rem;
-        }
+    @media (min-width: 768px) {
+      font-size: 2.5rem;
+      margin: -2rem 0 0 0;
     }
-
-    & h2 {
-        color: var(--color-white);
-        font-size: 2rem;
-        font-weight: 300;
-        text-transform: uppercase;
-        margin: -1rem 0 0 0;
-        line-height: 1;
-
-        @media (min-width: 768px) {
-            font-size: 2.5rem;
-            margin: -2rem 0 0 0;
-        }
-    }
+  }
 }
 
 .btn {
-    display: inline-block;
-    margin: 0;
-    padding: 1rem 1.25rem;
-    color: var(--color-lightsalmon);
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 800;
-    border: 0;
-    background-color: var(--color-black);
-    cursor: pointer;
-    text-decoration: none;
+  display: inline-block;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  color: var(--color-lightsalmon);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border: 0;
+  background-color: var(--color-black);
+  cursor: pointer;
+  text-decoration: none;
 
-    @media (min-width: 768px) {
-        margin: 2rem 0 0 0; 
-    }
+  @media (min-width: 768px) {
+    margin: 2rem 0 0 0; 
+  }
 }
 
 .featuredProducts {
-    display: flex;
-    gap: 1rem;
-    z-index: 2;
+  display: flex;
+  gap: 1rem;
+  z-index: 2;
 }

@@ -8,29 +8,29 @@ export type BigTextProps = {
   onInViewChange: (inView: boolean) => void
 };
 
-const BigText: React.FC<BigTextProps> = ({text, className, onInViewChange}) => {
+const BigText: React.FC<BigTextProps> = ({ text, className, onInViewChange }) => {
   const bigTextRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-        ([entry]) => {
-            onInViewChange(entry.isIntersecting);
-        },
-        {threshold: 0.3}
+      ([entry]) => {
+        onInViewChange(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
     );
 
     if (bigTextRef.current) {
-        observer.observe(bigTextRef.current);
+      observer.observe(bigTextRef.current);
     }
 
     return () => {
-        if (bigTextRef.current) {
-            observer.unobserve(bigTextRef.current);
-        }
+      if (bigTextRef.current) {
+        observer.unobserve(bigTextRef.current);
+      }
     };
-}, [onInViewChange]);
+  }, [onInViewChange]);
 
-  return ( 
+  return (
     <section ref={bigTextRef} className={`${css.bigtext} ${className}`}>
       <h2>{text}</h2>
     </section>

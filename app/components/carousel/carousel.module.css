@@ -1,126 +1,125 @@
 .carouselContainer {
-    position: relative;
-    height: 300vh;
-    margin-top: 7rem;
+  position: relative;
+  height: 300vh;
+  margin-top: 7rem;
 
-    @media (min-width: 768px) {
-        margin-top: 0rem;
-    }
+  @media (min-width: 768px) {
+    margin-top: 0rem;
+  }
 }
 
 .stickyContainer {
-    position: sticky;
-    top: 7rem;
-    display: flex;
-    align-items: center;
-    padding: 0;
-    overflow: hidden;
-    z-index: 0;
+  position: sticky;
+  top: 7rem;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+  z-index: 0;
 
-    @media (min-width: 768px) {
-        top: 2rem;
-        height: 100vh;
-        padding: 0 0 0 var(--spacing-desktop);
-    }
+  @media (min-width: 768px) {
+    top: 2rem;
+    height: 100vh;
+    padding: 0 0 0 var(--spacing-desktop);
+  }
 }
 
 .scrollText {
-    display: flex;
-    gap: 5rem;
-    align-items: center;
-    position: absolute;
-    bottom: 20%;
-    right: var(--spacing-desktop);
-    max-width: 60rem;
-    z-index: -1;
-    text-align: right;
+  display: flex;
+  gap: 5rem;
+  align-items: center;
+  position: absolute;
+  bottom: 20%;
+  right: var(--spacing-desktop);
+  max-width: 60rem;
+  z-index: -1;
+  text-align: right;
 
-    & svg {
-        width: 12rem;
+  & svg {
+    width: 12rem;
 
-        @media (min-width: 768px) {
-            width: 30rem;
-        }
+    @media (min-width: 768px) {
+      width: 30rem;
     }
+  }
 
-    & div {
-        max-width: 25rem;
-    }
+  & div {
+    max-width: 25rem;
+  }
 
-    & a {
-        margin: 1rem 0;
-        color: var(--color-black);
-        text-transform: uppercase;
-        cursor: pointer;
-        text-decoration: none;
-    }
+  & a {
+    margin: 1rem 0;
+    color: var(--color-black);
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
-    & h2 {
-        margin: 0;
-        text-transform: uppercase;
-    }
+  & h2 {
+    margin: 0;
+    text-transform: uppercase;
+  }
 
-    & p {
-        font-weight: 300;
-    }
+  & p {
+    font-weight: 300;
+  }
 }
 
 .motionContainer {
-    display: flex;
+  display: flex;
 }
 
 .card {
-    position: relative;
-    height: 25rem; 
-    width: 25rem;
-    border-right: var(--spacing-mobile) solid var(--color-background);
-    overflow: hidden;
+  position: relative;
+  height: 25rem; 
+  width: 25rem;
+  border-right: var(--spacing-mobile) solid var(--color-background);
+  overflow: hidden;
 
-    @media (min-width: 768px) {
-        height: 60rem;
-        width: 60rem;
-        border-right: var(--spacing-desktop) solid var(--color-background);
-    }
+  @media (min-width: 768px) {
+    height: 60rem;
+    width: 60rem;
+    border-right: var(--spacing-desktop) solid var(--color-background);
+  }
 
-    &:last-child {
-        border-right: 0;
-    }
+  &:last-child {
+    border-right: 0;
+  }
 }
 
 .cardBackground {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    transition: transform 0.3s ease-in-out;
-    background-size: cover;
-    background-position: center;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: transform 0.3s ease-in-out;
+  background-size: cover;
+  background-position: center;
 }
 
 .cardContent {
-    position: absolute;
-    inset: 0;
-    z-index: 10;
-    display: grid;
-    place-content: end;
-    padding: 0 1.2rem;
-    color: var(--color-black) !important;
-    text-align: right;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-content: end;
+  padding: 0 1.2rem;
+  color: var(--color-black) !important;
+  text-align: right;
 
-    @media (min-width: 768px) {
-        padding: 2rem;
-    }
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
 
-
-    & h2 {
-        text-transform: uppercase;
-        margin: 0;
-    }
+  & h2 {
+    text-transform: uppercase;
+    margin: 0;
+  }
 }
 
 .desktopOnly {
-    display: none;
+  display: none;
 
-    @media (min-width: 768px) {
-        display: block;
-    }
+  @media (min-width: 768px) {
+    display: block;
+  }
 }

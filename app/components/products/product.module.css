@@ -1,57 +1,58 @@
 .productsContainer {
-    padding: 5rem var(--spacing-desktop);
-    margin: 0 0 10rem 15rem;
-    margin-bottom: 10rem;
-    position: relative;
+  padding: 5rem var(--spacing-desktop);
+  margin: 0 0 10rem 15rem;
+  margin-bottom: 10rem;
+  position: relative;
 }
 
 .products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    grid-auto-flow: dense;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  grid-auto-flow: dense;
 }
 
 .product {
-    box-sizing: border-box;
-    width: 100%;
-    height: fit-content;
+  box-sizing: border-box;
+  width: 100%;
+  height: fit-content;
 
-    & a {
-        text-decoration: none;
-        color: var(--color-black);
-    }
+  & a {
+    text-decoration: none;
+    color: var(--color-black);
+  }
 }
 
 .product[data-size="large"] {
-    grid-column: span 2;
-    grid-row: span 30;
+  grid-column: span 2;
+  grid-row: span 30;
 }
 
 .product[data-size="medium"] {
-    grid-column: span 1;
-    grid-row: span 20;
+  grid-column: span 1;
+  grid-row: span 20;
 }
 
 .product[data-size="small"] {
-    grid-column: span 1;
-    grid-row: span 15;
+  grid-column: span 1;
+  grid-row: span 15;
 }
 
 .text {
-    display: flex;
-    gap: 1rem;
-    justify-content: end;
-    align-items: flex-end;
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+  align-items: flex-end;
 
-    & h2, & p {
-        margin: 0;
-        text-transform: uppercase;
-    }
+  & h2,
+  & p {
+    margin: 0;
+    text-transform: uppercase;
+  }
 }
 
 .mainImg {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }

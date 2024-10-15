@@ -1,29 +1,29 @@
 .cookieconsent {
-    position: fixed;
-    right: var(--spacing-mobile);
-    bottom: var(--spacing-mobile);
-    width: calc(100% - var(--spacing-mobile) * 2);
-    height: fit-content;
-    background-color: var(--color-black);
-    color: var(--color-white);
-    padding: var(--spacing-mobile);
-    opacity: 0.9;
-    z-index: 999;
+  position: fixed;
+  right: var(--spacing-mobile);
+  bottom: var(--spacing-mobile);
+  width: calc(100% - var(--spacing-mobile) * 2);
+  height: fit-content;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: var(--spacing-mobile);
+  opacity: 0.9;
+  z-index: 999;
 
-    @media (min-width: 768px) {
-        right: var(--spacing-desktop);
-        bottom: var(--spacing-desktop);
-        width: 30rem;
-        padding: var(--spacing-desktop);
-    }
+  @media (min-width: 768px) {
+    right: var(--spacing-desktop);
+    bottom: var(--spacing-desktop);
+    width: 30rem;
+    padding: var(--spacing-desktop);
+  }
 
-    & p {
-        margin: 0;
-    }
+  & p {
+    margin: 0;
+  }
 }
 
 .cookiebtn {
-    background-color: var(--color-white) !important;
-    color: var(--color-black) !important;
-    margin: 2rem 0 0 0 !important;
+  background-color: var(--color-white) !important;
+  color: var(--color-black) !important;
+  margin: 2rem 0 0 0 !important;
 }

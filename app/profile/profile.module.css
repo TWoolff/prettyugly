@@ -1,28 +1,28 @@
 .profile {
-    padding-top: 20rem;
-    min-height: 100dvh;
+	padding-top: 20rem;
+	min-height: 100dvh;
 
-    & article {
-        grid-column: 1 / -1;
+	& article {
+		grid-column: 1 / -1;
 
-        & form {
-            max-width: 25rem;
-        }
-    }
+		& form {
+			max-width: 25rem;
+		}
+	}
 }
 
 .btn {
-    margin: 2rem 0;
+	margin: 2rem 0;
 }
 
 .unsubBtn {
-    background: none !important;
-    border: none;
-    cursor: pointer;
-    color: var(--color-black) !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-size: 0.875rem !important;
-    font-weight: 800 !important;
-    text-transform: uppercase;
+	background: none !important;
+	border: none;
+	cursor: pointer;
+	color: var(--color-black) !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	font-size: 0.875rem !important;
+	font-weight: 800 !important;
+	text-transform: uppercase;
 }
