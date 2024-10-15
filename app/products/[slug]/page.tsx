@@ -15,88 +15,90 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const [product, setProduct] = useState<Price | null>(null)
 	const [productImages, setProductImages] = useState<any>(null)
 	const [similarProducts, setSimilarProducts] = useState<Price[]>([])
-	const [zoomedIndex, setZoomedIndex] = useState<number | null>(null) // Track which image is zoomed
+	const [zoomedIndex, setZoomedIndex] = useState<number | null>(null)
 	const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 })
 	const flexRef = useRef<HTMLDivElement>(null)
 	const infoContainerRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		const fetchProduct = async () => {
-			let localProduct = state?.data?.find((p: Price) => p.slug === params.slug)
+			let localProduct = state?.data?.find((p: Price) => p.slug === params.slug);
 
 			if (!localProduct) {
-				localProduct = (await fetchProductBySlug(params.slug)) as Price
+				localProduct = await fetchProductBySlug(params.slug) as Price;
 			}
 
-			setProduct(localProduct)
+			setProduct(localProduct);
 
 			if (localProduct) {
-				const resultProduct = localProduct?.product
+				const resultProduct = localProduct.product;
 				if (resultProduct.metadata.similar) {
-					const similarTags = resultProduct?.metadata?.similar.split(',').map((tag: string) => tag.trim().toLowerCase())
+					const similarTags = resultProduct.metadata.similar.split(',').map((tag: string) => tag.trim().toLowerCase());
 					const similarProducts = state?.data?.filter((p: Price) => {
-						const productTags = p.product.metadata.similar?.split(',').map(tag => tag.trim().toLowerCase()) || []
-						return similarTags?.some((tag: string) => productTags.includes(tag)) && p.product.id !== resultProduct.id
-					})
-					setSimilarProducts(similarProducts)
+						const productTags = p.product.metadata.similar?.split(',').map(tag => tag.trim().toLowerCase()) || [];
+						const isTagSimilar = similarTags.some((tag: string) => productTags.includes(tag));
+						const isIdSimilar = similarTags.includes(p.product.id.toLowerCase());
+						return (isTagSimilar || isIdSimilar) && p.product.id !== resultProduct.id;
+					});
+					setSimilarProducts(similarProducts);
 				}
 			}
-		}
+		};
 
-		fetchProduct()
-	}, [params.slug, state.data])
+		fetchProduct();
+	}, [params.slug, state.data]);
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (!product?.product.id) return
+			if (!product?.product.id) return;
 
 			try {
-				const data = await getProductImages(product.product.id)
-				setProductImages(JSON.parse(JSON.stringify(data)))
+				const data = await getProductImages(product.product.id);
+				setProductImages(JSON.parse(JSON.stringify(data)));
 			} catch (error) {
-				console.error('Error fetching product images:', error)
+				console.error('Error fetching product images:', error);
 			}
-		}
+		};
 
-		fetchData()
-	}, [product?.product.id])
+		fetchData();
+	}, [product?.product.id]);
 
 	useEffect(() => {
 		const updateInfoContainerHeight = () => {
 			if (flexRef.current && infoContainerRef.current) {
-				const flexHeight = flexRef.current.offsetHeight
-				infoContainerRef.current.style.height = `${flexHeight}px`
+				const flexHeight = flexRef.current.offsetHeight;
+				infoContainerRef.current.style.height = `${flexHeight}px`;
 			}
-		}
+		};
 
-		updateInfoContainerHeight()
-		window.addEventListener('resize', updateInfoContainerHeight)
+		updateInfoContainerHeight();
+		window.addEventListener('resize', updateInfoContainerHeight);
 
 		return () => {
-			window.removeEventListener('resize', updateInfoContainerHeight)
-		}
-	}, [productImages])
+			window.removeEventListener('resize', updateInfoContainerHeight);
+		};
+	}, [productImages]);
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-		if (zoomedIndex !== index) return
-		const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
-		const x = ((e.clientX - left) / width) * 100
-		const y = ((e.clientY - top) / height) * 100
-		setZoomPosition({ x, y })
-	}
+		if (zoomedIndex !== index) return;
+		const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+		const x = ((e.clientX - left) / width) * 100;
+		const y = ((e.clientY - top) / height) * 100;
+		setZoomPosition({ x, y });
+	};
 
-	const handleMouseEnter = (index: number) => setZoomedIndex(index) 
-	const handleMouseLeave = () => setZoomedIndex(null)
+	const handleMouseEnter = (index: number) => setZoomedIndex(index);
+	const handleMouseLeave = () => setZoomedIndex(null);
 
 	if (!product) {
-		return <Loader />
+		return <Loader />;
 	}
 
 	const {
 		unit_amount,
 		currency,
 		product: { id, slug, name, images, description, metadata },
-	} = product
+	} = product;
 
 	const handleAddToCart = () => {
 		const newItem = {
@@ -107,19 +109,18 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 			unit_amount,
 			metadata,
 			images,
-		}
-		dispatch({ type: 'ADD_TO_CART', payload: newItem })
-	}
+		};
+		dispatch({ type: 'ADD_TO_CART', payload: newItem });
+	};
 
 	const saveProduct = () => {
-		dispatch({ type: 'SAVE_PRODUCT', payload: { id } })
-	}
+		dispatch({ type: 'SAVE_PRODUCT', payload: { id } });
+	};
 
 	return (
 		<section className={css.productDetail}>
 			<div className={css.flex} ref={flexRef}>
 				<div className={css.productImages}>
-					{/* Main product image */}
 					<div
 						className={css.zoomWrapper}
 						onMouseMove={e => handleMouseMove(e, 0)}
@@ -144,27 +145,19 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 					{productImages && (
 						<>
 							{productImages.map((image: any, i: number) => (
-								<div
-									key={i}
-									className={css.zoomWrapper}
-									onMouseMove={e => handleMouseMove(e, i + 1)}
-									onMouseEnter={() => handleMouseEnter(i + 1)}
-									onMouseLeave={handleMouseLeave}
-								>
 									<Image
 										src={`https:${image.url}`}
 										alt={image.title}
+										key={i}
 										width={700}
 										height={700}
 										quality={90}
-										className={zoomedIndex === i + 1 ? css.zoomedImage : ''}
 										style={{
 											transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
 											transform: zoomedIndex === i + 1 ? 'scale(2)' : 'scale(1)',
 											transition: 'transform 0.2s ease',
 										}}
 									/>
-								</div>
 							))}
 						</>
 					)}
@@ -205,7 +198,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 				</div>
 			)}
 		</section>
-	)
+	);
 }
 
-export default ProductDetail
+export default ProductDetail;
