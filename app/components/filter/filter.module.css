@@ -1,12 +1,12 @@
 .filter {
+  grid-column: 2 / -1;
   padding: var(--spacing-desktop);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  position: fixed;
+  gap: 2rem;
+  position: relative;
   left: 0;
-  top: 6.4rem;
-  width: fit-content;
+  top: 0;
+  width: 100%;
+  background-color: var(--color-white);
 }
 
 .inputRadio {

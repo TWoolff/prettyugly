@@ -74,8 +74,9 @@ const Products: React.FC = () => {
 		<>
 			{!state.data && <Loader />}
 			{state.data && (
-				<div className={css.productsContainer}>
-					<Filter />
+				<>
+					
+					<div className={css.productsContainer}>
 					<h1>
 						Products:{' '}
 						{filters.category ? (
@@ -139,8 +140,9 @@ const Products: React.FC = () => {
 								)
 							)}
 						</AnimatePresence>
+						</div>
 					</div>
-				</div>
+				</>
 			)}
 		</>
 	);

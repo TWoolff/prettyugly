@@ -38,7 +38,7 @@ const Filter: React.FC = () => {
   };
 
   return (
-    <section className={css.filter}>
+    <section className={`${css.filter} grid`}>
       <h2>Filter</h2>
       <div>
         <h2>Currency</h2>
