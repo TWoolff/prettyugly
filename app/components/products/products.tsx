@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAppContext } from '@/app/context'
 import { getProducts } from '@/app/utils/getProducts'
-import { getExchangeRate } from '@/app/utils/getExchangeRate'
 import Product from './product'
 import Loader from '../loader/loader'
 import css from './product.module.css'
@@ -12,36 +11,23 @@ const Products: React.FC = () => {
 	const { filters, language } = state
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const data = await getExchangeRate()
-			if (data) {
-				dispatch({ type: 'SET_STATE', payload: { exchangeRate: data } })
-			}
-		}
-		fetchData()
-	}, [])
-
-	useEffect(() => {
 		if (state.data) return
 		const fetchData = async () => {
 			const data = await getProducts()
 			if (data) {
-				const activeProducts = data.filter(item => 
-					typeof item === 'object' && 'active' in item && item.active === true && 
-					item.product && typeof item.product === 'object' && 'active' in item.product && item.product.active === true
-				)
-				dispatch({ type: 'SET_STATE', payload: { data: activeProducts, hasLoaded: true } })
+				console.log('Fetched products:', data) // Add this line for debugging
+				dispatch({ type: 'SET_STATE', payload: { data: data, hasLoaded: true } })
 			}
 		}
 		fetchData()
 	}, [])
 
-	const filteredProducts = state.data?.filter((product: { product: { id: string; name: string; metadata: { [key: string]: string } } }) => {
+	const filteredProducts = state.data?.filter((product: any) => {
 		const languageSuffix = language === 'da-DK' ? '_da' : '_en'
 		return Object.entries(filters).every(([key, value]) => {
 			if (value === '') return true
 			if (key === 'color') {
-				const colors = product.product.metadata[`color${languageSuffix}`]?.split(',').map(c => c.trim().toLowerCase()) || []
+				const colors = product.metadata[`color${languageSuffix}`]?.split(',').map((c: string) => c.trim().toLowerCase()) || []
 				return colors.includes(value.toLowerCase())
 			}
 			if (key === 'search') {
@@ -50,19 +36,19 @@ const Products: React.FC = () => {
 					.split(' ')
 					.filter(word => word.length > 0)
 				const searchFields = [
-					product.product.metadata[`title${languageSuffix}`],
-					product.product.metadata[`description${languageSuffix}`],
-					product.product.metadata[`category${languageSuffix}`],
-					product.product.metadata[`color${languageSuffix}`],
+					product.metadata[`title${languageSuffix}`],
+					product.metadata[`description${languageSuffix}`],
+					product.metadata[`category${languageSuffix}`],
+					product.metadata[`color${languageSuffix}`],
 				]
 				return searchWords.every(word => searchFields.some(field => field && field.toLowerCase().includes(word)))
 			}
 			if (key === 'featured') {
 				const featuredIds = value.split(',')
-				return featuredIds.includes(product.product.id)
+				return featuredIds.includes(product.id)
 			}
 			if (key === 'category') {
-				return product.product.metadata[`category${languageSuffix}`]?.toLowerCase() === value.toLowerCase()
+				return product.metadata[`category${languageSuffix}`]?.toLowerCase() === value.toLowerCase()
 			}
 			return true
 		})
@@ -95,48 +81,11 @@ const Products: React.FC = () => {
 						</h1>
 						<div className={css.products}>
 							<AnimatePresence>
-								{filteredProducts?.map(
-									(product: {
-										id: string
-										slug: string
-										unit_amount?: number
-										product?: {
-											active: boolean
-											created: number
-											default_price: string
-											images: string[]
-											marketing_features: string[]
-											metadata: { [key: string]: string }
-											id: string
-											name: string
-											description: string
-											productInfo: string
-										}
-									}) => (
-										<motion.div key={product.id} layout className={css.product} data-size={getRandomSize()}>
-											<Product
-												key={product.id}
-												data={{
-													...product,
-													unit_amount: product.unit_amount || 0,
-													currency: state.currency,
-													product: product.product || {
-														active: false,
-														created: 0,
-														default_price: '',
-														images: [],
-														marketing_features: [],
-														metadata: {},
-														id: '',
-														name: '',
-														description: '',
-														productInfo: '',
-													},
-												}}
-											/>
-										</motion.div>
-									)
-								)}
+								{filteredProducts?.map((product: any) => (
+									<motion.div key={product.id} layout className={css.product} data-size={getRandomSize()}>
+										<Product key={product.id} data={product}/>
+									</motion.div>
+								))}
 							</AnimatePresence>
 						</div>
 					</div>

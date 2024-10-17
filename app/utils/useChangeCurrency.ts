@@ -2,21 +2,21 @@ import { useAppContext } from '../context'
 
 export const useChangeCurrency = () => {
 	const { state, dispatch } = useAppContext()
-	const { data, exchangeRate } = state
+	const { exchangeRate } = state
+
+	const getExchangeRate = (currency: 'DKK' | 'EUR' | 'SEK') => {
+		switch (currency) {
+			case 'EUR':
+				return exchangeRate?.EUR || 1
+			case 'SEK':
+				return exchangeRate?.SEK || 1
+			default:
+				return 1
+		}
+	}
 
 	const changeCurrency = (currency: 'DKK' | 'EUR' | 'SEK') => {
-		const getExchangeRate = (currency: 'DKK' | 'EUR' | 'SEK') => {
-			switch (currency) {
-				case 'EUR':
-					return exchangeRate?.EUR
-				case 'SEK':
-					return exchangeRate?.SEK
-				default:
-					return 1
-			}
-		}
-
-		const updatedProducts = data.map((product: { original_unit_amount: number; unit_amount: number }) => {
+		const updatedProducts = state.data.map((product: { original_unit_amount: number; unit_amount: number }) => {
 			const originalUnitAmount = product.original_unit_amount || product.unit_amount
 			const updatedUnitAmount = Math.round(originalUnitAmount * Number(getExchangeRate(currency)))
 
@@ -33,5 +33,5 @@ export const useChangeCurrency = () => {
 		dispatch({ type: 'UPDATE_PRODUCTS', payload: updatedProducts })
 	}
 
-	return { changeCurrency }
+	return { changeCurrency, getExchangeRate }
 }

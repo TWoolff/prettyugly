@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '@/app/context'
 import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
+import { getProducts } from '@/app/utils/getProducts'
 import Input from '../formelements/input'
 import Dropdown from '../formelements/dropdown'
 import css from './filter.module.css'
@@ -14,20 +15,25 @@ const Filter: React.FC = () => {
   const languageSuffix = language === 'da-DK' ? '_da' : '_en'
 
   const uniqueCategories = useMemo(() => {
-    return Array.from(new Set(data?.map((item: any) => item.product.metadata[`category${languageSuffix}`])))
+    return Array.from(new Set(data?.map((item: any) => item.metadata[`category${languageSuffix}`])))
   }, [data, languageSuffix])
   
   const uniqueColors = useMemo(() => {
     const allColors = data?.flatMap((item: any) => {
-      const color = item.product.metadata[`color${languageSuffix}`]
+      const color = item.metadata[`color${languageSuffix}`]
       return color ? color.split(',').map((c: string) => c.trim().toLowerCase()) : []
     })
     return Array.from(new Set(allColors))
   }, [data, languageSuffix])
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     dispatch({ type: 'SET_FILTER', payload: { key: name, value } })
+
+    if (name === 'category') {
+      const products = await getProducts(value || undefined, language)
+      dispatch({ type: 'SET_STATE', payload: { data: products } })
+    }
   }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +70,7 @@ const Filter: React.FC = () => {
         <h2>{language === 'da-DK' ? 'Kategorier' : 'Categories'}</h2>
         <Input
           key='All'
-          onChange={handleFilterChange}
+          onChange={(e) => handleFilterChange(e)}
           name='category'
           label={language === 'da-DK' ? 'Alle' : 'All'}
           value=''
@@ -75,7 +81,7 @@ const Filter: React.FC = () => {
         {uniqueCategories.map((category, i) => (
           <Input
             key={i}
-            onChange={handleFilterChange}
+            onChange={(e) => handleFilterChange(e)}
             name='category'
             label={category as string}
             value={category as string}
@@ -89,7 +95,7 @@ const Filter: React.FC = () => {
         <h2>{language === 'da-DK' ? 'Farver' : 'Colors'}</h2>
         <Input
           key='AllColors'
-          onChange={handleFilterChange}
+          onChange={(e) => handleFilterChange(e)}
           name='color'
           label={language === 'da-DK' ? 'Alle' : 'All'}
           value=''
@@ -100,7 +106,7 @@ const Filter: React.FC = () => {
         {uniqueColors.map((color, i) => (
           <Input
             key={i}
-            onChange={handleFilterChange}
+            onChange={(e) => handleFilterChange(e)}
             name='color'
             label={color as string}
             value={color as string}
