@@ -5,8 +5,8 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  z-index: 9999;
+  align-items: flex-start;
+  z-index: 99;
 
   @media (min-width: 768px) {
     padding: 4rem var(--spacing-desktop) 1rem var(--spacing-desktop);
@@ -14,6 +14,12 @@
 
   & h1 {
     font-size: 1rem;
+    line-height: 1;
+    
+    & a {
+      color: var(--color-lightgreen);
+      padding: 0 !important;
+    }
   }
 
   & nav {
@@ -41,14 +47,28 @@
   }
 }
 
+.headerIcons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+
+  & svg {
+    height: 1.5rem;
+  }
+}
+
 .headBtn {
   background: var(--color-white) !important;
   border: none;
   cursor: pointer;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
   color: var(--color-black) !important;
   padding: 0.1rem 0.4rem !important;
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
 
@@ -66,41 +86,53 @@
 }
 
 .burgerMenu {
-  position: fixed;
-  top: 4rem;
-  right: 4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 1;
-}
-
-.burgerBar {
-  width: 2rem;
-  height: 0.25rem;
-  background: var(--color-black);
-  border-radius: 10px;
-  transition: all 0.3s linear;
+  margin-bottom: 10rem;
   position: relative;
-  transform-origin: 1px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  border: none;
+  background-color: var(--color-black);
+  transition: background-color .3s, opacity .3s, visibility .3s;
+
+  & :before, & :after {
+    background-color: var(--color-lightgreen);
+    content: "";
+    height: 4px;
+    width: 60px;
+    left: 0;
+    position: absolute;
+    top: 28px;
+    transition: all .3s;
+  }
+
+  & :after {
+    bottom: 28px;
+  }
 }
 
-.burgerBar.open:first-child {
+.active :before {
   transform: rotate(45deg);
+  transform-origin: center;
 }
 
-.burgerBar.open:nth-child(2) {
-  opacity: 0;
-}
-
-.burgerBar.open:nth-child(3) {
+.active :after {
   transform: rotate(-45deg);
+  transform-origin: center;
+}
+
+.burgerMenuLine {
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 .nav {
@@ -108,7 +140,7 @@
   top: 0;
   right: 0;
   height: 100vh;
-  background-color: var(--color-white);
+  background-color: var(--color-salmon);
   padding-top: 3.5rem;
   transition: transform 0.3s ease-in-out;
   transform: translateX(100%);

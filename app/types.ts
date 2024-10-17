@@ -21,6 +21,7 @@ export type Action = {
 		| 'SET_CURRENCY'
 		| 'UPDATE_PRODUCTS'
 		| 'SET_LANGUAGE'
+		| 'RESET_FILTERS'
 	payload?: Partial<State> | CartItem | { id: string } | { key: string; value: string } | string | Customer | null
 }
 

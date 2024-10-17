@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--color-white);
-  z-index: 999;
+  z-index: 9999;
   overflow-y: auto;
 }
 
@@ -17,7 +17,7 @@
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 998;
+  z-index: 99;
 }
 
 .btnSmall {

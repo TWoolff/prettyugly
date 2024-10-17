@@ -6,8 +6,9 @@ import { TransitionLink } from '@/app/utils/transitionLinks'
 import Button from '../formelements/button'
 import Cart from '../cart/cart'
 import Toggle from '../formelements/toggle'
-import css from './header.module.css'
 import Filter from '../filter/filter'
+import { CartIcon, ProfileIcon, SearchIcon } from '../icons/icons'
+import css from './header.module.css'
 
 const Header: React.FC = () => {
   const { state, dispatch } = useAppContext()
@@ -42,13 +43,19 @@ const Header: React.FC = () => {
     <>
       <header className={css.header}>
         <h1><TransitionLink href='/'>PRETTYUGLY</TransitionLink></h1>
-        <div className={css.burgerMenu} onClick={toggleMenu}>
-          <div className={`${css.burgerBar} ${isMenuOpen ? css.open : ''}`}></div>
-          <div className={`${css.burgerBar} ${isMenuOpen ? css.open : ''}`}></div>
-          <div className={`${css.burgerBar} ${isMenuOpen ? css.open : ''}`}></div>
+        <div className={css.headerIcons}>
+          <button className={isMenuOpen ? `${css.active} ${css.burgerMenu}` : css.burgerMenu} onClick={toggleMenu} >
+            <span>
+              <span className={css.burgerMenuLine}>Menu</span>
+            </span>
+          </button>
+          <TransitionLink href='/profile' className={css.headBtn}>
+            <ProfileIcon />
+          </TransitionLink>
+          <Button onClick={handleToggleCart} title={null} icon={<SearchIcon />} className={css.headBtn} />
+          <Button onClick={handleToggleCart} title={hasMounted ? totalQuantity : 0} icon={<CartIcon />} className={css.headBtn} />
         </div>
         <nav className={`${css.nav} ${isMenuOpen ? css.open : ''}`}>
-          <Button onClick={handleToggleCart} title={language === 'da-DK' ? `Kurv [ ${hasMounted ? totalQuantity : 0} ]` : `Cart [ ${hasMounted ? totalQuantity : 0} ]`} className={css.headBtn} />
           <ul>
             <li><TransitionLink href='/' onClick={() => setIsMenuOpen(false)}>{language === 'da-DK' ? 'Forside' : 'Home'}</TransitionLink></li>
             <li><TransitionLink href='/products' onClick={() => setIsMenuOpen(false)}>{language === 'da-DK' ? 'Produkter' : 'Products'}</TransitionLink></li>

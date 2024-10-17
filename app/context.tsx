@@ -82,6 +82,8 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, data: action.payload }
 		case 'SET_LANGUAGE':
 			return { ...state, language: action.payload as string }
+		case 'RESET_FILTERS':
+			return { ...state, filters: {} }
 		default:
 			return state
 	}
