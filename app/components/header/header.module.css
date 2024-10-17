@@ -17,8 +17,10 @@
     line-height: 1;
     
     & a {
+      position: fixed;
       color: var(--color-lightgreen);
       padding: 0 !important;
+      z-index: 999;
     }
   }
 

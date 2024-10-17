@@ -11,8 +11,6 @@ const Filter: React.FC = () => {
   const { data, language } = state
   const [searchTerm, setSearchTerm] = useState('')
   const { changeCurrency } = useChangeCurrency();
-
-  console.log(state)
   const languageSuffix = language === 'da-DK' ? '_da' : '_en'
 
   const uniqueCategories = useMemo(() => {
