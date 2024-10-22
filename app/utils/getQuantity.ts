@@ -1,5 +1,5 @@
-import { CartItem } from "../types"
+import { CartItem } from '../types'
 
 export const calculateTotalQuantity = (cart: CartItem[]) => {
-  return cart.reduce((total: any, item: { quantity: number }) => total + item.quantity, 0)
+	return cart.reduce((total: any, item: { quantity: number }) => total + item.quantity, 0)
 }

@@ -28,7 +28,6 @@ export const useChangeCurrency = () => {
 			}
 		})
 
-		//@ts-ignore
 		dispatch({ type: 'SET_CURRENCY', payload: currency })
 		dispatch({ type: 'UPDATE_PRODUCTS', payload: updatedProducts })
 	}

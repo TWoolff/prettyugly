@@ -1,8 +1,8 @@
 'use client'
+import { useState } from 'react'
 import Link, { LinkProps } from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAppContext } from '../context'
-import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface TransitionLinkProps extends LinkProps {
@@ -32,7 +32,7 @@ export const TransitionLink: React.FC<TransitionLinkProps> = ({ children, href, 
 		await sleep(1000)
 		router.push(href)
 		await sleep(1000)
-		setIsTransitioning(false) 
+		setIsTransitioning(false)
 	}
 
 	return (
@@ -52,7 +52,7 @@ export const TransitionLink: React.FC<TransitionLinkProps> = ({ children, href, 
 							initial={{ scale: 1 }}
 							animate={{ scale: 1000 }}
 							exit={{ scale: 1 }}
-							transition={{ duration: 0.5, ease: 'easeInOut' }} 
+							transition={{ duration: 0.5, ease: 'easeInOut' }}
 						>
 							<path d='M0,.23h6.32c3.72,0,7.9,2,7.9,6.71s-4.17,6.71-7.9,6.71h-2.03v6.32H0V.23ZM6.32,9.78c2.79,0,3.55-1.55,3.55-2.85s-.76-2.88-3.55-2.88h-2.03v5.72h2.03Z' />
 							<path d='M16.75.23h6.99c3.13,0,7.22,1.78,7.22,6.48,0,3.86-2.65,5.55-5.33,6.06l7.39,7.19h-5.89l-6.09-6.74v6.74h-4.29V.23ZM23.51,9.33c2.2,0,3.13-1.32,3.13-2.62s-.93-2.65-3.13-2.65h-2.48v5.27h2.48Z' />

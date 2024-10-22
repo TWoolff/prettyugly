@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react'
 import { getPage } from './utils/contentful'
 import { getProducts } from './utils/getProducts'
 import { useAppContext } from './context'
+import { TransitionLink } from './utils/transitionLinks'
 import Featured from './components/featured/featured'
 import Ticker from './components/ticker/ticker'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 import BigText from './components/bigtext/bigtext'
-import { TransitionLink } from './utils/transitionLinks'
 
 const Home: React.FC = () => {
 	const { state, dispatch } = useAppContext()

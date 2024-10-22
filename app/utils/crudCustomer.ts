@@ -34,7 +34,7 @@ export const getCustomer = async (email: string, password: string): Promise<Cust
 						line1: customer.address.line1 || '',
 						line2: customer.address.line2 || null,
 						postal_code: customer.address.postal_code || '',
-				}
+					}
 				: null,
 		}
 	} else {

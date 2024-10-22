@@ -15,7 +15,7 @@ const Products: React.FC = () => {
 		const fetchData = async () => {
 			const data = await getProducts()
 			if (data) {
-				console.log('Fetched products:', data) // Add this line for debugging
+				console.log('Fetched products:', data)
 				dispatch({ type: 'SET_STATE', payload: { data: data, hasLoaded: true } })
 			}
 		}
@@ -83,7 +83,7 @@ const Products: React.FC = () => {
 							<AnimatePresence>
 								{filteredProducts?.map((product: any) => (
 									<motion.div key={product.id} layout className={css.product} data-size={getRandomSize()}>
-										<Product key={product.id} data={product}/>
+										<Product key={product.id} data={product} />
 									</motion.div>
 								))}
 							</AnimatePresence>

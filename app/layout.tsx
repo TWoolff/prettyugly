@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { AppProvider } from './context'
-import './styles/index.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import './styles/index.css'
 
 export const metadata: Metadata = {
 	title: 'PrettyUgly',
