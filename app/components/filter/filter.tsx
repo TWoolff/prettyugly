@@ -3,37 +3,61 @@ import { useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '@/app/context'
 import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
 import { getProducts } from '@/app/utils/getProducts'
-import Input from '../formelements/input'
 import Dropdown from '../formelements/dropdown'
+import Button from '../formelements/button'
 import css from './filter.module.css'
 
-const Filter: React.FC = () => {
+interface FilterProps {
+  onButtonClick: () => void;
+}
+
+const Filter: React.FC<FilterProps> = ({ onButtonClick }) => {
   const { state, dispatch } = useAppContext()
-  const { data, language } = state
+  const { data, language, allProducts } = state
+
   const [searchTerm, setSearchTerm] = useState('')
   const { changeCurrency } = useChangeCurrency();
   const languageSuffix = language === 'da-DK' ? '_da' : '_en'
 
   const uniqueCategories = useMemo(() => {
-    return Array.from(new Set(data?.map((item: any) => item.metadata[`category${languageSuffix}`])))
-  }, [data, languageSuffix])
+    if (!allProducts) return []
+    const categories = allProducts
+        .map((item: { metadata: Record<string, string> }) => item.metadata[`category${languageSuffix}`])
+        .filter((category: string | null | undefined): category is string => category !== undefined && category !== null)
+    return Array.from(new Set(categories))
+  }, [allProducts, languageSuffix]) 
   
   const uniqueColors = useMemo(() => {
-    const allColors = data?.flatMap((item: any) => {
+    if (!allProducts) return []
+    const allColors = allProducts.flatMap((item: any) => {
       const color = item.metadata[`color${languageSuffix}`]
       return color ? color.split(',').map((c: string) => c.trim().toLowerCase()) : []
     })
-    return Array.from(new Set(allColors))
-  }, [data, languageSuffix])
+    return Array.from(new Set(allColors)).filter(Boolean)
+  }, [allProducts, languageSuffix])
 
-  const handleFilterChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  const handleFilterChange = async (name: string, value: string) => {
     dispatch({ type: 'SET_FILTER', payload: { key: name, value } })
 
     if (name === 'category') {
       const products = await getProducts(value || undefined, language)
-      dispatch({ type: 'SET_STATE', payload: { data: products } })
+      const sanitizedProducts = products.map((product: { description: any }) => ({
+          ...product,
+          description: product.description || ''
+      }))
+      dispatch({ 
+        type: 'SET_STATE', 
+        payload: { 
+            data: sanitizedProducts,
+            allProducts: state.allProducts || sanitizedProducts,
+            filters: state.filters,
+            language: state.language,
+            currency: state.currency
+        }
+      })
     }
+
+    onButtonClick()
   }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +70,41 @@ const Filter: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch({ type: 'RESET_FILTERS' })
-    setSearchTerm('')
-  }, [language, dispatch])
+    // Preserve the category and color filters when changing language
+    const currentCategory = state.filters.category;
+    const currentColor = state.filters.color;
+    dispatch({ type: 'RESET_FILTERS' });
+    if (currentCategory) {
+      dispatch({ type: 'SET_FILTER', payload: { key: 'category', value: currentCategory } });
+    }
+    if (currentColor) {
+      dispatch({ type: 'SET_FILTER', payload: { key: 'color', value: currentColor } });
+    }
+    setSearchTerm('');
+  }, [language, dispatch]);
+
+  // Add this useEffect at the component level
+  useEffect(() => {
+    const initializeProducts = async () => {
+        if (!state.allProducts) {
+            const products = await getProducts()
+            if (products) {
+                const sanitizedProducts = products.map((product: { description: any }) => ({
+                    ...product,
+                    description: product.description || ''
+                }))
+                dispatch({ 
+                    type: 'SET_STATE', 
+                    payload: { 
+                        data: sanitizedProducts,
+                        allProducts: sanitizedProducts
+                    }
+                })
+            }
+        }
+    }
+    initializeProducts()
+  }, [])
 
   return (
     <section className={`${css.filter} grid`}>
@@ -68,52 +124,30 @@ const Filter: React.FC = () => {
       </div>
       <div>
         <h2>{language === 'da-DK' ? 'Kategorier' : 'Categories'}</h2>
-        <Input
-          key='All'
-          onChange={(e) => handleFilterChange(e)}
-          name='category'
-          label={language === 'da-DK' ? 'Alle' : 'All'}
-          value=''
-          type='radio'
-          id='All'
-          checked={state.filters.category === ''}
+        <Button 
+            onClick={() => handleFilterChange('category', '')} 
+            title={language === 'da-DK' ? 'Alle' : 'All'} 
         />
         {uniqueCategories.map((category, i) => (
-          <Input
-            key={i}
-            onChange={(e) => handleFilterChange(e)}
-            name='category'
-            label={category as string}
-            value={category as string}
-            type='radio'
-            id={category as string}
-            checked={state.filters.category?.toLowerCase() === (category as string)?.toLowerCase()}
-          />
+            <Button 
+                key={i} 
+                onClick={() => handleFilterChange('category', category as string)} 
+                title={category as string} 
+            />
         ))}
       </div>
       <div>
         <h2>{language === 'da-DK' ? 'Farver' : 'Colors'}</h2>
-        <Input
-          key='AllColors'
-          onChange={(e) => handleFilterChange(e)}
-          name='color'
-          label={language === 'da-DK' ? 'Alle' : 'All'}
-          value=''
-          type='radio'
-          id='AllColors'
-          checked={state.filters.color === ''}
+        <Button 
+            onClick={() => handleFilterChange('color', '')} 
+            title={language === 'da-DK' ? 'Alle' : 'All'} 
         />
         {uniqueColors.map((color, i) => (
-          <Input
-            key={i}
-            onChange={(e) => handleFilterChange(e)}
-            name='color'
-            label={color as string}
-            value={color as string}
-            type='radio'
-            id={color as string}
-            checked={state.filters.color?.toLowerCase() === (color as string)?.toLowerCase()}
-          />
+            <Button 
+                key={i} 
+                onClick={() => handleFilterChange('color', color as string)} 
+                title={color as string} 
+            />
         ))}
       </div>
     </section>

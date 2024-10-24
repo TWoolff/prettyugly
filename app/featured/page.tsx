@@ -10,21 +10,29 @@ const Featured: React.FC = () => {
   const { filters } = state;
 
   useEffect(() => {
-    dispatch({ type: "SET_FILTER", payload: { key: "color", value: "" } });
-    dispatch({ type: "SET_FILTER", payload: { key: "category", value: "" } });
-  }, []);
-
-  const filteredProducts = state.data?.filter((product: {product: {id: string; name: string; metadata: { [key: string]: string }}}) => {
-      return Object.entries(filters).every(([key, value]) => {
-        if (value === "") return true;
-        if (key === "featured") {
-          const featuredIds = value.split(",");
-          return featuredIds.includes(product.product.id);
-        }
-        return product.product.metadata[key] === value;
-      });
+    // Only set these filters if they're not already set
+    if (!state.filters.color) {
+      dispatch({ type: "SET_FILTER", payload: { key: "color", value: "" } });
     }
-  );
+    if (!state.filters.category) {
+      dispatch({ type: "SET_FILTER", payload: { key: "category", value: "" } });
+    }
+  }, [dispatch, state.filters.color, state.filters.category]);
+
+  const filteredProducts = state.data?.filter((product: {
+    id: string;
+    name: string;
+    metadata: { [key: string]: string };
+  }) => {
+    return Object.entries(filters).every(([key, value]) => {
+      if (value === "") return true;
+      if (key === "featured") {
+        const featuredIds = value.split(",");
+        return featuredIds.includes(product.id);
+      }
+      return product.metadata[key] === value;
+    });
+  });
 
   return (
     <section className={css.featured}>
@@ -55,19 +63,12 @@ const Featured: React.FC = () => {
                   data={{
                     currency: "",
                     ...product,
-                    unit_amount: product.unit_amount || 0,
-                    product: product.product || {
-                      active: false,
-                      created: 0,
-                      default_price: "",
-                      images: [],
-                      marketing_features: [],
-                      metadata: {},
-                      id: "",
-                      name: "",
-                      description: "",
-                      productInfo: "",
-                    },
+                    price: product.unit_amount || null,
+                    unit_amount: product.unit_amount || null,
+                    name: product.product?.name || "",
+                    description: product.product?.description || "",
+                    images: product.product?.images || [],
+                    metadata: product.product?.metadata || {},
                   }}
                 />
               </motion.div>

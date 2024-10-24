@@ -5,43 +5,41 @@ import Image from 'next/image'
 import { useAppContext } from '@/app/context'
 import { getProductBySlug as fetchProductBySlug } from '@/app/utils/getProducts'
 import { getProductImages } from '@/app/utils/getProductImages'
-import { Price } from '@/app/types'
+import { Product } from '@/app/types'
 import Button from '@/app/components/formelements/button'
 import Loader from '@/app/components/loader/loader'
 import css from './productdetail.module.css'
 
 const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const { state, dispatch } = useAppContext()
-	const [product, setProduct] = useState<Price | null>(null)
+	const [product, setProduct] = useState<Product | null>(null)
 	const [productImages, setProductImages] = useState<any>(null)
-	const [similarProducts, setSimilarProducts] = useState<Price[]>([])
+	const [similarProducts, setSimilarProducts] = useState<Product[]>([])
 	const [zoomedIndex, setZoomedIndex] = useState<number | null>(null)
 	const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 })
 	const flexRef = useRef<HTMLDivElement>(null)
 	const infoContainerRef = useRef<HTMLDivElement>(null)
 
-	console.log('state', state)
 
 	useEffect(() => {
 		const fetchProduct = async () => {
-			let localProduct = state?.data?.find((p: Price) => p.slug === params.slug);
+			let localProduct = state?.data?.find((p) => p.slug === params.slug);
 
 			if (!localProduct) {
-				localProduct = await fetchProductBySlug(params.slug) as Price;
+				localProduct = await fetchProductBySlug(params.slug) as Product;
 			}
 
 			setProduct(localProduct);
 
 			if (localProduct) {
-				const resultProduct = localProduct.product;
-				if (resultProduct.metadata.similar) {
-					const similarTags = resultProduct.metadata.similar.split(',').map((tag: string) => tag.trim().toLowerCase());
-					const similarProducts = state?.data?.filter((p: Price) => {
-						const productTags = p.product.metadata.similar?.split(',').map(tag => tag.trim().toLowerCase()) || [];
+				if (localProduct.metadata.similar) {
+					const similarTags = localProduct.metadata.similar.split(',').map((tag: string) => tag.trim().toLowerCase());
+					const similarProducts = state?.data?.filter((p) => {
+						const productTags = p.metadata?.similar?.split(',').map((tag: string) => tag.trim().toLowerCase()) || [];
 						const isTagSimilar = similarTags.some((tag: string) => productTags.includes(tag));
-						const isIdSimilar = similarTags.includes(p.product.id.toLowerCase());
-						return (isTagSimilar || isIdSimilar) && p.product.id !== resultProduct.id;
-					});
+						const isIdSimilar = similarTags.includes(p.id.toLowerCase());
+						return (isTagSimilar || isIdSimilar) && p.id !== localProduct.id;
+					}) as Product[] || [];
 					setSimilarProducts(similarProducts);
 				}
 			}
@@ -52,10 +50,10 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (!product?.product.id) return;
+			if (!product?.id) return;
 
 			try {
-				const data = await getProductImages(product.product.id);
+				const data = await getProductImages(product.id);
 				setProductImages(JSON.parse(JSON.stringify(data)));
 			} catch (error) {
 				console.error('Error fetching product images:', error);
@@ -63,7 +61,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 		};
 
 		fetchData();
-	}, [product?.product.id]);
+	}, [product?.id]);
 
 	useEffect(() => {
 		const updateInfoContainerHeight = () => {
@@ -97,9 +95,12 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	}
 
 	const {
-		unit_amount,
+		id,
+		name,
+		images,
+		metadata,
+		price,
 		currency,
-		product: { id, slug, name, images, description, metadata },
 	} = product;
 
 	const displayTitle = state.language === 'da-DK' ? metadata.title_da : metadata.title_en
@@ -112,9 +113,9 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 		const newItem = {
 			quantity: 1,
 			id,
-			slug,
+			slug: params.slug,
 			name,
-			unit_amount,
+			price,
 			metadata,
 			images,
 		};
@@ -124,8 +125,6 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const saveProduct = () => {
 		dispatch({ type: 'SAVE_PRODUCT', payload: { id } });
 	};
-
-	console.log('product', product)
 
 	return (
 		<section className={css.productDetail}>
@@ -182,7 +181,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 							{metadata?.finding_da && <li>{displayFinding}</li>}
 						</ul>
 						<p className={css.price}>
-							{unit_amount / 100} {currency.toUpperCase()}
+							{(price ?? 0) / 100} {currency?.toUpperCase()}
 						</p>
 						<Button onClick={saveProduct} title={state.language === 'da-DK' ? 'Gem Produkt' : 'Save Product'} className={css.btn} />
 						<Button onClick={handleAddToCart} title={state.language === 'da-DK' ? 'Tilføj til kurv' : 'Add to Cart'} className={css.btn} />
@@ -196,10 +195,10 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 						{similarProducts.map(similarProduct => (
 							<div key={similarProduct.id} className={css.similarProduct}>
 								<Link href={`/products/${similarProduct.slug}`}>
-									<Image src={similarProduct.product.images[0]} alt={similarProduct.product.name} width={300} height={300} quality={90} />
-									<p>{similarProduct.product.name}</p>
+									<Image src={similarProduct.images[0]} alt={similarProduct.name} width={300} height={300} quality={90} />
+									<p>{similarProduct.name}</p>
 									<p>
-										{similarProduct.unit_amount / 100} {currency.toUpperCase()}
+										{(similarProduct.price ?? 0) / 100} {similarProduct.currency?.toUpperCase()}
 									</p>
 								</Link>
 							</div>

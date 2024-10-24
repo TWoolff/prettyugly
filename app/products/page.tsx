@@ -7,8 +7,9 @@ const ProductsPage: React.FC = () => {
 	const { dispatch } = useAppContext()
 
 	useEffect(() => {
-		dispatch({ type: 'SET_FILTER', payload: { key: 'featured', value: '' } })
-	}, [])
+		// Only reset the 'featured' filter, preserve others
+		dispatch({ type: 'SET_FILTER', payload: { key: 'featured', value: '' } });
+	}, [dispatch]);
 
 	return (
 		<section>

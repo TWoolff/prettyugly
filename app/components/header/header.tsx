@@ -9,6 +9,7 @@ import Toggle from '../formelements/toggle'
 import Filter from '../filter/filter'
 import { CartIcon, ProfileIcon, SearchIcon } from '../icons/icons'
 import css from './header.module.css'
+import { useRouter } from 'next/navigation'
 
 const Header: React.FC = () => {
   const { state, dispatch } = useAppContext()
@@ -16,6 +17,7 @@ const Header: React.FC = () => {
   const language = state.language
   const [hasMounted, setHasMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter()
 
   const handleToggleCart = () => { 
     dispatch({ type: 'TOGGLE_CART' })
@@ -38,6 +40,11 @@ const Header: React.FC = () => {
   useEffect(() => {
     setHasMounted(true)
   }, [])
+
+  const handleFilterButtonClick = () => {
+    setIsMenuOpen(false)
+    router.push('/products')
+  }
 
   return (
     <>
@@ -69,7 +76,7 @@ const Header: React.FC = () => {
               <Toggle onChange={handleLangChange} labelLeft='da' labelRight='en' className={css.headerToggle} initialChecked={language === 'en-US'} />
             </li>
           </ul>
-          <Filter />
+          <Filter onButtonClick={handleFilterButtonClick} />
         </nav>
       </header>
       <Cart />

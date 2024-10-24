@@ -11,16 +11,12 @@ export const getProducts = async (category?: string, language?: string) => {
 		query += ` AND ${metadataKey}:'${category}'`
 	}
 
-	console.log('Search query:', query)
-
 	try {
 		const res = await stripe.products.search({
 			query,
 			limit: 100,
 			expand: ['data.default_price'],
 		})
-
-		console.log('Stripe API response:', JSON.stringify(res, null, 2))
 
 		const products = res.data.map(product => ({
 			id: product.id,
@@ -33,9 +29,7 @@ export const getProducts = async (category?: string, language?: string) => {
 			slug: slugify(product.name),
 		}))
 
-		console.log('Processed products:', JSON.stringify(products, null, 2))
-
-		return products
+		return JSON.parse(JSON.stringify(products))
 	} catch (error) {
 		console.error('Error fetching products:', error)
 		return []

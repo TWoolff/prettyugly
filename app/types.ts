@@ -48,13 +48,16 @@ export type ProductType = {
 	}
 }
 
-export type DataState =
-	| {
-			data?: ProductType[]
-    }
-	| null
-	| undefined
-	| any
+export type DataState = {
+	id: string;
+	name: string;
+	description: string;
+	images: string[];
+	metadata: { [key: string]: string };
+	price: number | null;
+	currency: string | null;
+	slug: string;
+}[] | null;
 
 export type CartItem = {
 	id: string
@@ -70,6 +73,7 @@ export type ErrorState = string | null
 export type State = {
 	error: ErrorState | null
 	data: DataState | null
+	allProducts: any
 	hasLoaded: boolean
 	cart: CartItem[]
 	saved: CartItem[]
@@ -96,29 +100,15 @@ export type Customer = {
 	phone: string | null
 }
 
-export type Product = {
-	id: string
-	object: any
-	active: boolean
-	attributes: string[]
-	created: number
-	default_price: string
-	description: string | null
-	images: string[]
-	livemode: boolean
-	marketing_features: string[]
-	metadata: { [key: string]: string }
-	name: string
-	package_dimensions: string | null
-	shippable: boolean | null
-	statement_descriptor: string | null
-	tax_code: string | null
-	type: string
-	unit_label: string | null
-	updated: number
-	url: string | null
-	slug: string
-	currency: string
+export interface Product {
+	id: string;
+	name: string;
+	description: string;
+	images: string[];
+	metadata: { [key: string]: string };
+	price: number | null;
+	currency: string | null;
+	slug: string;
 }
 
 export type Price = {

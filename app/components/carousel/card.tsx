@@ -6,7 +6,7 @@ export type CardProps = {
 	unit_amount?: number
 	currency?: string
 	product?: {
-		id?: number
+		id?: string | number
 		name?: string
 		images?: string[]
 		description?: string

@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useContext, ReactNode, useReducer, useEffect } from 'react'
-import { State, Action, CartItem, AppContextType, Customer } from './types'
+import { State, Action, CartItem, AppContextType, Customer, DataState } from './types'
 
 const loadInitialState = (): State => {
 	const savedCart = typeof window !== 'undefined' ? localStorage.getItem('cart') : null
@@ -9,6 +9,7 @@ const loadInitialState = (): State => {
 	return {
 		error: null,
 		data: null,
+		allProducts: null,
 		hasLoaded: false,
 		cart: savedCart ? JSON.parse(savedCart) : [],
 		saved: savedProducts ? JSON.parse(savedProducts) : [],
@@ -29,7 +30,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 const reducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'SET_STATE':
-			return { ...state, ...(action.payload as Partial<State>) }
+			return { ...state, ...(action.payload as Partial<State>) };
 		case 'RESET_STATE':
 			return initialState
 		case 'SET_CUSTOMER':
@@ -74,16 +75,29 @@ const reducer = (state: State, action: Action): State => {
 		case 'TOGGLE_SEARCH':
 			return { ...state, isSearchVisible: !state.isSearchVisible }
 		case 'SET_FILTER':
-			const { key, value } = action.payload as { key: string; value: string }
-			return { ...state, filters: { ...state.filters, [key]: value } }
+			const { key, value } = action.payload as { key: string; value: string };
+			console.log(`Setting filter: ${key} = ${value}`);
+			return { ...state, filters: { ...state.filters, [key]: value } };
 		case 'SET_CURRENCY':
 			return { ...state, currency: action.payload as string }
 		case 'UPDATE_PRODUCTS':
-			return { ...state, data: action.payload }
+			return { 
+				...state, 
+				data: action.payload as DataState,
+				allProducts: action.payload as DataState
+			}
 		case 'SET_LANGUAGE':
 			return { ...state, language: action.payload as string }
 		case 'RESET_FILTERS':
-			return { ...state, filters: {} }
+			console.log('Resetting filters');
+			return { 
+				...state, 
+				filters: { 
+					category: state.filters.category || '',
+					color: state.filters.color || '',
+					featured: ''
+				} 
+			};
 		default:
 			return state
 	}

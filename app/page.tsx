@@ -29,14 +29,27 @@ const Home: React.FC = () => {
 	}, [])
 
 	useEffect(() => {
-		if (state.data) return
-		const fetchData = async () => {
-			const data = await getProducts()
-			if (data) {
-				dispatch({ type: 'SET_STATE', payload: { data: data } })
+		const fetchProducts = async () => {
+			try {
+				const products = await getProducts()
+				if (products && products.length > 0) {
+					const sanitizedProducts = products.map((item: { description: any }) => ({
+						...item,
+						description: item.description || '',
+					}))
+					dispatch({
+						type: 'SET_STATE',
+						payload: {
+							data: sanitizedProducts,
+							allProducts: sanitizedProducts,
+						},
+					})
+				}
+			} catch (error) {
+				console.error('Error fetching products:', error)
 			}
 		}
-		fetchData()
+		fetchProducts()
 	}, [])
 
 	useEffect(() => {

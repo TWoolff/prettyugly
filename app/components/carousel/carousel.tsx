@@ -21,7 +21,17 @@ type CarouselProps = {
 	data: CarouselData
 }
 
-type ProductType = CardProps & { id?: string; product?: { id: string } }
+type ProductType = {
+	id?: string;
+	product?: { id: string };
+	name: string;
+	description: string;
+	images: string[];
+	metadata: { [key: string]: string };
+	price: number | null;
+	currency: string | null;
+	slug: string;
+}
 
 const Carousel: React.FC<CarouselProps> = ({ data }) => {
 	const { state } = useAppContext()
@@ -48,7 +58,7 @@ const Carousel: React.FC<CarouselProps> = ({ data }) => {
 				<motion.div style={{ x }} className={css.motionContainer}>
 					{filteredProducts.map((product: ProductType) => {
 						const key = product.id || (product.product && product.product.id) || ''
-						return <Card key={key} {...product} />
+						return <Card key={key} {...product} currency={product.currency || undefined} />
 					})}
 				</motion.div>
 				<article className={css.scrollText}>

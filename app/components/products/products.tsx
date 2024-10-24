@@ -16,7 +16,16 @@ const Products: React.FC = () => {
 			const data = await getProducts()
 			if (data) {
 				console.log('Fetched products:', data)
-				dispatch({ type: 'SET_STATE', payload: { data: data, hasLoaded: true } })
+				dispatch({ 
+					type: 'SET_STATE', 
+					payload: { 
+						data: data.map((item: { description: any }) => ({
+							...item,
+							description: item.description || ''
+						})), 
+						hasLoaded: true 
+					} 
+				})
 			}
 		}
 		fetchData()
@@ -59,6 +68,8 @@ const Products: React.FC = () => {
 		return sizes[Math.floor(Math.random() * sizes.length)]
 	}
 
+	console.log('filters', filters)
+
 	return (
 		<>
 			{!state.data && <Loader />}
@@ -69,14 +80,14 @@ const Products: React.FC = () => {
 							{language === 'da-DK' ? 'Produkter:' : 'Products:'}{' '}
 							{filters.category ? (
 								<>
-									{filters.category} [ {filteredProducts.length} ]
+									{filters.category} [ {filteredProducts?.length ?? 0} ]
 								</>
 							) : filters.color ? (
 								<>
-									{filters.color} [ {filteredProducts.length} ]
+									{filters.color} [ {filteredProducts?.length ?? 0} ]
 								</>
 							) : (
-								<>All [ {filteredProducts.length} ]</>
+								<>All [ {filteredProducts?.length ?? 0} ]</>
 							)}
 						</h1>
 						<div className={css.products}>
