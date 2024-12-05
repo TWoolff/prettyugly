@@ -76,7 +76,6 @@ const reducer = (state: State, action: Action): State => {
 			return { ...state, isSearchVisible: !state.isSearchVisible }
 		case 'SET_FILTER':
 			const { key, value } = action.payload as { key: string; value: string };
-			console.log(`Setting filter: ${key} = ${value}`);
 			return { ...state, filters: { ...state.filters, [key]: value } };
 		case 'SET_CURRENCY':
 			return { ...state, currency: action.payload as string }
@@ -89,7 +88,6 @@ const reducer = (state: State, action: Action): State => {
 		case 'SET_LANGUAGE':
 			return { ...state, language: action.payload as string }
 		case 'RESET_FILTERS':
-			console.log('Resetting filters');
 			return { 
 				...state, 
 				filters: { 

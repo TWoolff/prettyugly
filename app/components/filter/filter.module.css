@@ -1,14 +1,32 @@
 .filter {
-  grid-column: 2 / -1;
-  padding: var(--spacing-desktop);
-  gap: 2rem;
-  position: relative;
-  left: 0;
-  top: 0;
-  width: 100%;
-  background-color: var(--color-white);
+  display: grid;
+  gap: var(--spacing-desktop);
+  place-items: center;
+  justify-content: center;
+  align-content: center;
+  min-height: 100vh;
+
+  & > div {
+    width: 100%;
+    grid-column: 1 / -1;
+    text-align: center;
+  }
 }
 
-.inputRadio {
-  padding: 0.5rem;
+.categoryContainer {
+  font-size: 3rem;
+}
+
+.currencyContainer{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoryButton {
+  background: none;
+	padding: 0;
+	color: var(--color-black);
+  font-size: 3rem;
 }

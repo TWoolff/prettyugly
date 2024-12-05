@@ -68,8 +68,6 @@ const Products: React.FC = () => {
 		return sizes[Math.floor(Math.random() * sizes.length)]
 	}
 
-	console.log('filters', filters)
-
 	return (
 		<>
 			{!state.data && <Loader />}
