@@ -15,7 +15,6 @@ const Products: React.FC = () => {
 		const fetchData = async () => {
 			const data = await getProducts()
 			if (data) {
-				console.log('Fetched products:', data)
 				dispatch({ 
 					type: 'SET_STATE', 
 					payload: { 
@@ -30,6 +29,33 @@ const Products: React.FC = () => {
 		}
 		fetchData()
 	}, [])
+
+	useEffect(() => {
+		if (state.filters?.search !== undefined && state.data) {
+			if (state.filters.search.trim() === '') {
+				dispatch({
+					type: 'SET_STATE',
+					payload: { data: state.allProducts }
+				})
+			} else {
+				const filteredProducts = state.data.filter(product => {
+					const title = product.metadata[`title${language === 'da-DK' ? '_da' : '_en'}`]
+					const description = product.metadata[`description${language === 'da-DK' ? '_da' : '_en'}`]
+					const searchTerm = state.filters.search.toLowerCase()
+					
+					return (
+						(title?.toLowerCase().includes(searchTerm) || false) ||
+						(description?.toLowerCase().includes(searchTerm) || false)
+					)
+				})
+				
+				dispatch({
+					type: 'SET_STATE',
+					payload: { data: filteredProducts }
+				})
+			}
+		}
+	}, [state.filters?.search])
 
 	const filteredProducts = state.data?.filter((product: any) => {
 		const languageSuffix = language === 'da-DK' ? '_da' : '_en'

@@ -9,6 +9,7 @@ import Ticker from './components/ticker/ticker'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 import BigText from './components/bigtext/bigtext'
+import { serializeData } from './utils/serializeData'
 
 const Home: React.FC = () => {
 	const { state, dispatch } = useAppContext()
@@ -20,7 +21,9 @@ const Home: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const data = await getPage('/')
-				setHomeData(JSON.parse(JSON.stringify(data.items[0].fields)))
+				if (data.items?.[0].fields) {
+					setHomeData(serializeData(data.items[0].fields))
+				}
 			} catch (error) {
 				console.error('Error fetching home data:', error)
 			}
@@ -62,8 +65,8 @@ const Home: React.FC = () => {
 
 	return (
 		<section className={`home ${bigTextClassName}`}>
-			{homeData?.features[0].fields && <Featured data={homeData.features[0].fields} />}
-			{homeData?.carousel && <Carousel data={homeData.carousel} />}
+			{homeData?.features[0]?.fields && <Featured data={serializeData(homeData.features[0].fields)} />}
+			{homeData?.carousel && <Carousel data={serializeData(homeData.carousel)} />}
 			<div className='mobileOnly'>
 				<h2>{state.language === 'en-US' ? 'Introduction to PrettyUgly' : 'Introduktion til PrettyUgly'}</h2>
 				<p>

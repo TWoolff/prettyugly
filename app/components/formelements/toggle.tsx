@@ -19,7 +19,7 @@ const Toggle: React.FC<ToggleProps> = ({ onChange, labelLeft, labelRight, classN
 
   return (
     <div className={`${css.toggle} ${className}`}>
-      <span onClick={() => handleToggle(false)} style={{ cursor: 'pointer', fontWeight: !checked ? 900 : 300 }}>{labelLeft}</span>
+      <span onClick={() => handleToggle(false)} style={{ cursor: 'pointer', textDecoration: !checked ? 'underline' : 'none' }}>{labelLeft}</span>
       <label className={css.switch}>
         /
         <input
@@ -28,7 +28,7 @@ const Toggle: React.FC<ToggleProps> = ({ onChange, labelLeft, labelRight, classN
           onChange={(e) => handleToggle(e.target.checked)}
         />
       </label>
-      <span onClick={() => handleToggle(true)} style={{ cursor: 'pointer', fontWeight: checked ? 900 : 300 }}>{labelRight}</span>
+      <span onClick={() => handleToggle(true)} style={{ cursor: 'pointer', textDecoration: !checked ? 'none' : 'underline' }}>{labelRight}</span>
     </div>
   )
 }

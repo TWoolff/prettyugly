@@ -63,7 +63,7 @@
   cursor: pointer;
 }
 
-.toggle{
+.toggle {
 	display: flex;
 	gap: 0.3rem;
 	align-items: center;
@@ -76,8 +76,6 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 30px;
-  height: 14px;
 
 	& input {
 		opacity: 0;

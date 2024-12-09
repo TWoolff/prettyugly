@@ -30,14 +30,15 @@
   & ul {
     list-style: none;
     text-align: right;
+    z-index: 9;
   }
 
   & a {
     text-decoration: none;
-    color: var(--color-black);
+    color: var(--color-blue);
     padding: 0 0.5rem;
     background-color: var(--color-white);
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 800;
     text-transform: uppercase;
   
@@ -67,6 +68,7 @@
   font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
+  z-index: 9;
 
   & svg {
     height: 1.5rem;
@@ -84,8 +86,8 @@
   position: relative;
   display: flex;
   justify-content: center;
+  z-index: 9;
 }
-
 
 .logOutBtn {
   transform: rotate(180deg);
@@ -175,7 +177,7 @@
   display: block;
   height: 100vh;
   width: 100vw;
-  background-color: var(--color-lightgreen);
+  background-color: var(--color-lightpink);
 }
 
 .nav ul {

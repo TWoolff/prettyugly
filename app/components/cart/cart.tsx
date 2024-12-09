@@ -10,6 +10,7 @@ import { useAppContext } from '@/app/context'
 import Button from '../formelements/button'
 import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
+import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
@@ -24,6 +25,7 @@ const Cart: React.FC = () => {
   const [promoCode, setPromoCode] = useState<string>('')
   const [promoDiscountPercentage, setPromoDiscountPercentage] = useState<number>(0)
   const [error, setError] = useState<string | null>(null)
+  const { getExchangeRate } = useChangeCurrency()
 
   const handleIncrementQuantity = useCallback((id: string) => {
     dispatch({ type: 'INCREMENT_QUANTITY', payload: { id } })
@@ -47,12 +49,29 @@ const Cart: React.FC = () => {
   }, [handleClickOutside])
 
   const shippingCost = 0
-  const totalPrice = useMemo(() => calculateTotalPrice(cart), [cart])
+  const totalPrice = useMemo(() => {
+    const price = calculateTotalPrice(cart)
+    const rate = Number(getExchangeRate(state.currency as 'DKK' | 'EUR' | 'SEK'))
+    console.log('Raw total price:', price, 'Exchange rate:', rate)
+    return Math.round(price * rate)
+  }, [cart, state.currency])
   const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
 
   // Apply the promo discount as a percentage
   const discountedPrice = totalPrice * (1 - promoDiscountPercentage / 100)
-  const totalPriceWithShipping = discountedPrice + shippingCost
+  const totalPriceWithShipping = Math.round(discountedPrice + shippingCost)
+
+  console.log({
+    cart,
+    totalPrice,
+    promoDiscountPercentage,
+    discountedPrice,
+    shippingCost,
+    totalPriceWithShipping,
+    currency: state.currency
+  })
+
+  console.log('currency',state.currency)
 
   const handleApplyPromoCode = async () => {
     setError(null)
@@ -112,7 +131,9 @@ const Cart: React.FC = () => {
                     height={160}
                     quality={90}
                   />
-                  <p>{(item.unit_amount / 100).toFixed(2)} {state.currency}</p>
+                  <p>
+                    {(item.unit_amount * Number(getExchangeRate(state.currency as 'DKK' | 'EUR' | 'SEK')) / 100).toFixed(2)} {state.currency}
+                  </p>
                   <p>{item.quantity}</p>
                   <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
                   <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
@@ -147,9 +168,21 @@ const Cart: React.FC = () => {
             )}
 
             {totalQuantity > 0 &&
-              <Elements stripe={stripePromise} options={{ mode: 'payment', amount: Number(totalPriceWithShipping) * 100, currency: state.currency.toLowerCase(), locale: 'en-GB' }}>
+              <Elements 
+                stripe={stripePromise} 
+                options={{ 
+                  mode: 'payment', 
+                  amount: totalPriceWithShipping, // Already in smallest currency unit
+                  currency: state.currency?.toLowerCase() || 'dkk', 
+                  locale: 'en-GB' 
+                }}
+              >
                 <AddressElement options={{ mode: 'shipping' }} />
-                <Checkout amount={Number(totalPriceWithShipping / 100)} currency={state.currency.toLowerCase()} cartItems={cart} />
+                <Checkout 
+                  amount={Number((totalPriceWithShipping / 100).toFixed(2))}
+                  currency={state.currency?.toLowerCase() || 'dkk'} 
+                  cartItems={cart} 
+                />
               </Elements>
             }
             {error && <p className={css.error}>{error}</p>}

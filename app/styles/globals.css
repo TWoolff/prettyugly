@@ -10,6 +10,12 @@
 	font-style: normal;
 }
 
+@font-face {
+  font-family: 'Made Infinity Outline';
+  src: url('/fonts/MADE-INFINITY-Outline-Medium.woff2') format('woff2');
+	font-style: normal;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

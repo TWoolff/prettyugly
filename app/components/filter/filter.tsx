@@ -1,20 +1,21 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, Fragment } from 'react'
 import { useAppContext } from '@/app/context'
 import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
 import { getProducts } from '@/app/utils/getProducts'
-import Dropdown from '../formelements/dropdown'
+import { TransitionLink } from '@/app/utils/transitionLinks'
 import Button from '../formelements/button'
+import Toggle from '../formelements/toggle'
 import css from './filter.module.css'
 
 interface FilterProps {
 	onButtonClick: () => void
+	setIsMenuOpen: (value: boolean) => void
 }
 
-const Filter: React.FC<FilterProps> = ({ onButtonClick }) => {
+const Filter: React.FC<FilterProps> = ({ onButtonClick, setIsMenuOpen }) => {
 	const { state, dispatch } = useAppContext()
-	const { data, language, allProducts } = state
-	const [searchTerm, setSearchTerm] = useState('')
+	const { language, allProducts } = state
 	const { changeCurrency } = useChangeCurrency()
 	const languageSuffix = language === 'da-DK' ? '_da' : '_en'
 
@@ -58,14 +59,8 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick }) => {
 
 		onButtonClick()
 	}
-
-	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchTerm(e.target.value)
-		dispatch({ type: 'SET_FILTER', payload: { key: 'search', value: e.target.value } })
-	}
-
-	const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		changeCurrency(e.target.value as 'DKK' | 'EUR' | 'SEK')
+	const handleLangChange = (checked: boolean) => {
+		dispatch({ type: 'SET_LANGUAGE', payload: checked ? 'en-US' : 'da-DK' })
 	}
 
 	useEffect(() => {
@@ -78,7 +73,6 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick }) => {
 		if (currentColor) {
 			dispatch({ type: 'SET_FILTER', payload: { key: 'color', value: currentColor } })
 		}
-		setSearchTerm('')
 	}, [language, dispatch])
 
 	useEffect(() => {
@@ -108,16 +102,43 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick }) => {
 			<div className={css.categoryContainer}>
 				<Button onClick={() => handleFilterChange('category', '')} title={language === 'da-DK' ? 'Alle' : 'All'} className={css.categoryButton} />{' '}/{' '}
 				{uniqueCategories.map((category, i) => (
-					<>
+					<Fragment key={i}>
 						{i > 0 && ' / '}
 						<Button key={i} onClick={() => handleFilterChange('category', category as string)} title={category as string} className={css.categoryButton} />
-					</>
+					</Fragment>
 				))}
 			</div>
-			<div className={css.currencyContainer}>
-				<h2>{language === 'da-DK' ? 'Valuta' : 'Currency'}</h2>
-				<Dropdown onChange={handleCurrencyChange} value={state.currency ?? ''} options={['DKK', 'EUR', 'SEK']} name={'Currency'} className={''} />
+			<div className={css.navContainer}>
+				<TransitionLink href='/' onClick={() => setIsMenuOpen(false)}>
+					{language === 'da-DK' ? 'Forside' : 'Home'}
+				</TransitionLink>
+				<TransitionLink href='/about' onClick={() => setIsMenuOpen(false)}>
+					{language === 'da-DK' ? 'Om os' : 'About'}
+				</TransitionLink>
+				<div className={css.currencyContainer}>
+				{language === 'da-DK' ? 'VALUTA' : 'CURRENCY'}: 
+					<Button 
+						onClick={() => changeCurrency('DKK')} 
+						title="DKK" 
+						className={`${css.currencyButton} ${state.currency === 'DKK' ? css.active : ''}`}
+					/> / 
+					<Button 
+						onClick={() => changeCurrency('EUR')} 
+						title="EUR" 
+						className={`${css.currencyButton} ${state.currency === 'EUR' ? css.active : ''}`}
+					/> / 
+					<Button 
+						onClick={() => changeCurrency('SEK')} 
+						title="SEK" 
+						className={`${css.currencyButton} ${state.currency === 'SEK' ? css.active : ''}`}
+					/>
+				</div>
+				<div className={css.languageContainer}>
+					{language === 'da-DK' ? 'SPROG' : 'LANGUAGE'}:
+					<Toggle onChange={handleLangChange} labelLeft='da' labelRight='en' className={css.headerToggle} initialChecked={language === 'en-US'} />
+				</div>
 			</div>
+			
 			{/* <div>
 				<h2>{language === 'da-DK' ? 'Farver' : 'Colors'}</h2>
 				<Button onClick={() => handleFilterChange('color', '')} title={language === 'da-DK' ? 'Alle' : 'All'} />

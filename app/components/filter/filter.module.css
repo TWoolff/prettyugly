@@ -5,6 +5,7 @@
   justify-content: center;
   align-content: center;
   min-height: 100vh;
+  color: var(--color-blue);
 
   & > div {
     width: 100%;
@@ -15,18 +16,45 @@
 
 .categoryContainer {
   font-size: 3rem;
+  
 }
 
-.currencyContainer{
+.navContainer{
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
 }
 
 .categoryButton {
-  background: none;
+  background: none !important;
 	padding: 0;
-	color: var(--color-black);
+	color: var(--color-blue);
   font-size: 3rem;
+  text-transform: lowercase !important;
+}
+
+.currencyContainer, .languageContainer {
+  display: flex;
+  align-items: center;
+}
+
+.languageContainer {
+  gap: 0.5rem;
+}
+
+.currencyButton {
+  background: none !important;
+  padding: 0 !important;
+  margin: 0.2rem 0.5rem 0 0.5rem;
+  color: var(--color-blue);
+  font-size: 1rem;
+  text-transform: uppercase !important;
+}
+
+.currencyButton.active {
+  opacity: 1;
+  font-weight: 900;
+  text-decoration: underline;
 }

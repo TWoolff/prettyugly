@@ -13,10 +13,12 @@
 	--color-orange: rgb(233, 115, 53);
 	--color-lightorange: rgb(242, 143, 102);
 	--color-background: rgb(251, 239, 240);
+	--color-lightpink: rgb(247, 233, 236);
 
 	--font-body: 'Made Infinity Regular';
 	--font-heading: 'Made Infinity Medium';
 	--font-subheading: 'Made Infinity Medium';
+	--font-outline: 'Made Infinity Outline';
 
 	--spacing-desktop: 3.125rem;
 	--spacing-mobile: 1rem;

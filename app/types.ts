@@ -22,7 +22,7 @@ export type Action = {
 		| 'UPDATE_PRODUCTS'
 		| 'SET_LANGUAGE'
 		| 'RESET_FILTERS'
-	payload?: Partial<State> | CartItem | { id: string } | { key: string; value: string } | string | Customer | null
+	payload?: Partial<State> | CartItem | { id: string } | { key: string; value: string } | string | Customer | Product[] | null
 }
 
 export type ProductType = {
@@ -48,16 +48,7 @@ export type ProductType = {
 	}
 }
 
-export type DataState = {
-	id: string;
-	name: string;
-	description: string;
-	images: string[];
-	metadata: { [key: string]: string };
-	price: number | null;
-	currency: string | null;
-	slug: string;
-}[] | null;
+export type DataState = Product[] | null;
 
 export type CartItem = {
 	id: string
@@ -101,14 +92,16 @@ export type Customer = {
 }
 
 export interface Product {
-	id: string;
-	name: string;
-	description: string;
-	images: string[];
-	metadata: { [key: string]: string };
-	price: number | null;
-	currency: string | null;
-	slug: string;
+	id: string
+	name: string
+	description: string
+	images: string[]
+	metadata: { [key: string]: string }
+	price: number | null
+	currency: string | null
+	slug: string
+	unit_amount: number | null
+	original_unit_amount?: number
 }
 
 export type Price = {

@@ -17,6 +17,7 @@
   }
 
   & h1 {
+    font-family: var(--font-outline);
     color: var(--color-white);
     font-size: 4rem;
     margin: 0;

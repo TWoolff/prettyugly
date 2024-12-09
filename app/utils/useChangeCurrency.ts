@@ -1,24 +1,27 @@
 import { useAppContext } from '../context'
+import { Product } from '../types'
 
 export const useChangeCurrency = () => {
 	const { state, dispatch } = useAppContext()
 	const { exchangeRate } = state
 
-	const getExchangeRate = (currency: 'DKK' | 'EUR' | 'SEK') => {
+	const getExchangeRate = (currency: 'DKK' | 'EUR' | 'SEK'): number => {
 		switch (currency) {
 			case 'EUR':
-				return exchangeRate?.EUR || 1
+				return Number(exchangeRate?.EUR) || 1
 			case 'SEK':
-				return exchangeRate?.SEK || 1
+				return Number(exchangeRate?.SEK) || 1
 			default:
 				return 1
 		}
 	}
 
 	const changeCurrency = (currency: 'DKK' | 'EUR' | 'SEK') => {
-		const updatedProducts = state.data.map((product: { original_unit_amount: number; unit_amount: number }) => {
-			const originalUnitAmount = product.original_unit_amount || product.unit_amount
-			const updatedUnitAmount = Math.round(originalUnitAmount * Number(getExchangeRate(currency)))
+		if (!state.data) return
+
+		const updatedProducts = state.data.map((product: Product) => {
+			const originalUnitAmount = product.original_unit_amount || product.unit_amount || 0
+			const updatedUnitAmount = Math.round(originalUnitAmount * getExchangeRate(currency))
 
 			return {
 				...product,
