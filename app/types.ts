@@ -22,7 +22,8 @@ export type Action = {
 		| 'UPDATE_PRODUCTS'
 		| 'SET_LANGUAGE'
 		| 'RESET_FILTERS'
-	payload?: Partial<State> | CartItem | { id: string } | { key: string; value: string } | string | Customer | Product[] | null
+		| 'UPDATE_CART'
+	payload?: Partial<State> | CartItem | CartItem[] | { id: string } | { key: string; value: string } | string | Customer | Product[] | null
 }
 
 export type ProductType = {
@@ -54,6 +55,7 @@ export type CartItem = {
 	id: string
 	name: string
 	unit_amount: number
+	price?: number
 	quantity: number
 	metadata: { [key: string]: string }
 	images: string[]

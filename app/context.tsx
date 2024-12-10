@@ -1,6 +1,7 @@
 'use client'
 import { createContext, useContext, ReactNode, useReducer, useEffect } from 'react'
 import { State, Action, CartItem, AppContextType, Customer, DataState } from './types'
+import { getExchangeRate } from './utils/getExchangeRate'
 
 const loadInitialState = (): State => {
 	const savedCart = typeof window !== 'undefined' ? localStorage.getItem('cart') : null
@@ -36,13 +37,15 @@ const reducer = (state: State, action: Action): State => {
 		case 'SET_CUSTOMER':
 			return { ...state, customer: action.payload as Customer | null }
 		case 'ADD_TO_CART': {
-			const newItem = action.payload as CartItem
-			const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id)
-			if (existingItemIndex >= 0) {
-				const updatedCart = state.cart.map((item, index) => (index === existingItemIndex ? { ...item, quantity: item.quantity + newItem.quantity } : item))
-				return { ...state, cart: updatedCart, isCartVisible: true }
-			} else {
-				return { ...state, cart: [...state.cart, newItem], isCartVisible: true }
+			const item = action.payload as CartItem
+			const cartItem = {
+				...item,
+				unit_amount: item.price || 0,
+				quantity: 1
+			}
+			return {
+				...state,
+				cart: [...state.cart, cartItem]
 			}
 		}
 		case 'CLEAR_CART':
@@ -96,6 +99,8 @@ const reducer = (state: State, action: Action): State => {
 					featured: ''
 				} 
 			};
+		case 'UPDATE_CART':
+			return { ...state, cart: action.payload as CartItem[] }
 		default:
 			return state
 	}
@@ -114,6 +119,27 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		localStorage.setItem('cart', JSON.stringify(state.cart))
 	}, [state.cart])
+
+	useEffect(() => {
+		const fetchExchangeRates = async () => {
+			try {
+				const rates = await getExchangeRate('DKK')
+				dispatch({ 
+					type: 'SET_STATE', 
+					payload: { 
+						exchangeRate: {
+							EUR: rates.EUR,
+							SEK: rates.SEK
+						}
+					}
+				})
+			} catch (error) {
+				console.error('Error fetching exchange rates:', error)
+			}
+		}
+		
+		fetchExchangeRates()
+	}, [])
 
 	return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>
 }

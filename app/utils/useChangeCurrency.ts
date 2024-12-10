@@ -31,8 +31,15 @@ export const useChangeCurrency = () => {
 			}
 		})
 
+		const updatedCart = state.cart.map(item => ({
+			...item,
+			unit_amount: Math.round(((item.unit_amount ?? 0) || (item.price ?? 0)) * getExchangeRate(currency)),
+			currency
+		}))
+
 		dispatch({ type: 'SET_CURRENCY', payload: currency })
 		dispatch({ type: 'UPDATE_PRODUCTS', payload: updatedProducts })
+		dispatch({ type: 'UPDATE_CART', payload: updatedCart })
 	}
 
 	return { changeCurrency, getExchangeRate }

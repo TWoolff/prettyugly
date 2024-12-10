@@ -11,6 +11,7 @@ import Button from '../formelements/button'
 import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
 import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
+import { CartItem } from '@/app/types'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
@@ -49,11 +50,16 @@ const Cart: React.FC = () => {
   }, [handleClickOutside])
 
   const shippingCost = 0
+  const getConvertedPrice = (amount: number) => {
+    const rate = getExchangeRate(state.currency as 'DKK' | 'EUR' | 'SEK')
+    return Math.round(amount * rate)
+  }
+
   const totalPrice = useMemo(() => {
-    const price = calculateTotalPrice(cart)
-    const rate = Number(getExchangeRate(state.currency as 'DKK' | 'EUR' | 'SEK'))
-    console.log('Raw total price:', price, 'Exchange rate:', rate)
-    return Math.round(price * rate)
+    return cart.reduce((total, item) => {
+      const itemPrice = item.price || item.unit_amount
+      return total + (getConvertedPrice(itemPrice) * item.quantity)
+    }, 0)
   }, [cart, state.currency])
   const totalQuantity = useMemo(() => calculateTotalQuantity(cart), [cart])
 
@@ -61,17 +67,6 @@ const Cart: React.FC = () => {
   const discountedPrice = totalPrice * (1 - promoDiscountPercentage / 100)
   const totalPriceWithShipping = Math.round(discountedPrice + shippingCost)
 
-  console.log({
-    cart,
-    totalPrice,
-    promoDiscountPercentage,
-    discountedPrice,
-    shippingCost,
-    totalPriceWithShipping,
-    currency: state.currency
-  })
-
-  console.log('currency',state.currency)
 
   const handleApplyPromoCode = async () => {
     setError(null)
@@ -105,6 +100,21 @@ const Cart: React.FC = () => {
     exit: { opacity: 0, x: '100%' },
   }
 
+  const getItemPrice = (item: CartItem) => {
+    const originalPrice = item.price || item.unit_amount
+    return (getConvertedPrice(originalPrice) / 100).toFixed(2)
+  }
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const updatedCart = cart.map(item => ({
+        ...item,
+        currency: state.currency
+      }))
+      dispatch({ type: 'UPDATE_CART', payload: updatedCart })
+    }
+  }, [state.currency])
+
   return (
     <AnimatePresence>
       {isCartVisible && (
@@ -131,9 +141,7 @@ const Cart: React.FC = () => {
                     height={160}
                     quality={90}
                   />
-                  <p>
-                    {(item.unit_amount * Number(getExchangeRate(state.currency as 'DKK' | 'EUR' | 'SEK')) / 100).toFixed(2)} {state.currency}
-                  </p>
+                  <p>{getItemPrice(item)} {state.currency}</p>
                   <p>{item.quantity}</p>
                   <Button onClick={() => handleDecrementQuantity(item.id)} title='-' className={css.btnSmall} />
                   <Button onClick={() => handleIncrementQuantity(item.id)} title='+' className={css.btnSmall} />
