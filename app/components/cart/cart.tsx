@@ -4,14 +4,13 @@ import Image from 'next/image'
 import { Elements, AddressElement } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
 import { calculateTotalQuantity } from '@/app/utils/getQuantity'
-import { calculateTotalPrice } from '@/app/utils/getTotal'
 import { useAppContext } from '@/app/context'
+import { CartItem } from '@/app/types'
 import Button from '../formelements/button'
 import Checkout from '../checkout/checkout'
 import css from './cart.module.css'
-import { useChangeCurrency } from '@/app/utils/useChangeCurrency'
-import { CartItem } from '@/app/types'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined')
@@ -180,7 +179,7 @@ const Cart: React.FC = () => {
                 stripe={stripePromise} 
                 options={{ 
                   mode: 'payment', 
-                  amount: totalPriceWithShipping, // Already in smallest currency unit
+                  amount: totalPriceWithShipping,
                   currency: state.currency?.toLowerCase() || 'dkk', 
                   locale: 'en-GB' 
                 }}

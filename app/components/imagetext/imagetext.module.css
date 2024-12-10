@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.sideBySide {
+  & img {
+    grid-column: 5 / -1;
+  }
+
+  & .content {
+    grid-column: 1 / 4;
+    color: var(--color-blue);
+
+    & p {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    & h2 {
+      text-align: center;
+    }
+  }
+}
+
+.stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.sideBySide img,
+.stacked img {
+  max-width: 100%;
+  height: auto;
+}
+
+.sideBySide p {
+  flex: 1;
+} 

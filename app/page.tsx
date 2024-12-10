@@ -10,6 +10,18 @@ import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 import BigText from './components/bigtext/bigtext'
 import { serializeData } from './utils/serializeData'
+import ImageText from './components/imagetext/imagetext'
+
+interface ImageTextItem {
+	sys: { id: string }
+	fields: {
+		id: string
+		image: { fields: { file: { url: string; details: { image: { width: number; height: number } } } } }
+		textEnglish: { content: Array<{ content: Array<{ value: string }> }> }
+		textDanish: { content: Array<{ content: Array<{ value: string }> }> }
+		placement: boolean
+	}
+}
 
 const Home: React.FC = () => {
 	const { state, dispatch } = useAppContext()
@@ -63,6 +75,8 @@ const Home: React.FC = () => {
 
 	const bigTextClassName = bigTextInView ? 'bigTextInView' : ''
 
+	console.log(homeData)
+
 	return (
 		<section className={`home ${bigTextClassName}`}>
 			{homeData?.features[0]?.fields && <Featured data={serializeData(homeData.features[0].fields)} />}
@@ -81,6 +95,9 @@ const Home: React.FC = () => {
 				</p>
 				<TransitionLink href='products/'>{state.language === 'en-US' ? 'Click here to see our full catalogue' : 'Klik her for at se vores fulde katalog'}</TransitionLink>
 			</div>
+			{homeData?.imageText?.map((imageTextItem: ImageTextItem) => (
+				<ImageText key={imageTextItem.sys.id} data={imageTextItem} />
+			))}
 			{homeData?.bigText && <BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />}
 			{homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
 			<CookieConsent />
