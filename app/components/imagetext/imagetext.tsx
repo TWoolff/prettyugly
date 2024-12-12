@@ -11,6 +11,7 @@ interface ImageTextProps {
 		img: string
 		icon?: React.ReactNode
 		placement: string
+		className?: string
 	}
 }
 
@@ -19,7 +20,7 @@ const ImageText = ({ data }: ImageTextProps) => {
 	const { language } = state
 
 	return (
-		<div className={`${css.container} ${data.placement === 'side' ? css.sideBySide : css.stacked} grid`}>
+		<div className={`${css.container} ${data.className} ${data.placement === 'side' ? css.sideBySide : css.stacked} grid`}>
 			<div className={css.content}>
 				<p>{language === 'en-US' ? data.textEnglish : data.textDanish}</p>
 				<h2>{language === 'en-US' ? data.titleEnglish : data.titleDanish}</h2>

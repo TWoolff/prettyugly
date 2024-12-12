@@ -13,6 +13,7 @@ import { serializeData } from './utils/serializeData'
 import ImageText from './components/imagetext/imagetext'
 import Club from './components/club/club'
 import { HeartIcon } from './components/icons/icons'
+import Tights from './components/imagetext/tights'
 
 interface ImageTextItem {
 	sys: { id: string }
@@ -84,7 +85,8 @@ const Home: React.FC = () => {
 		textDanish: 'Selvom vi, i al ydmyghed, selv designer og skaber de mest fantastiske produkter, forelsker vi os nogle gange også i andre gode mærker. Derfor vil vi bringe disse mærker til dig, så du også kan elske og eje dem.',
 		img: '/images/blue_backpack.png',
 		icon: <HeartIcon />,
-		placement: 'side'
+		placement: 'side',
+		className: 'puloves',
 	}
 
 	console.log(homeData)
@@ -110,7 +112,8 @@ const Home: React.FC = () => {
 			<Club />
 			{homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
 			<ImageText data={puloves} />
-			{homeData?.bigText && <BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />}
+			<Tights />
+			{/* {homeData?.bigText && <BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />} */}
 			<CookieConsent />
 		</section>
 	)
