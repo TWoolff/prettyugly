@@ -5,20 +5,26 @@
 
 .sideBySide {
   & img {
-    grid-column: 5 / -1;
+    grid-column: 6 / -1;
   }
 
   & .content {
-    grid-column: 1 / 4;
+    grid-column: 1 / 5;
     color: var(--color-blue);
 
     & p {
-      font-size: 1.2rem;
+      font-size: 1.75rem;
       font-weight: 700;
     }
 
     & h2 {
+      font-size: 2rem;
       text-align: center;
+    }
+
+    & svg {
+      display: block;
+      margin: 0 auto;
     }
   }
 }

@@ -1,7 +1,7 @@
 .ticker {
   max-width: 100%;
   overflow: hidden;
-  background-color: var(--color-lightblue);
+  background-color: var(--color-blue);
 }
 
 .tickerInner {
@@ -12,15 +12,16 @@
 
   & p {
     display: inline-block;
+    font-family: var(--font-outline);
     font-size: 5rem;
-    font-weight: 800;
+    font-weight: 300;
     text-transform: uppercase;
-    color: var(--color-blue);
+    color: var(--color-orange);
     max-width: unset;
     text-wrap: unset;
 
     @media (min-width: 768px) {
-      font-size: 25rem;
+      font-size: 8rem;
     }
   }
 }
