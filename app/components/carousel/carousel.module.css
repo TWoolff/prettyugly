@@ -77,8 +77,8 @@
   overflow: hidden;
 
   @media (min-width: 768px) {
-    height: 60rem;
-    width: 60rem;
+    height: 37.5rem;
+    width: 26.5rem;
     border-right: var(--spacing-desktop) solid var(--color-background);
   }
 

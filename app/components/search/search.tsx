@@ -1,23 +1,24 @@
 import { useAppContext } from '@/app/context'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import css from './search.module.css'
 
 const Search = () => {
-  const { state, dispatch } = useAppContext()
+  const { state } = useAppContext()
   const { language } = state
   const [searchTerm, setSearchTerm] = useState('')
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
-    dispatch({ type: 'SET_FILTER', payload: { key: 'search', value: e.target.value } })
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchTerm.trim()) {
-      dispatch({ type: 'SET_FILTER', payload: { key: 'search', value: searchTerm } })
-      router.push('/products')
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('search', searchTerm.trim())
+      router.push(`/products?${params.toString()}`)
     }
   }
 

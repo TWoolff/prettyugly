@@ -5,10 +5,31 @@ import { getProducts } from '@/app/utils/getProducts'
 import Product from './product'
 import Loader from '../loader/loader'
 import css from './product.module.css'
+import { useSearchParams } from 'next/navigation'
 
 const Products: React.FC = () => {
 	const { state, dispatch } = useAppContext()
 	const { filters, language } = state
+	const searchParams = useSearchParams()
+
+	useEffect(() => {
+		const category = searchParams.get('category')
+		const search = searchParams.get('search')
+		
+		if (category) {
+			dispatch({ 
+				type: 'SET_FILTER', 
+				payload: { key: 'category', value: category } 
+			})
+		}
+		
+		if (search) {
+			dispatch({ 
+				type: 'SET_FILTER', 
+				payload: { key: 'search', value: search } 
+			})
+		}
+	}, [searchParams])
 
 	useEffect(() => {
 		if (state.data) return

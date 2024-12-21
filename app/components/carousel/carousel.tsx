@@ -1,9 +1,9 @@
 'use client'
-import { useRef, useMemo } from 'react'
+import { useRef } from 'react'
+import Image from 'next/image'
 import { motion, useTransform, useScroll } from 'framer-motion'
 import { useAppContext } from '@/app/context'
 import { TransitionLink } from '@/app/utils/transitionLinks'
-import Card, { CardProps } from './card'
 import Logo from '../logo/logo'
 import css from './carousel.module.css'
 
@@ -21,34 +21,51 @@ type CarouselProps = {
 	data: CarouselData
 }
 
-type ProductType = {
-	id?: string;
-	product?: { id: string };
-	name: string;
-	description: string;
-	images: string[];
-	metadata: { [key: string]: string };
-	price: number | null;
-	currency: string | null;
-	slug: string;
-}
-
 const Carousel: React.FC<CarouselProps> = ({ data }) => {
-	const { state } = useAppContext()
+	const { state, dispatch } = useAppContext()
 	const targetRef = useRef<HTMLDivElement>(null)
 	const { scrollYProgress } = useScroll({
 		target: targetRef,
 	})
 
-	const productIds = useMemo(() => data.fields.products.map(p => p.fields.productId), [data])
-	const filteredProducts = useMemo(() => {
-		return (
-			state.data?.filter((product: ProductType) => {
-				const productId = product.id || (product.product && product.product.id)
-				return productId && productIds.includes(productId)
-			}) || []
-		)
-	}, [state.data, productIds])
+	const productCategories = [
+		{
+			id: 'tights',
+			name_en: 'Tights',
+			name_da: 'Strømper',
+			image: '/images/slim-female-legs-purple-tights-raised-up-bright-yellow-background-234349138.png',
+		},
+		{
+			id: 'rings',
+			name_en: 'Rings',
+			name_da: 'Ringe',
+			image: '/images/Bjork_gold_blue_ring_green_1.png',
+		},
+		{
+			id: 'earrings',
+			name_en: 'Earrings',
+			name_da: 'Øreringe',
+			image: '/images/Asher_Gold_orange.png',
+		},
+		{
+			id: 'necklaces',
+			name_en: 'Necklaces',
+			name_da: 'Halskæder',
+			image: '/images/necklace.webp',
+		},
+		{
+			id: 'bags',
+			name_en: 'Bags',
+			name_da: 'Tasker',
+			image: '/images/blue_backpack.png',
+		},
+		{
+			id: 'pins',
+			name_en: 'Pins',
+			name_da: 'Pins',
+			image: '/images/necklace_gold_blue_green_1.png',
+		},
+	]
 
 	const x = useTransform(scrollYProgress, [0, 1], ['0%', '-95%'])
 
@@ -56,9 +73,17 @@ const Carousel: React.FC<CarouselProps> = ({ data }) => {
 		<section ref={targetRef} className={css.carouselContainer}>
 			<div className={css.stickyContainer}>
 				<motion.div style={{ x }} className={css.motionContainer}>
-					{filteredProducts.map((product: ProductType) => {
-						const key = product.id || (product.product && product.product.id) || ''
-						return <Card key={key} {...product} currency={product.currency || undefined} />
+					{productCategories.map((product: any) => {
+						const categoryName = state.language === 'en-US' ? product.name_en : product.name_da
+						return (
+							<TransitionLink 
+								href={`/products?category=${encodeURIComponent(categoryName.toLowerCase())}`}
+								key={product.id}
+								className={css.card} 
+							>
+								<Image src={product.image} alt={product.name_en} width={425} height={600}/>
+							</TransitionLink>
+						)
 					})}
 				</motion.div>
 				<article className={css.scrollText}>

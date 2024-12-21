@@ -2,7 +2,7 @@
   height: 75rem;
   background-color: var(--color-lightgreen);
   background-image: url("/images/membersclub.png");
-  background-size: 100%;
+  background-size: 80%;
   background-position: bottom left;
   background-repeat: no-repeat;
 
@@ -58,6 +58,7 @@
   font-family: var(--font-heading);
   font-size: 1.25rem;
   font-weight: 900;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   border: 0;
   background-color: var(--color-orange);
   cursor: pointer;

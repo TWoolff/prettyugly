@@ -7,7 +7,6 @@ const data = {
   textEnglish: 'see all here',
   textDanish: 'se alle her',
   img: '/images/legs_in_air_expand.png',
-  placement: 'stacked',
   className: 'tights',
 }
 

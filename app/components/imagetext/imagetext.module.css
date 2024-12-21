@@ -10,6 +10,7 @@
 
   & .content {
     grid-column: 1 / 5;
+    align-self: center;
     color: var(--color-blue);
 
     & p {
