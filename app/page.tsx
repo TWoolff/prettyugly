@@ -1,18 +1,18 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useAppContext } from './context'
 import { getPage } from './utils/contentful'
 import { getProducts } from './utils/getProducts'
-import { useAppContext } from './context'
+import { serializeData } from './utils/serializeData'
 import { TransitionLink } from './utils/transitionLinks'
 import Featured from './components/featured/featured'
 import Ticker from './components/ticker/ticker'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
-import { serializeData } from './utils/serializeData'
 import ImageText from './components/imagetext/imagetext'
 import Club from './components/club/club'
-import { HeartIcon } from './components/icons/icons'
 import Tights from './components/imagetext/tights'
+import { HeartIcon } from './components/icons/icons'
 
 
 const Home: React.FC = () => {
