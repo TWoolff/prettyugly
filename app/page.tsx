@@ -8,28 +8,16 @@ import Featured from './components/featured/featured'
 import Ticker from './components/ticker/ticker'
 import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
-import BigText from './components/bigtext/bigtext'
 import { serializeData } from './utils/serializeData'
 import ImageText from './components/imagetext/imagetext'
 import Club from './components/club/club'
 import { HeartIcon } from './components/icons/icons'
 import Tights from './components/imagetext/tights'
 
-interface ImageTextItem {
-	sys: { id: string }
-	fields: {
-		id: string
-		image: { fields: { file: { url: string; details: { image: { width: number; height: number } } } } }
-		textEnglish: { content: Array<{ content: Array<{ value: string }> }> }
-		textDanish: { content: Array<{ content: Array<{ value: string }> }> }
-		placement: boolean
-	}
-}
 
 const Home: React.FC = () => {
 	const { state, dispatch } = useAppContext()
 	const [homeData, setHomeData] = useState<any>(null)
-	const [bigTextInView, setBigTextInView] = useState(false)
 
 	useEffect(() => {
 		if (homeData) return
@@ -76,8 +64,6 @@ const Home: React.FC = () => {
 		}
 	}, [homeData, state.data])
 
-	const bigTextClassName = bigTextInView ? 'bigTextInView' : ''
-
 	const puloves = {
 		titleEnglish: 'PRETTYUGLYLOVES',
 		titleDanish: 'PRETTYUGLYLOVES',
@@ -89,10 +75,8 @@ const Home: React.FC = () => {
 		className: 'puloves',
 	}
 
-	console.log(homeData)
-
 	return (
-		<section className={`home ${bigTextClassName}`}>
+		<section className="home">
 			{homeData?.features[0]?.fields && <Featured data={serializeData(homeData.features[0].fields)} />}
 			{homeData?.carousel && <Carousel data={serializeData(homeData.carousel)} />}
 			<div className='mobileOnly'>
@@ -113,7 +97,6 @@ const Home: React.FC = () => {
 			{homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
 			<ImageText data={puloves} />
 			<Tights />
-			{/* {homeData?.bigText && <BigText text={homeData.bigText} onInViewChange={setBigTextInView} className={bigTextClassName} />} */}
 			<CookieConsent />
 		</section>
 	)

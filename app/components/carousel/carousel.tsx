@@ -63,7 +63,7 @@ const Carousel: React.FC<CarouselProps> = ({ data }) => {
 			id: 'pins',
 			name_en: 'Pins',
 			name_da: 'Pins',
-			image: '/images/necklace_gold_blue_green_1.png',
+			image: '/images/slim-female-legs-purple-tights-raised-up-bright-yellow-background-234349138.png',
 		},
 	]
 

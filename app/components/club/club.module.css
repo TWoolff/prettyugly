@@ -1,6 +1,5 @@
 .club {
   height: 75rem;
-  background-color: var(--color-lightgreen);
   background-image: url("/images/membersclub.png");
   background-size: 80%;
   background-position: bottom left;
