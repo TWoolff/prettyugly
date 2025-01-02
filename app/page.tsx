@@ -13,6 +13,7 @@ import ImageText from './components/imagetext/imagetext'
 import Club from './components/club/club'
 import Tights from './components/imagetext/tights'
 import { HeartIcon } from './components/icons/icons'
+import Pins from './components/imagetext/pins'
 
 
 const Home: React.FC = () => {
@@ -97,6 +98,7 @@ const Home: React.FC = () => {
 			{homeData?.newsTicker && <Ticker data={homeData.newsTicker} />}
 			<ImageText data={puloves} />
 			<Tights />
+			<Pins />
 			<CookieConsent />
 		</section>
 	)

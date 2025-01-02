@@ -98,3 +98,7 @@ body {
 		display: none;
 	}
 }
+
+.btn {
+	z-index: 999 !important;
+}

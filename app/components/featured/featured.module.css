@@ -43,6 +43,7 @@
 }
 
 .btn {
+  position: relative;
   display: inline-block;
   margin: 0;
   padding: 1rem 1.25rem;
@@ -54,6 +55,7 @@
   background-color: var(--color-black);
   cursor: pointer;
   text-decoration: none;
+  z-index: 1;
 
   @media (min-width: 768px) {
     margin: 2rem 0 0 0; 

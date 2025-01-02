@@ -38,9 +38,9 @@ const Club = () => {
 						</>
 					) : (
 						<>
-							<li>få "earlybird" tilbud</li>
+							<li>f&quot;å earlybird tilbud&quot;</li>
 							<li>få en fødselsdagsgave</li>
-							<li>"sneakpeak" af nye produkter</li>
+							<li>sneakpeak af nye produkter</li>
 							<li>få nyheder og tilbud</li>
 							<li>få loyaltets point og meget mere...</li>
 						</>

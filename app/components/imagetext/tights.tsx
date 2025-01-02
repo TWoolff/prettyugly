@@ -1,4 +1,5 @@
 import { useAppContext } from '@/app/context'
+import { TransitionLink } from '@/app/utils/transitionLinks'
 import css from './imagetext.module.css'
 
 const data = {
@@ -7,7 +8,6 @@ const data = {
   textEnglish: 'see all here',
   textDanish: 'se alle her',
   img: '/images/legs_in_air_expand.png',
-  className: 'tights',
 }
 
 const Tights = () => {
@@ -15,9 +15,9 @@ const Tights = () => {
 	const { language } = state
 
 	return (
-		<section className={`${css.container} ${data.className} ${css.tights} grid`} style={{ backgroundImage: `url(${data.img})` }}>
+		<section className={`${css.container} ${css.tights} grid`} style={{ backgroundImage: `url(${data.img})` }}>
       <h2>{language === 'en-US' ? data.titleEnglish : data.titleDanish}</h2>
-			<p>{language === 'en-US' ? data.textEnglish : data.textDanish}</p>
+			<TransitionLink href={`/products?category=${language === 'da-DK' ? 'strømper' : 'tights'}`} className={css.link}>{language === 'en-US' ? data.textEnglish : data.textDanish}</TransitionLink>
 		</section>
 	)
 }
