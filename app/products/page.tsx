@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import Products from '../components/products/products'
 import { useAppContext } from '../context'
 
@@ -11,9 +11,11 @@ const ProductsPage: React.FC = () => {
 	}, [dispatch]);
 
 	return (
-		<section>
-			<Products />
-		</section>
+		<Suspense fallback={<div>Loading...</div>}>
+			<section>
+				<Products />
+			</section>
+		</Suspense>
 	)
 }
 

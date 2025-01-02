@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "../context";
 import Product from "../components/products/product";
@@ -50,30 +50,32 @@ const Featured: React.FC = () => {
   });
 
   return (
-    <section className={css.featured}>
-      <h1>Featured</h1>
-      <div className={css.products}>
-        <AnimatePresence>
-          {filteredProducts?.map((product: ProductType) => (
-            <motion.div key={product.id} layout>
-              <Product
-                key={product.id}
-                data={{
-                  ...product,
-                  currency: "",
-                  price: product.unit_amount,
-                  unit_amount: product.unit_amount,
-                  name: product.name || "",
-                  description: product.description || "",
-                  images: product.images || [],
-                  metadata: product.metadata || {},
-                }}
-              />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-    </section>
+    <Suspense fallback={<div>Loading...</div>}>
+      <section className={css.featured}>
+        <h1>Featured</h1>
+        <div className={css.products}>
+          <AnimatePresence>
+            {filteredProducts?.map((product: ProductType) => (
+              <motion.div key={product.id} layout>
+                <Product
+                  key={product.id}
+                  data={{
+                    ...product,
+                    currency: "",
+                    price: product.unit_amount,
+                    unit_amount: product.unit_amount,
+                    name: product.name || "",
+                    description: product.description || "",
+                    images: product.images || [],
+                    metadata: product.metadata || {},
+                  }}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </section>
+    </Suspense>
   );
 };
 
