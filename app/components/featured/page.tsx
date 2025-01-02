@@ -1,5 +1,4 @@
 'use client'
-import { useEffect } from 'react'
 import { useAppContext } from '@/app/context'
 import { Product } from '@/app/types'
 import ProductCard from '../products/product'
@@ -15,7 +14,7 @@ interface FeaturedProps {
   }
 }
 
-const Featured: React.FC<FeaturedProps> = ({ data }) => {
+const FeaturedPage: React.FC<FeaturedProps> = ({ data }) => {
   const { state } = useAppContext()
   const { data: products } = state
 
@@ -25,11 +24,13 @@ const Featured: React.FC<FeaturedProps> = ({ data }) => {
     )
   })
 
+  console.log(featuredProducts)
   if (!featuredProducts?.length) return null
 
   return (
     <section className={css.featured}>
       <div className={css.products}>
+        hello
         {featuredProducts.map((product: Product) => (
           <ProductCard key={product.id} data={product} />
         ))}
@@ -38,4 +39,4 @@ const Featured: React.FC<FeaturedProps> = ({ data }) => {
   )
 }
 
-export default Featured 
+export default FeaturedPage 

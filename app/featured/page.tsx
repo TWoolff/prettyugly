@@ -4,6 +4,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "../context";
 import Product from "../components/products/product";
 import css from "./featured.module.css";
+import { Product as ProductType } from "../types";
+
+interface FeaturedProduct {
+  id: string;
+  slug: string;
+  unit_amount?: number;
+  product?: {
+    active: boolean;
+    created: number;
+    default_price: string;
+    images: string[];
+    marketing_features: string[];
+    metadata: { [key: string]: string };
+    id: string;
+    name: string;
+    description: string;
+    productInfo: string;
+  };
+}
 
 const Featured: React.FC = () => {
   const { state, dispatch } = useAppContext();
@@ -19,11 +38,7 @@ const Featured: React.FC = () => {
     }
   }, [dispatch, state.filters.color, state.filters.category]);
 
-  const filteredProducts = state.data?.filter((product: {
-    id: string;
-    name: string;
-    metadata: { [key: string]: string };
-  }) => {
+  const filteredProducts = state.data?.filter((product: ProductType) => {
     return Object.entries(filters).every(([key, value]) => {
       if (value === "") return true;
       if (key === "featured") {
@@ -39,41 +54,23 @@ const Featured: React.FC = () => {
       <h1>Featured</h1>
       <div className={css.products}>
         <AnimatePresence>
-          {filteredProducts?.map(
-            (product: {
-              id: string;
-              slug: string;
-              unit_amount?: number;
-              product?: {
-                active: boolean;
-                created: number;
-                default_price: string;
-                images: string[];
-                marketing_features: string[];
-                metadata: { [key: string]: string };
-                id: string;
-                name: string;
-                description: string;
-                productInfo: string;
-              };
-            }) => (
-              <motion.div key={product.id} layout>
-                <Product
-                  key={product.id}
-                  data={{
-                    currency: "",
-                    ...product,
-                    price: product.unit_amount || null,
-                    unit_amount: product.unit_amount || null,
-                    name: product.product?.name || "",
-                    description: product.product?.description || "",
-                    images: product.product?.images || [],
-                    metadata: product.product?.metadata || {},
-                  }}
-                />
-              </motion.div>
-            )
-          )}
+          {filteredProducts?.map((product: ProductType) => (
+            <motion.div key={product.id} layout>
+              <Product
+                key={product.id}
+                data={{
+                  ...product,
+                  currency: "",
+                  price: product.unit_amount,
+                  unit_amount: product.unit_amount,
+                  name: product.name || "",
+                  description: product.description || "",
+                  images: product.images || [],
+                  metadata: product.metadata || {},
+                }}
+              />
+            </motion.div>
+          ))}
         </AnimatePresence>
       </div>
     </section>
