@@ -14,6 +14,7 @@ import Club from './components/club/club'
 import Tights from './components/imagetext/tights'
 import { HeartIcon } from './components/icons/icons'
 import Pins from './components/imagetext/pins'
+import Instagram from './components/instagram/instagram'
 
 
 const Home: React.FC = () => {
@@ -99,6 +100,7 @@ const Home: React.FC = () => {
 			<ImageText data={puloves} />
 			<Tights />
 			<Pins />
+			<Instagram />
 			<CookieConsent />
 		</section>
 	)
