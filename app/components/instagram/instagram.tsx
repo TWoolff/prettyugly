@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useAppContext } from '@/app/context'
 import css from './instagram.module.css'
+import { InstagramIcon } from '../icons/icons'
 
 interface InstagramPost {
   id: string
@@ -22,7 +23,7 @@ const Instagram = () => {
       try {
         const response = await fetch(`/api/instagram`)
         const data = await response.json()
-        setPosts(data.slice(0, 4)) // Get only the 4 latest posts
+        setPosts(data.slice(0, 4))
       } catch (error) {
         console.error('Error fetching Instagram posts:', error)
       }
@@ -32,8 +33,11 @@ const Instagram = () => {
   }, [])
 
   return (
-    <section className={`${css.instagram} grid`}>
-      <h2>{language === 'en-US' ? 'Follow us on Instagram' : 'Følg os på Instagram'}</h2>
+    <section className={`${css.instagram}`}>
+      <div className={css.content}>
+        <h2>{language === 'en-US' ? 'Follow us on Instagram' : 'Følg os på Instagram'}</h2>
+        <InstagramIcon />
+      </div>
       <div className={css.grid}>
         {posts.map((post) => (
           <a 
@@ -46,8 +50,8 @@ const Instagram = () => {
             <Image
               src={post.media_url}
               alt={post.caption || 'Instagram post'}
-              width={300}
-              height={300}
+              width={476}
+              height={476}
               className={css.image}
             />
           </a>

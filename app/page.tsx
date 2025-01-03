@@ -5,16 +5,17 @@ import { getPage } from './utils/contentful'
 import { getProducts } from './utils/getProducts'
 import { serializeData } from './utils/serializeData'
 import { TransitionLink } from './utils/transitionLinks'
+import { HeartIcon } from './components/icons/icons'
+import CookieConsent from './components/cookieconsent/cookieconsent'
 import Featured from './components/featured/featured'
 import Ticker from './components/ticker/ticker'
-import CookieConsent from './components/cookieconsent/cookieconsent'
 import Carousel from './components/carousel/carousel'
 import ImageText from './components/imagetext/imagetext'
 import Club from './components/club/club'
 import Tights from './components/imagetext/tights'
-import { HeartIcon } from './components/icons/icons'
 import Pins from './components/imagetext/pins'
 import Instagram from './components/instagram/instagram'
+import Podcast from './components/imagetext/podcast'
 
 
 const Home: React.FC = () => {
@@ -100,6 +101,7 @@ const Home: React.FC = () => {
 			<ImageText data={puloves} />
 			<Tights />
 			<Pins />
+			<Podcast />
 			<Instagram />
 			<CookieConsent />
 		</section>

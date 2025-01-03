@@ -18,9 +18,9 @@ const Podcast = () => {
   return (
     <section className={css.podcast}>
       <div className={css.text}>
-      <h2>{language === 'da-DK' ? data.titleDanish : data.titleEnglish}</h2>
+        <h2>{language === 'da-DK' ? data.titleDanish : data.titleEnglish}</h2>
         <p>{language === 'da-DK' ? data.textDanish : data.textEnglish}</p>
-        <TransitionLink href={`/products?category=${language === 'da-DK' ? 'pins' : 'pins'}`} className={css.btn}>{language === 'da-DK' ? 'se mere...' : 'see more...'}</TransitionLink>
+        <TransitionLink href='/podcast' className={css.btn}>{language === 'da-DK' ? 'se mere...' : 'see more...'}</TransitionLink>
       </div>
       <Image src={data.img} alt={data.titleEnglish} width={1920} height={1146} />
     </section>
