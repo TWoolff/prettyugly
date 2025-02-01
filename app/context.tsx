@@ -165,6 +165,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 		fetchExchangeRates();
 	}, []);
 
+	console.log(state);
+
 	return (
 		<AppContext.Provider value={{ state, dispatch }}>
 			{children}

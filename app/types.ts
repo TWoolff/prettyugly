@@ -107,8 +107,8 @@ export interface Product {
 	name: string;
 	description: string;
 	images: string[];
-	metadata: { [key: string]: string };
-	price: number | null;
+	metadata: { [key: string]: string | undefined };
+	price: number;
 	currency: string | null;
 	slug: string;
 	unit_amount: number | null;

@@ -23,7 +23,7 @@ interface ProductType {
 		color_en?: string;
 		color_da?: string;
 	};
-	price: number | null;
+	price: number;
 	unit_amount: number | null;
 	currency: string | null;
 	slug: string;

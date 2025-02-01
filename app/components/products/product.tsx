@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useAppContext } from "@/app/context";
 import { useChangeCurrency } from "@/app/utils/useChangeCurrency";
 import css from "./product.module.css";
@@ -16,7 +15,7 @@ interface ProductProps {
 			title_en?: string;
 			title_da?: string;
 		};
-		price: number | null;
+		price: number;
 		unit_amount: number | null;
 		currency: string | null;
 		slug: string;
@@ -31,16 +30,12 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 	const languageSuffix = language === "da-DK" ? "_da" : "_en";
 	const title = data.metadata[`title${languageSuffix}`] || data.name;
 
-	const calculatePrice = () => {
-		if (data.unit_amount && currency) {
-			const exchangeRate = getExchangeRate(currency as "DKK" | "EUR" | "SEK");
-			const rate = typeof exchangeRate === "number" ? exchangeRate : 1;
-			return Math.round(data.unit_amount * rate);
-		}
-		return data.price || data.unit_amount || 0;
+	const getConvertedPrice = (amount: number) => {
+		const rate = getExchangeRate(state.currency as "DKK" | "EUR" | "SEK");
+		return Math.round(amount * rate);
 	};
 
-	const displayPrice = calculatePrice();
+	const displayPrice = getConvertedPrice(data.price);
 
 	return (
 		<Link
