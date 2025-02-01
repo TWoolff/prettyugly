@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useAppContext } from "@/app/context";
 import { useChangeCurrency } from "@/app/utils/useChangeCurrency";
 import css from "./product.module.css";
+import { useMemo } from "react";
 
 interface ProductProps {
 	data: {
@@ -22,10 +23,25 @@ interface ProductProps {
 	};
 }
 
+const getRandomColor = (): string => {
+	const colors = [
+		"var(--color-green)",
+		"var(--color-lightgreen)",
+		"var(--color-orange)",
+		"var(--color-lightorange)",
+		"var(--color-salmon)",
+		"var(--color-lightsalmon)",
+		"var(--color-blue)",
+		"var(--color-lightblue)",
+	];
+	return colors[Math.floor(Math.random() * colors.length)];
+};
+
 const Product: React.FC<ProductProps> = ({ data }) => {
 	const { state } = useAppContext();
 	const { language, currency } = state;
 	const { getExchangeRate } = useChangeCurrency();
+	const backgroundColor = useMemo(() => getRandomColor(), []);
 
 	const languageSuffix = language === "da-DK" ? "_da" : "_en";
 	const title = data.metadata[`title${languageSuffix}`] || data.name;
@@ -42,7 +58,10 @@ const Product: React.FC<ProductProps> = ({ data }) => {
 			href={`/products/${data.slug}`}
 			key={data.id}
 			className={css.product}
-			style={{ backgroundImage: `url(${data.images[0]})` }}
+			style={{
+				backgroundImage: `url(${data.images[0]})`,
+				backgroundColor,
+			}}
 		>
 			<div className={css.text}>
 				<h3>{title}</h3>

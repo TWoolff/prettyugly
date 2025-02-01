@@ -59,11 +59,13 @@ const Cart: React.FC = () => {
 	}, [handleClickOutside]);
 
 	const shippingCost = 0;
+
 	const getConvertedPrice = (amount: number) => {
 		const rate = getExchangeRate(state.currency as "DKK" | "EUR" | "SEK");
 		return Math.round(amount * rate);
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const totalPrice = useMemo(() => {
 		return cart.reduce((total, item) => {
 			const itemPrice = item.price || item.unit_amount;
@@ -113,6 +115,7 @@ const Cart: React.FC = () => {
 		return (getConvertedPrice(originalPrice) / 100).toFixed(2);
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (cart.length > 0) {
 			const updatedCart = cart.map((item) => ({
@@ -143,7 +146,7 @@ const Cart: React.FC = () => {
 						/>
 						<h2>Cart</h2>
 						<ul>
-							{cart.map((item) => (
+							{cart.map((item, i: number) => (
 								<li key={item.id}>
 									<p>{item.name}</p>
 									<Image

@@ -1,20 +1,20 @@
-'use client'
-import { useEffect } from "react"
-import { useAppContext } from "../context"
+"use client";
+import { useEffect } from "react";
+import { useAppContext } from "../context";
 
 const SuccessPage: React.FC = () => {
-  const { dispatch } = useAppContext()
+	const { dispatch } = useAppContext();
 
-  useEffect(() => {
-    dispatch({ type: 'CLEAR_CART' })
-  }, [])
+	useEffect(() => {
+		dispatch({ type: "CLEAR_CART" });
+	}, [dispatch]);
 
-  return ( 
-    <section>
-      <h1>Success</h1>
-      <p>Thank you for your purchase.</p>
-    </section>
-  )
-}
+	return (
+		<section>
+			<h1>Success</h1>
+			<p>Thank you for your purchase.</p>
+		</section>
+	);
+};
 
-export default SuccessPage
+export default SuccessPage;

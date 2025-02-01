@@ -32,7 +32,7 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick, setIsMenuOpen }) => {
 
 	const uniqueColors = useMemo(() => {
 		if (!allProducts) return [];
-		const allColors = allProducts.flatMap((item: any) => {
+		const allColors = allProducts.flatMap((item: Product) => {
 			const color = item.metadata[`color${languageSuffix}`];
 			return color
 				? color.split(",").map((c: string) => c.trim().toLowerCase())
@@ -86,7 +86,7 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick, setIsMenuOpen }) => {
 				payload: { key: "color", value: currentColor },
 			});
 		}
-	}, [language, dispatch]);
+	}, [dispatch, state.filters.category, state.filters.color]);
 
 	useEffect(() => {
 		const initializeProducts = async () => {
@@ -94,6 +94,7 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick, setIsMenuOpen }) => {
 				const products = await getProducts();
 				if (products) {
 					const sanitizedProducts = products.map(
+						// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 						(product: { description: any }) => ({
 							...product,
 							description: product.description || "",
@@ -110,7 +111,7 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick, setIsMenuOpen }) => {
 			}
 		};
 		initializeProducts();
-	}, []);
+	}, [dispatch, state.allProducts]);
 
 	return (
 		<section className={`${css.filter} grid`}>
@@ -122,9 +123,11 @@ const Filter: React.FC<FilterProps> = ({ onButtonClick, setIsMenuOpen }) => {
 				/>{" "}
 				/{" "}
 				{uniqueCategories.map((category, i) => (
+					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					<Fragment key={i}>
 						{i > 0 && " / "}
 						<Button
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={i}
 							onClick={() => handleFilterChange("category", category as string)}
 							title={category as string}

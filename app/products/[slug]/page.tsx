@@ -13,6 +13,7 @@ import css from "./productdetail.module.css";
 const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const { state, dispatch } = useAppContext();
 	const [product, setProduct] = useState<Product | null>(null);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [productImages, setProductImages] = useState<any>(null);
 	const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
 	const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
@@ -84,7 +85,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 		return () => {
 			window.removeEventListener("resize", updateInfoContainerHeight);
 		};
-	}, [productImages]);
+	}, []);
 
 	const handleMouseMove = (
 		e: React.MouseEvent<HTMLDivElement>,
@@ -176,13 +177,14 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 					</div>
 
 					{productImages && (
-						// biome-ignore lint/complexity/noUselessFragments: <explanation>
 						<>
+							{/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
 							{productImages.map((image: any, i: number) => (
 								<Image
 									src={`https:${image.url}`}
 									alt={image.title}
-									key={image.id}
+									// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+									key={i}
 									width={700}
 									height={700}
 									quality={90}
@@ -206,7 +208,10 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 							{metadata?.finding_da && <li>{displayFinding}</li>}
 						</ul>
 						<p className={css.price}>
-							{getConvertedPrice(price ?? 0)} {currency?.toUpperCase()}
+							{state.currency === "DKK"
+								? (price / 100).toFixed(2)
+								: getConvertedPrice(price ?? 0)}{" "}
+							{currency?.toUpperCase()}
 						</p>
 						<Button
 							onClick={saveProduct}

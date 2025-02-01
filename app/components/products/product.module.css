@@ -40,13 +40,6 @@
   }
 }
 
-.mainImg {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
-}
-
 .leftGrid01 {
   display: grid;
   grid-template-columns: 1fr 1fr;

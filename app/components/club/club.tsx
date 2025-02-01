@@ -1,34 +1,36 @@
-import { useEffect, useRef } from 'react'
-import { useInView } from 'react-intersection-observer'
-import { useAppContext } from '@/app/context'
-import css from './club.module.css'
-import { TransitionLink } from '@/app/utils/transitionLinks'
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useAppContext } from "@/app/context";
+import css from "./club.module.css";
+import { TransitionLink } from "@/app/utils/transitionLinks";
 
 const Club = () => {
-	const { state } = useAppContext()
-	const { language } = state
+	const { state } = useAppContext();
+	const { language } = state;
 	const { ref, inView } = useInView({
 		threshold: 0.2,
-		triggerOnce: false
-	})
+		triggerOnce: false,
+	});
 
 	useEffect(() => {
-		const homeElement = document.querySelector('.home') as HTMLElement
+		const homeElement = document.querySelector(".home") as HTMLElement;
 		if (homeElement) {
-			homeElement.style.backgroundColor = inView ? 'var(--color-lightgreen)' : 'var(--color-background)'
+			homeElement.style.backgroundColor = inView
+				? "var(--color-lightgreen)"
+				: "var(--color-background)";
 		}
-	}, [inView])
+	}, [inView]);
 
 	return (
 		<section ref={ref} className={`${css.club} grid`}>
 			<h2>
-				{language === 'en-US' 
-					? 'Join the PrettyUgly Friends group' 
-					: 'Bliv medlem af PrettyUgly Friends gruppen'}
+				{language === "en-US"
+					? "Join the PrettyUgly Friends group"
+					: "Bliv medlem af PrettyUgly Friends gruppen"}
 			</h2>
 			<div>
 				<ul>
-					{language === 'en-US' ? (
+					{language === "en-US" ? (
 						<>
 							<li>get earlybird special offers</li>
 							<li>a birthday gift</li>
@@ -38,7 +40,7 @@ const Club = () => {
 						</>
 					) : (
 						<>
-							<li>f&quot;å earlybird tilbud&quot;</li>
+							<li>få &quot;earlybird&quot; tilbud</li>
 							<li>få en fødselsdagsgave</li>
 							<li>sneakpeak af nye produkter</li>
 							<li>få nyheder og tilbud</li>
@@ -46,12 +48,17 @@ const Club = () => {
 						</>
 					)}
 				</ul>
-				<TransitionLink href='/profile' className={css.btn}>
-					{language === 'en-US' ? 'Click here' : 'Klik her'}
+				<TransitionLink href="/profile" className={css.btn}>
+					{language === "en-US" ? "Click here" : "Klik her"}
 				</TransitionLink>
-				<p>{language === 'en-US' ? 'to set up your free account' : 'for at oprette din gratis konto'}</p>
-			</div>		</section>
-	)
-}
+				<p>
+					{language === "en-US"
+						? "to set up your free account"
+						: "for at oprette din gratis konto"}
+				</p>
+			</div>{" "}
+		</section>
+	);
+};
 
-export default Club
+export default Club;
