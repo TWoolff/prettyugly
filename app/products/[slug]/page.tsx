@@ -9,7 +9,6 @@ import type { Product } from "@/app/types";
 import Button from "@/app/components/formelements/button";
 import Loader from "@/app/components/loader/loader";
 import css from "./productdetail.module.css";
-import { getExchangeRate } from "@/app/utils/getExchangeRate";
 
 const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 	const { state, dispatch } = useAppContext();
@@ -183,7 +182,7 @@ const ProductDetail: React.FC<{ params: { slug: string } }> = ({ params }) => {
 								<Image
 									src={`https:${image.url}`}
 									alt={image.title}
-									key={i}
+									key={image.id}
 									width={700}
 									height={700}
 									quality={90}
