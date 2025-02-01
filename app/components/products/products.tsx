@@ -201,18 +201,8 @@ const Products: React.FC = () => {
 			{state.data && (
 				<div className={css.productsContainer}>
 					<h1>
-						{language === "da-DK" ? "Produkter:" : "Products:"}{" "}
-						{filters.category ? (
-							<>
-								{filters.category} [ {filteredProducts?.length ?? 0} ]
-							</>
-						) : filters.color ? (
-							<>
-								{filters.color} [ {filteredProducts?.length ?? 0} ]
-							</>
-						) : (
-							<>All [ {filteredProducts?.length ?? 0} ]</>
-						)}
+						{language === "da-DK" ? "Produkter" : "Products"} [
+						{filteredProducts?.length ?? 0}]
 					</h1>
 					<div className={css.products}>{renderGrids()}</div>
 				</div>
