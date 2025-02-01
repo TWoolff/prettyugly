@@ -15,8 +15,12 @@
 }
 
 .categoryContainer {
-  font-size: 3rem;
-  
+  font-size: 2rem;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    font-size: 3rem;
+  }
 }
 
 .navContainer{
@@ -31,8 +35,13 @@
   background: none !important;
 	padding: 0;
 	color: var(--color-blue);
-  font-size: 3rem;
+  font-size: 2rem;
+  margin: 0;
   text-transform: lowercase !important;
+
+  @media (min-width: 768px) {
+    font-size: 3rem;
+  }
 }
 
 .currencyContainer, .languageContainer {

@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 40rem;
+  width: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -11,13 +11,19 @@
   background-color: var(--color-white);
   z-index: 9999;
   overflow-y: auto;
+  padding-top: 2rem;
+
+  @media (min-width: 768px) {
+    width: 40rem;
+    padding-top: 0;
+  }
 }
 
 .cartContainer {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99;
+  z-index: 9999;
 }
 
 .btnSmall {

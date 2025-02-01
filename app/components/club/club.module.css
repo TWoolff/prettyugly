@@ -1,34 +1,53 @@
 .club {
   height: 75rem;
   background-image: url("/images/membersclub.png");
-  background-size: 80%;
+  background-size: 200%;
   background-position: bottom left;
   background-repeat: no-repeat;
 
+  @media (min-width: 768px) {
+    background-size: 80%;
+  }
+
   & h2 {
-    grid-column: 8 / -1;
+    grid-column: 1;
     grid-row: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--color-orange);
-    font-size: 3.75rem;
+    font-size: 2rem;
     line-height: 1;
     color: var(--color-blue);
     text-align: center;
-    width: 30.5rem;
-    height: 30.5rem;
+    width: 90vw;
+    height: 90vw;
     border-radius: 50%;
     padding: 3rem;
-    margin-top: -4rem;
+    margin-top: 10rem;
+
+    @media (min-width: 768px) {
+      grid-column: 8 / -1;
+      margin-top: -4rem;
+      font-size: 3.75rem;
+      width: 30.5rem;
+      height: 30.5rem;
+    }
   }
 
   & div {
     text-align: center;
-    grid-column: 10 / -1;
+    grid-column: 1;
     grid-row: 1;
     justify-self: end;
     margin-top: 32rem;
+
+    @media (min-width: 768px) {
+      grid-column: 10 / -1;
+      grid-row: 1;
+      justify-self: end;
+      margin-top: 32rem;
+    }
 
     & ul {
       list-style: none;
@@ -50,7 +69,7 @@
 
 .btn {
   display: inline-block;
-  margin: 0;
+  margin: 2rem 0 0 0; 
   padding: 1rem 1.25rem;
   color: var(--color-lightgreen);
   text-transform: uppercase;
@@ -62,8 +81,4 @@
   background-color: var(--color-orange);
   cursor: pointer;
   text-decoration: none;
-
-  @media (min-width: 768px) {
-    margin: 2rem 0 0 0; 
-  }
 }
