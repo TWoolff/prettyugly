@@ -200,6 +200,7 @@ const Cart: React.FC = () => {
 									<Button
 										onClick={handleApplyPromoCode}
 										title="Apply Promo Code"
+										className={css.btnSmallish}
 									/>
 								</div>
 								{promoDiscountPercentage > 0 && (
