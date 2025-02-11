@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type { JSX } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAppContext } from "@/app/context";
@@ -7,7 +8,7 @@ import Product from "./product";
 import Loader from "../loader/loader";
 import css from "./product.module.css";
 
-interface ProductType {
+type ProductType = {
 	id: string;
 	name: string;
 	description: string;
@@ -27,7 +28,7 @@ interface ProductType {
 	unit_amount: number | null;
 	currency: string | null;
 	slug: string;
-}
+};
 
 const Products: React.FC = () => {
 	const { state, dispatch } = useAppContext();
@@ -152,43 +153,69 @@ const Products: React.FC = () => {
 		});
 	});
 
-	const renderGrids = () => {
-		const gridSize = 6;
-		const totalGrids = Math.ceil(filteredProducts?.length ?? 0 / gridSize);
-		const grids = [];
+	const renderProducts = () => {
+		if (!filteredProducts) return null;
 
-		for (let i = 0; i < totalGrids; i++) {
-			const startIndex = i * gridSize;
-			const gridNumber = (i % 4) + 1;
-			const leftProducts = filteredProducts?.slice(startIndex, startIndex + 3);
-			const rightProducts = filteredProducts?.slice(
-				startIndex + 3,
-				startIndex + 6,
-			);
+		const gridContainers = [
+			{ name: "gridFour", slots: 5 },
+			{ name: "gridThree", slots: 4 },
+			{ name: "gridThree", slots: 6 },
+			{ name: "gridThreeB", slots: 4 },
+			{ name: "gridFourB", slots: 5 },
+			{ name: "gridThree", slots: 3 },
+			{ name: "gridFourC", slots: 5 },
+			{ name: "gridThree", slots: 5 },
+			{ name: "gridThree", slots: 6 },
+			{ name: "gridThreeB", slots: 5 },
+		];
 
-			if ((leftProducts?.length ?? 0) > 0 && (rightProducts?.length ?? 0) > 0) {
-				grids.push(
-					<div key={`grid-${i}`} className={css.gridContainer}>
-						{(leftProducts?.length ?? 0) > 0 && (
-							<div className={css[`leftGrid0${gridNumber}`]}>
-								{leftProducts?.map((product: ProductType) => (
-									<motion.div key={product.id} layout className={css.product}>
-										<Product key={product.id} data={product} />
-									</motion.div>
-								))}
-							</div>
-						)}
-						{(rightProducts?.length ?? 0) > 0 && (
-							<div className={css[`rightGrid0${gridNumber}`]}>
-								{rightProducts?.map((product: ProductType) => (
-									<motion.div key={product.id} layout className={css.product}>
-										<Product key={product.id} data={product} />
-									</motion.div>
-								))}
-							</div>
-						)}
-					</div>,
+		const grids: JSX.Element[] = [];
+		let currentIndex = 0;
+
+		while (currentIndex < filteredProducts.length) {
+			for (
+				let containerIndex = 0;
+				containerIndex < gridContainers.length;
+				containerIndex++
+			) {
+				const container = gridContainers[containerIndex];
+				if (currentIndex + container.slots > filteredProducts.length) break;
+
+				const gridProducts = filteredProducts.slice(
+					currentIndex,
+					currentIndex + container.slots,
 				);
+
+				if (gridProducts.length === container.slots) {
+					grids.push(
+						<div
+							key={`${container.name}-${currentIndex}`}
+							className={css[container.name]}
+						>
+							{gridProducts.map((product) => (
+								<motion.div key={product.id} layout className={css.product}>
+									<Product data={product} />
+								</motion.div>
+							))}
+							{/* Model div for gridThree except 3rd and 9th containers */}
+							{container.name === "gridThree" &&
+								containerIndex !== 2 &&
+								containerIndex !== 8 && <div className={css.model} />}
+							{/* Model div for gridThreeB */}
+							{container.name === "gridThreeB" && <div className={css.model} />}
+							{/* Video div only for 6th container (index 5) */}
+							{container.name === "gridThree" && containerIndex === 5 && (
+								<div className={css.video} />
+							)}
+						</div>,
+					);
+
+					currentIndex += container.slots;
+				}
+			}
+
+			if (currentIndex + gridContainers[0].slots > filteredProducts.length) {
+				break;
 			}
 		}
 
@@ -204,7 +231,7 @@ const Products: React.FC = () => {
 						{language === "da-DK" ? "Produkter" : "Products"} [
 						{filteredProducts?.length ?? 0}]
 					</h1>
-					<div className={css.products}>{renderGrids()}</div>
+					<div className={css.products}>{renderProducts()}</div>
 				</div>
 			)}
 		</>
