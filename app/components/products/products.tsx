@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { JSX } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -34,6 +34,19 @@ const Products: React.FC = () => {
 	const { state, dispatch } = useAppContext();
 	const { filters, language } = state;
 	const searchParams = useSearchParams();
+
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 500);
+		};
+		
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		
+		return () => window.removeEventListener('resize', checkMobile);
+	}, []);
 
 	useEffect(() => {
 		const category = searchParams.get("category");
@@ -153,21 +166,32 @@ const Products: React.FC = () => {
 		});
 	});
 
+	const gridContainers = isMobile ? [
+		{ name: "gridFour", slots: 4 },
+		{ name: "gridThree", slots: 4 },
+		{ name: "gridThree", slots: 4 },
+		{ name: "gridThreeB", slots: 4 },
+		{ name: "gridFourB", slots: 4 },
+		{ name: "gridThree", slots: 2 },
+		{ name: "gridFourC", slots: 4 }, 
+		{ name: "gridThree", slots: 4 }, 
+		{ name: "gridThree", slots: 4 }, 
+		{ name: "gridThreeB", slots: 4 }     
+	] : [
+		{ name: "gridFour", slots: 5 },
+		{ name: "gridThree", slots: 4 },
+		{ name: "gridThree", slots: 6 },
+		{ name: "gridThreeB", slots: 4 },
+		{ name: "gridFourB", slots: 5 },
+		{ name: "gridThree", slots: 3 },
+		{ name: "gridFourC", slots: 5 },
+		{ name: "gridThree", slots: 5 },
+		{ name: "gridThree", slots: 6 },
+		{ name: "gridThreeB", slots: 5 }
+	];
+
 	const renderProducts = () => {
 		if (!filteredProducts) return null;
-
-		const gridContainers = [
-			{ name: "gridFour", slots: 5 },
-			{ name: "gridThree", slots: 4 },
-			{ name: "gridThree", slots: 6 },
-			{ name: "gridThreeB", slots: 4 },
-			{ name: "gridFourB", slots: 5 },
-			{ name: "gridThree", slots: 3 },
-			{ name: "gridFourC", slots: 5 },
-			{ name: "gridThree", slots: 5 },
-			{ name: "gridThree", slots: 6 },
-			{ name: "gridThreeB", slots: 5 },
-		];
 
 		const grids: JSX.Element[] = [];
 		let currentIndex = 0;
