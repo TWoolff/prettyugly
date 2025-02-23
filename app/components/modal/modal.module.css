@@ -46,3 +46,7 @@
   font-weight: 800;
   text-transform: uppercase;
 }
+
+.btn {
+  margin: 0.5rem 0;
+}

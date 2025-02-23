@@ -46,10 +46,10 @@ export const getCustomer = async (
 	return null;
 };
 
-export const createCustomer = async (email: string, password: string) => {
+export const createCustomer = async (email: string, password: string, newsLetter: boolean) => {
 	const customer = await stripe.customers.create({
 		email: email,
-		metadata: { password: password },
+		metadata: { password: password, newsLetter: String(newsLetter) },
 	});
 
 	return customer;

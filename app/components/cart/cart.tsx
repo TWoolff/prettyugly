@@ -126,6 +126,18 @@ const Cart: React.FC = () => {
 		}
 	}, [state.currency]);
 
+	useEffect(() => {
+		if (isCartVisible) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'unset';
+		}
+		
+		return () => {
+			document.body.style.overflow = 'unset';
+		};
+	}, [isCartVisible]);
+
 	return (
 		<AnimatePresence>
 			{isCartVisible && (

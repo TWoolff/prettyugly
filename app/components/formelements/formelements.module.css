@@ -83,3 +83,23 @@
 		height: 0;
 	}
 }
+
+.checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  & label {
+    font-size: 0.93rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-darkgrey);
+  }
+
+  & input {
+    width: 1rem;
+    height: auto;
+    padding: 2px;
+    border-style: none;
+  }
+}

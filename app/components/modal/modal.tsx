@@ -14,11 +14,12 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newsLetter, setNewsLetter] = useState(true);
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createCustomer(email, password);
+    createCustomer(email, password, newsLetter);
     setSuccess(true);
   };
 
@@ -60,6 +61,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, setIsOpen }) => {
                     onChange={(e) => setPassword(e.target.value)}
                     label="Password"
                     required
+                  />
+                  <Input
+                    type="checkbox" 
+                    id={"checkbox"}
+                    name={"checkbox"} 
+                    label="I would like to recieve the PrettyUgly newsletter" 
+                    onChange={(e) => setNewsLetter(e.target.checked)}  
+                    checked={newsLetter}             
                   />
                   <Button type="submit" title="Sign up" className={css.btn} />
                 </form>
